@@ -27,7 +27,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            <c:forEach var="i" begin="2015" end="2035">
+                            <c:forEach var="i" begin="2018" end="2035">
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="?year=${i}">${i}</a></li>
                                 </c:forEach>
                         </ul>
@@ -47,95 +47,95 @@
         </div>
         <div class="row">
 
-            
-                <c:choose>
-                    <c:when test="${ not empty results}">
-                        <div class="col-lg-4 col-lg-offset-2">
+
+            <c:choose>
+                <c:when test="${ not empty results}">
+                    <div class="col-lg-4 col-lg-offset-2">
                         <div id="chartdiv" style="height:400px;width:800px; "></div>
-                        </div>
-                    </c:when>    
-                    <c:otherwise>
-                        <div class="col-lg-8 col-lg-offset-2" >
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-lg-8 col-lg-offset-2" >
                         <div class="jumbotron" style="padding: 30px;">
                             <h1>Sorry!</h1>
                             <hr>
                             <h3>There is no data in ${year}</h3>
                         </div>
                         <div>
-                    </c:otherwise>
-                </c:choose>
+                        </c:otherwise>
+                    </c:choose>
 
+
+                </div>
 
             </div>
-
-        </div>
 
 
 
 
 <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="<c:url value="/resources/js/excanvas.js" />"></script><![endif]-->
-        <script src="<c:url value="/resources/js/jquery.jqplot.min.js" />"></script>
-        <script src="<c:url value="/resources/js/plugins/jqplot.dateAxisRenderer.min.js" />"></script>
+            <script src="<c:url value="/resources/js/jquery.jqplot.min.js" />"></script>
+            <script src="<c:url value="/resources/js/plugins/jqplot.dateAxisRenderer.min.js" />"></script>
 
-        <script>
-            $(function () {
+            <script>
+                $(function () {
 
-                $.jqplot.config.enablePlugins = true;
-                var element = {};
-                var year = "";
+                    $.jqplot.config.enablePlugins = true;
+                    var element = {};
+                    var year = "";
 
-            <c:forEach items="${results}" var="result">
-                year = ${year} + "-" +${result[2]} + "-" + "1";
-                if (element['${result[1]}']) {
-                    element['${result[1]}'].push([year,${result[0]}]);
+                <c:forEach items="${results}" var="result">
+                    year = ${year} + "-" +${result[2]} + "-" + "1";
+                    if (element['${result[1]}']) {
+                        element['${result[1]}'].push([year,${result[0]}]);
 
-                } else {
-                    element['${result[1]}'] = [[year,${result[0]}]];
-                    console.log(year);
-                }
-            </c:forEach>
-                console.log(element);
-                console.log("Hello");
+                    } else {
+                        element['${result[1]}'] = [[year,${result[0]}]];
+                        console.log(year);
+                    }
+                </c:forEach>
+                    console.log(element);
+                    console.log("Hello");
 
-                //$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]); 
+                    //$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
 
-                var lines = [];
-                var labels = [];
-                Object.keys(element).forEach(function (key) {
-                    labels.push(key);
-                    lines.push(element[key]);
-                    //$.jqplot('chartdiv', [element[key]]);
-                });
-                console.log(lines);
-            <c:if test="${not empty results}" >
-                var plot3 = $.jqplot('chartdiv', lines,
-                        {
-                            title: '<spring:message code="caution.repartition" /> ${year}',
-                                                // Series options are specified as an array of objects, one object
-                                                // for each series.
-                                                axes: {
-                                                    xaxis: {
-                                                        renderer: $.jqplot.DateAxisRenderer,
-                                                        tickOptions: {formatString: '%b'},
-                                                        min: 'January 1, ' +${year},
-                                                        tickInterval: '1 month'
-                                                    }
-                                                },
-                                                legend: {
-                                                    show: true,
-                                                    renderer: $.jqplot.EnhancedLegendRenderer,
-                                                    rendererOptions: {
-                                                        numberRows: 1
+                    var lines = [];
+                    var labels = [];
+                    Object.keys(element).forEach(function (key) {
+                        labels.push(key);
+                        lines.push(element[key]);
+                        //$.jqplot('chartdiv', [element[key]]);
+                    });
+                    console.log(lines);
+                <c:if test="${not empty results}" >
+                    var plot3 = $.jqplot('chartdiv', lines,
+                            {
+                                title: '<spring:message code="caution.repartition" /> ${year}',
+                                                    // Series options are specified as an array of objects, one object
+                                                    // for each series.
+                                                    axes: {
+                                                        xaxis: {
+                                                            renderer: $.jqplot.DateAxisRenderer,
+                                                            tickOptions: {formatString: '%b'},
+                                                            min: 'January 1, ' +${year},
+                                                            tickInterval: '1 month'
+                                                        }
                                                     },
-                                                    placement: 'outsideGrid',
-                                                    labels: labels,
-                                                    location: 'e'
+                                                    legend: {
+                                                        show: true,
+                                                        renderer: $.jqplot.EnhancedLegendRenderer,
+                                                        rendererOptions: {
+                                                            numberRows: 1
+                                                        },
+                                                        placement: 'outsideGrid',
+                                                        labels: labels,
+                                                        location: 'e'
+                                                    }
                                                 }
-                                            }
-                                    );
-            </c:if>
+                                        );
+                </c:if>
 
-                                });
-        </script>
-    </tiles:putAttribute>
-</tiles:insertDefinition>
+                                    });
+            </script>
+        </tiles:putAttribute>
+    </tiles:insertDefinition>

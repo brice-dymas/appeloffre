@@ -30,8 +30,7 @@ import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/caution")
-public class CautionController
-{
+public class CautionController {
 
     @Autowired
     ICautionService cautionService;
@@ -45,15 +44,13 @@ public class CautionController
     @Autowired
     IAppelOffreService appelOffreService;
 
-    public String getTrueDate(final Date date)
-    {
+    public String getTrueDate(final Date date) {
         return new SimpleDateFormat("dd-MM-yyyy").format(date);
     }
 
     @RequestMapping(value = "/stats", method = RequestMethod.GET)
-    public String statAction(final ModelMap model, final WebRequest webRequest)
-    {
-        final Integer year = webRequest.getParameter("year") != null ? Integer.valueOf(webRequest.getParameter("year")) : 2015;
+    public String statAction(final ModelMap model, final WebRequest webRequest) {
+        final Integer year = webRequest.getParameter("year") != null ? Integer.valueOf(webRequest.getParameter("year")) : 2018;
 
         List<Object[]> datas = cautionService.totalCautionParBanqueParMois(year);
         model.addAttribute("results", datas);
@@ -64,8 +61,7 @@ public class CautionController
 
     @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
     public String ShowAction(@PathVariable("id") final Long id,
-            final ModelMap model)
-    {
+            final ModelMap model) {
         final Caution caution = cautionService.findOne(id);
         final AppelOffre appelOffre = appelOffreService.findOne(caution
                 .getAppelOffre().getId());
@@ -76,35 +72,27 @@ public class CautionController
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public String searchAction(@Valid final Caution caution,
-            final BindingResult result, final ModelMap model)
-    {
+            final BindingResult result, final ModelMap model) {
         return "redirect:/caution?query=" + caution.getBanque()
                 + "&page=1&size=2";
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String indexAction(final ModelMap model, final WebRequest webRequest)
-    {
+    public String indexAction(final ModelMap model, final WebRequest webRequest) {
         // The next line is used to generate the final report
         final List<AppelOffre> appelOffres = cautionService.getThemComplete();
 
         Long banqueId = 0L;
         Long typeCautionId = 0L;
-        try
-        {
+        try {
             banqueId = Long.valueOf(webRequest.getParameter("querybanque"));
-        }
-        catch (NumberFormatException numberFormatException)
-        {
+        } catch (NumberFormatException numberFormatException) {
             banqueId = -1L;
         }
 
-        try
-        {
+        try {
             typeCautionId = Long.valueOf(webRequest.getParameter("querytypecaution"));
-        }
-        catch (NumberFormatException numberFormatException)
-        {
+        } catch (NumberFormatException numberFormatException) {
             typeCautionId = -1L;
         }
 
@@ -124,43 +112,31 @@ public class CautionController
                 : "31/12/9999";
         Date debutPeriode = new Date();
         Date finPeriode = new Date();
-        try
-        {
+        try {
             debutPeriode = dateFormatter.parse(debutPeriodeEcheance);
-        }
-        catch (ParseException ex)
-        {
-            try
-            {
+        } catch (ParseException ex) {
+            try {
                 debutPeriode = dateFormatter.parse("31/12/1975");
-            }
-            catch (ParseException ex1)
-            {
+            } catch (ParseException ex1) {
                 Logger.getLogger(CautionController.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
-        try
-        {
+        try {
             finPeriode = dateFormatter.parse(finPeriodeEcheance);
-        }
-        catch (ParseException ex)
-        {
-            try
-            {
+        } catch (ParseException ex) {
+            try {
                 finPeriode = dateFormatter.parse("31/12/9999");
-            }
-            catch (ParseException ex1)
-            {
+            } catch (ParseException ex1) {
                 Logger.getLogger(CautionController.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
         final Integer page = webRequest.getParameter("page") != null
                 ? Integer
-                .valueOf(webRequest.getParameter("page"))
+                        .valueOf(webRequest.getParameter("page"))
                 : 0;
         final Integer size = webRequest.getParameter("size") != null
                 ? Integer
-                .valueOf(webRequest.getParameter("size"))
+                        .valueOf(webRequest.getParameter("size"))
                 : 5;
         final Page<Caution> resultPage = cautionService.filter(banqueId, typeCautionId, debutPeriode, finPeriode, page, size);
 
@@ -180,30 +156,25 @@ public class CautionController
     }
 
     @ModelAttribute("todayDate")
-    public Date getTodayDate()
-    {
+    public Date getTodayDate() {
         return new Date();
     }
 
     @ModelAttribute("banques")
-    public Map<Long, String> populateBanqueFields()
-    {
+    public Map<Long, String> populateBanqueFields() {
         final Map<Long, String> results = new HashMap<>();
         final List<Banque> banques = banqueService.findAll();
-        for (final Banque banque : banques)
-        {
+        for (final Banque banque : banques) {
             results.put(banque.getId(), banque.getLibelle());
         }
         return results;
     }
 
     @ModelAttribute("typeCautions")
-    public Map<Long, String> populateTypeCautionFields()
-    {
+    public Map<Long, String> populateTypeCautionFields() {
         final Map<Long, String> results = new HashMap<>();
         final List<TypeCaution> typeCautions = typeCautionService.findAll();
-        for (final TypeCaution typeCaution : typeCautions)
-        {
+        for (final TypeCaution typeCaution : typeCautions) {
             results.put(typeCaution.getId(), typeCaution.getNom());
         }
         return results;
