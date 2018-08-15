@@ -55,7 +55,7 @@ public class PersistenceJPAConfig
         dataSource
                 .setUrl("jdbc:mysql://localhost:3306/appelOffre?useUnicode=yes&characterEncoding=UTF-8");
         dataSource.setUsername("root");
-        dataSource.setPassword("");
+        dataSource.setPassword("sando");
         return dataSource;
     }
 
