@@ -22,8 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 @Entity
 public class AppelOffre
         extends EntityObject
-        implements Serializable
-{
+        implements Serializable {
 
     private String pieceJointe1;
 
@@ -98,307 +97,255 @@ public class AppelOffre
     private Date dateModification;
 
     private String etat;
-    
+
+    @NotBlank(message = "{blank.message}")
+    private String numeroAffaire;
+
+    @NotBlank(message = "{blank.message}")
+    private String numeroChrono;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @OrderColumn(name = "order_files")
     private List<String> files;
 
-    public AppelOffre()
-    {
+    public AppelOffre() {
     }
 
-    public Date getDateModification()
-    {
+    public Date getDateModification() {
         return dateModification;
     }
 
-    public void setDateModification(Date dateModification)
-    {
+    public void setDateModification(Date dateModification) {
         this.dateModification = dateModification;
     }
 
-    public Role getUser()
-    {
+    public Role getUser() {
         return user;
     }
 
-    public void setUser(Role user)
-    {
+    public void setUser(Role user) {
         this.user = user;
     }
 
-    public Date getDateDepot()
-    {
+    public Date getDateDepot() {
         return dateDepot;
     }
 
-    public void setDateDepot(final Date dateDepot)
-    {
+    public void setDateDepot(final Date dateDepot) {
         this.dateDepot = dateDepot;
     }
 
-    public Filiale getFiliale()
-    {
+    public Filiale getFiliale() {
         return filiale;
     }
 
-    public void setFiliale(final Filiale filiale)
-    {
+    public void setFiliale(final Filiale filiale) {
         this.filiale = filiale;
     }
 
-    public String getNumero()
-    {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(final String numero)
-    {
+    public void setNumero(final String numero) {
         this.numero = numero;
     }
 
-    public String getIntitule()
-    {
+    public String getIntitule() {
         return intitule;
     }
 
-    public void setIntitule(final String intitule)
-    {
+    public void setIntitule(final String intitule) {
         this.intitule = intitule;
     }
 
-    public String getMaitreDouvrage()
-    {
+    public String getMaitreDouvrage() {
         return maitreDouvrage;
     }
 
-    public void setMaitreDouvrage(final String maitreDouvrage)
-    {
+    public void setMaitreDouvrage(final String maitreDouvrage) {
         this.maitreDouvrage = maitreDouvrage;
     }
 
-    public List<Caution> getCautions()
-    {
+    public List<Caution> getCautions() {
         return cautions;
     }
 
-    public void setCautions(final List<Caution> cautions)
-    {
+    public void setCautions(final List<Caution> cautions) {
         this.cautions = cautions;
     }
 
-    public void addCautions(final Caution caution)
-    {
+    public void addCautions(final Caution caution) {
         cautions.add(caution);
     }
 
-    public List<LigneAppel> getLigneAppels()
-    {
+    public List<LigneAppel> getLigneAppels() {
         return ligneAppels;
     }
 
-    public void setLigneAppels(final List<LigneAppel> ligneAppels)
-    {
+    public void setLigneAppels(final List<LigneAppel> ligneAppels) {
         this.ligneAppels = ligneAppels;
     }
 
-    public void addLigneAppels(final LigneAppel ligneAppel)
-    {
+    public void addLigneAppels(final LigneAppel ligneAppel) {
         ligneAppels.add(ligneAppel);
     }
 
-    public String getPieceJointe1()
-    {
+    public String getPieceJointe1() {
         return pieceJointe1;
     }
 
-    public void setPieceJointe1(String pieceJointe1)
-    {
+    public void setPieceJointe1(String pieceJointe1) {
         this.pieceJointe1 = pieceJointe1;
     }
 
-    public CommonsMultipartFile getPieceJointe1Data()
-    {
+    public CommonsMultipartFile getPieceJointe1Data() {
         return pieceJointe1Data;
     }
 
-    public void setPieceJointe1Data(CommonsMultipartFile pieceJointe1Data)
-    {
+    public void setPieceJointe1Data(CommonsMultipartFile pieceJointe1Data) {
         this.pieceJointe1Data = pieceJointe1Data;
     }
 
-    public String getPieceJointe2()
-    {
+    public String getPieceJointe2() {
         return pieceJointe2;
     }
 
-    public void setPieceJointe2(String pieceJointe2)
-    {
+    public void setPieceJointe2(String pieceJointe2) {
         this.pieceJointe2 = pieceJointe2;
     }
 
-    public CommonsMultipartFile getPieceJointe2Data()
-    {
+    public CommonsMultipartFile getPieceJointe2Data() {
         return pieceJointe2Data;
     }
 
-    public void setPieceJointe2Data(CommonsMultipartFile pieceJointe2Data)
-    {
+    public void setPieceJointe2Data(CommonsMultipartFile pieceJointe2Data) {
         this.pieceJointe2Data = pieceJointe2Data;
     }
 
-    public String getPieceJointe3()
-    {
+    public String getPieceJointe3() {
         return pieceJointe3;
     }
 
-    public void setPieceJointe3(String pieceJointe3)
-    {
+    public void setPieceJointe3(String pieceJointe3) {
         this.pieceJointe3 = pieceJointe3;
     }
 
-    public CommonsMultipartFile getPieceJointe3Data()
-    {
+    public CommonsMultipartFile getPieceJointe3Data() {
         return pieceJointe3Data;
     }
 
-    public void setPieceJointe3Data(CommonsMultipartFile pieceJointe3Data)
-    {
+    public void setPieceJointe3Data(CommonsMultipartFile pieceJointe3Data) {
         this.pieceJointe3Data = pieceJointe3Data;
     }
 
-    public String getPieceJointe4()
-    {
+    public String getPieceJointe4() {
         return pieceJointe4;
     }
 
-    public void setPieceJointe4(String pieceJointe4)
-    {
+    public void setPieceJointe4(String pieceJointe4) {
         this.pieceJointe4 = pieceJointe4;
     }
 
-    public CommonsMultipartFile getPieceJointe4Data()
-    {
+    public CommonsMultipartFile getPieceJointe4Data() {
         return pieceJointe4Data;
     }
 
-    public void setPieceJointe4Data(CommonsMultipartFile pieceJointe4Data)
-    {
+    public void setPieceJointe4Data(CommonsMultipartFile pieceJointe4Data) {
         this.pieceJointe4Data = pieceJointe4Data;
     }
 
-    public String getPieceJointe5()
-    {
+    public String getPieceJointe5() {
         return pieceJointe5;
     }
 
-    public void setPieceJointe5(String pieceJointe5)
-    {
+    public void setPieceJointe5(String pieceJointe5) {
         this.pieceJointe5 = pieceJointe5;
     }
 
-    public CommonsMultipartFile getPieceJointe5Data()
-    {
+    public CommonsMultipartFile getPieceJointe5Data() {
         return pieceJointe5Data;
     }
 
-    public void setPieceJointe5Data(CommonsMultipartFile pieceJointe5Data)
-    {
+    public void setPieceJointe5Data(CommonsMultipartFile pieceJointe5Data) {
         this.pieceJointe5Data = pieceJointe5Data;
     }
 
-    public String getPieceJointe6()
-    {
+    public String getPieceJointe6() {
         return pieceJointe6;
     }
 
-    public void setPieceJointe6(String pieceJointe6)
-    {
+    public void setPieceJointe6(String pieceJointe6) {
         this.pieceJointe6 = pieceJointe6;
     }
 
-    public CommonsMultipartFile getPieceJointe6Data()
-    {
+    public CommonsMultipartFile getPieceJointe6Data() {
         return pieceJointe6Data;
     }
 
-    public void setPieceJointe6Data(CommonsMultipartFile pieceJointe6Data)
-    {
+    public void setPieceJointe6Data(CommonsMultipartFile pieceJointe6Data) {
         this.pieceJointe6Data = pieceJointe6Data;
     }
 
-    public String getPieceJointe7()
-    {
+    public String getPieceJointe7() {
         return pieceJointe7;
     }
 
-    public void setPieceJointe7(String pieceJointe7)
-    {
+    public void setPieceJointe7(String pieceJointe7) {
         this.pieceJointe7 = pieceJointe7;
     }
 
-    public CommonsMultipartFile getPieceJointe7Data()
-    {
+    public CommonsMultipartFile getPieceJointe7Data() {
         return pieceJointe7Data;
     }
 
-    public void setPieceJointe7Data(CommonsMultipartFile pieceJointe7Data)
-    {
+    public void setPieceJointe7Data(CommonsMultipartFile pieceJointe7Data) {
         this.pieceJointe7Data = pieceJointe7Data;
     }
 
-    public String getPieceJointe8()
-    {
+    public String getPieceJointe8() {
         return pieceJointe8;
     }
 
-    public void setPieceJointe8(String pieceJointe8)
-    {
+    public void setPieceJointe8(String pieceJointe8) {
         this.pieceJointe8 = pieceJointe8;
     }
 
-    public CommonsMultipartFile getPieceJointe8Data()
-    {
+    public CommonsMultipartFile getPieceJointe8Data() {
         return pieceJointe8Data;
     }
 
-    public void setPieceJointe8Data(CommonsMultipartFile pieceJointe8Data)
-    {
+    public void setPieceJointe8Data(CommonsMultipartFile pieceJointe8Data) {
         this.pieceJointe8Data = pieceJointe8Data;
     }
 
     /**
      * @return the date parameter to the format day - month - year
      */
-    public String getTrueDate(final Date date)
-    {
+    public String getTrueDate(final Date date) {
         return new SimpleDateFormat("dd-MM-yyyy").format(date);
     }
 
     /**
      * @return the etat
      */
-    public String getEtat()
-    {
+    public String getEtat() {
         return etat;
     }
 
     /**
      * @param etat the etat to set
      */
-    public void setEtat(final String etat)
-    {
+    public void setEtat(final String etat) {
         this.etat = etat;
     }
 
-    public String getDelaiDeValidite()
-    {
+    public String getDelaiDeValidite() {
 
         return this.delaiDeValidite;
     }
 
-    public void setDelaiDeValidite(String delaiDeValidite)
-    {
+    public void setDelaiDeValidite(String delaiDeValidite) {
         this.delaiDeValidite = delaiDeValidite;
     }
 
@@ -409,11 +356,36 @@ public class AppelOffre
     public void setFiles(List<String> files) {
         this.files = files;
     }
-    
-    public void addFile(String file){
+
+    public void addFile(String file) {
         this.files.add(file);
     }
-    
-    
+
+    public String getNumeroAffaire() {
+        return numeroAffaire;
+    }
+
+    public void setNumeroAffaire(String numeroAffaire) {
+        this.numeroAffaire = numeroAffaire;
+    }
+
+    public String getNumeroChrono() {
+        return numeroChrono;
+    }
+
+    public void setNumeroChrono(String numeroChrono) {
+        this.numeroChrono = numeroChrono;
+    }
+
+    @Override
+    public String toString() {
+        return "AppelOffre{" + "dateDepot=" + dateDepot + ", delaiDeValidite="
+                + delaiDeValidite + ", filiale=" + filiale + ", ligneAppels="
+                + ligneAppels + ", cautions=" + cautions + ", numero=" + numero
+                + ", intitule=" + intitule + ", maitreDouvrage=" + maitreDouvrage
+                + ", user=" + user + ", dateModification=" + dateModification
+                + ", etat=" + etat + ", numeroAffaire=" + numeroAffaire
+                + ", numeroChrono=" + numeroChrono + '}';
+    }
 
 }

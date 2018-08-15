@@ -42,6 +42,12 @@
                             <th><spring:message code="appelOffre.filiale" /></th>
                             <td>${appelOffre.filiale.nom}</td>
                         </tr>
+                        <tr>
+                            <th ><spring:message code="appelOffre.numeroAffaire" /></th>
+                            <td>${appelOffre.numeroAffaire}</td>
+                            <th><spring:message code="appelOffre.numeroChrono" /></th>
+                            <td>${appelOffre.numeroChrono}</td>
+                        </tr>
 
                         <tr>
                             <th><spring:message code="appelOffre.maitreDouvrage" /></th>
