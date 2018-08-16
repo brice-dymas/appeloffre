@@ -116,13 +116,15 @@
              >
             <div class="panel-body">
                 <ul class="list-unstyled">
-                    <li><a
+                    <li>
+                        <a
                             <c:if test="${fn:containsIgnoreCase(url, 'caution')}">
                                 class="list-group-item active"
                             </c:if>
                             href="<spring:url value="/caution/"/>" >
                             <spring:message code="caution.liste" />
-                        </a></li>
+                        </a>
+                    </li>
                     <li>
                         <a
                             <c:if test="${(fn:containsIgnoreCase(url, 'appeloffre')) && (fn:containsIgnoreCase(url, 'new')==false) }">
@@ -132,7 +134,15 @@
                             <spring:message code="menu.appelOffre.liste" />
                         </a>
                     </li>
-
+                    <li>
+                        <a
+                            <c:if test="${(fn:contains(url, 'cautiondouane')) && (fn:containsIgnoreCase(url, 'new')==false) }">
+                                class="list-group-item active"
+                            </c:if>
+                            href="<spring:url value="/cautiondouane/"/>" >
+                            <spring:message code="menu.cautiondouane.liste" />
+                        </a>
+                    </li>
                 </ul>
 
             </div>

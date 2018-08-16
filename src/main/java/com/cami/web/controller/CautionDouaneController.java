@@ -1,13 +1,9 @@
 package com.cami.web.controller;
 
-import com.cami.persistence.model.AppelOffre;
 import com.cami.persistence.model.Banque;
-import com.cami.persistence.model.Caution;
-import com.cami.persistence.model.TypeCaution;
-import com.cami.persistence.service.IAppelOffreService;
+import com.cami.persistence.model.CautionDouane;
 import com.cami.persistence.service.IBanqueService;
-import com.cami.persistence.service.ICautionService;
-import com.cami.persistence.service.ITypeCautionService;
+import com.cami.persistence.service.ICautionDouaneService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,22 +23,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/caution")
-public class CautionController {
+@RequestMapping("/cautiondouane")
+public class CautionDouaneController {
 
     @Autowired
-    ICautionService cautionService;
+    ICautionDouaneService cautionService;
 
     @Autowired
     IBanqueService banqueService;
-
-    @Autowired
-    ITypeCautionService typeCautionService;
-
-    @Autowired
-    IAppelOffreService appelOffreService;
 
     public String getTrueDate(final Date date) {
         return new SimpleDateFormat("dd-MM-yyyy").format(date);
@@ -56,22 +47,19 @@ public class CautionController {
         model.addAttribute("results", datas);
         model.addAttribute("year", year);
         System.out.println("HomeController");
-        return "caution/stat";
+        return "cautiondouane/stat";
     }
 
     @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
     public String ShowAction(@PathVariable("id") final Long id,
             final ModelMap model) {
-        final Caution caution = cautionService.findOne(id);
-        final AppelOffre appelOffre = appelOffreService.findOne(caution
-                .getAppelOffre().getId());
-        caution.setAppelOffre(appelOffre);
-        model.addAttribute("caution", caution);
-        return "caution/show";
+        final CautionDouane caution = cautionService.findOne(id);
+        model.addAttribute("cautiondouane", caution);
+        return "cautiondouane/show";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String searchAction(@Valid final Caution caution,
+    public String searchAction(@Valid final CautionDouane caution,
             final BindingResult result, final ModelMap model) {
         return "redirect:/caution?query=" + caution.getBanque()
                 + "&page=1&size=2";
@@ -79,11 +67,9 @@ public class CautionController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String indexAction(final ModelMap model, final WebRequest webRequest) {
-        // The next line is used to generate the final report
-        final List<AppelOffre> appelOffres = cautionService.getThemComplete();
 
         Long banqueId = 0L;
-        Long typeCautionId = 0L;
+        int montant = 0;
         try {
             banqueId = Long.valueOf(webRequest.getParameter("querybanque"));
         } catch (NumberFormatException numberFormatException) {
@@ -91,17 +77,14 @@ public class CautionController {
         }
 
         try {
-            typeCautionId = Long.valueOf(webRequest.getParameter("querytypecaution"));
+            montant = Integer.valueOf(webRequest.getParameter("querymontant"));
         } catch (NumberFormatException numberFormatException) {
-            typeCautionId = -1L;
+            montant = -1;
         }
 
 //        final Long banqueId =  (webRequest.getParameter("querybanque") != null
 //                ? Long.valueOf(webRequest.getParameter("querybanque"))
 //                : -1);
-//        final Long typeCautionId = webRequest.getParameter("querytypecaution") != null
-//                ? Long.valueOf(webRequest.getParameter("querytypecaution"))
-//                : -1;
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
         final String debutPeriodeEcheance = (webRequest.getParameter("querydebutperiode") != null)
@@ -118,7 +101,7 @@ public class CautionController {
             try {
                 debutPeriode = dateFormatter.parse("31/12/1975");
             } catch (ParseException ex1) {
-                Logger.getLogger(CautionController.class.getName()).log(Level.SEVERE, null, ex1);
+                Logger.getLogger(CautionDouaneController.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
         try {
@@ -127,7 +110,7 @@ public class CautionController {
             try {
                 finPeriode = dateFormatter.parse("31/12/9999");
             } catch (ParseException ex1) {
-                Logger.getLogger(CautionController.class.getName()).log(Level.SEVERE, null, ex1);
+                Logger.getLogger(CautionDouaneController.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
         final Integer page = webRequest.getParameter("page") != null
@@ -138,21 +121,21 @@ public class CautionController {
                 ? Integer
                         .valueOf(webRequest.getParameter("size"))
                 : 5;
-        final Page<Caution> resultPage = cautionService.filter(banqueId, typeCautionId, debutPeriode, finPeriode, page, size);
+        final Page<CautionDouane> resultPage = cautionService.filter(banqueId, montant, debutPeriode, finPeriode, page, size);
 
-        final Caution caution = new Caution();
+        final CautionDouane caution = new CautionDouane();
         caution.setBanque(new Banque(banqueId));
-        caution.setTypeCaution(new TypeCaution(typeCautionId));
-        model.addAttribute("cautionsReport", appelOffres); //for the report
+        caution.setMontant(montant);
         model.addAttribute("caution", caution);
+        model.addAttribute("querybanque", banqueId);
+        model.addAttribute("querymontant", montant);
         model.addAttribute("querydebutperiode", debutPeriodeEcheance.equals("31/12/1975") ? "" : debutPeriodeEcheance);
         model.addAttribute("queryfinperiode", finPeriodeEcheance.equals("31/12/9999") ? "" : finPeriodeEcheance);
         model.addAttribute("page", page);
         model.addAttribute("Totalpage", resultPage.getTotalPages());
         model.addAttribute("size", size);
-        model.addAttribute("cautions", resultPage.getContent());
-        model.addAttribute("cautions", resultPage.getContent());
-        return "caution/index";
+        model.addAttribute("cautiondouanes", resultPage.getContent());
+        return "cautiondouane/index";
     }
 
     @ModelAttribute("todayDate")
@@ -170,13 +153,63 @@ public class CautionController {
         return results;
     }
 
-    @ModelAttribute("typeCautions")
-    public Map<Long, String> populateTypeCautionFields() {
-        final Map<Long, String> results = new HashMap<>();
-        final List<TypeCaution> typeCautions = typeCautionService.findAll();
-        for (final TypeCaution typeCaution : typeCautions) {
-            results.put(typeCaution.getId(), typeCaution.getNom());
+    // write
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String newAction(final ModelMap model) {
+        model.addAttribute("cautiondouane", new CautionDouane());
+        return "cautiondouane/new";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String createAction(@Valid CautionDouane cautiondouane,
+            final BindingResult result, final ModelMap model,
+            final RedirectAttributes redirectAttributes) {
+        System.out.println("Dans createAction DE CAUTION DOUANE CONTROLLER ");
+
+        if (result.hasErrors()) {
+            System.out.println("ERREUR DETECTEE DANS createAction");
+            model.addAttribute("error", "error");
+            model.addAttribute("cautiondouane", cautiondouane);
+            return "cautiondouane/new";
+        } else {
+            System.out.println("AUCUNE ERREUR DETECTEE DANS createAction");
+            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+            cautionService.create(cautiondouane);
+            return "redirect:/cautiondouane/" + cautiondouane.getId() + "/show";
         }
-        return results;
+
+    }
+
+    @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
+    public String editAction(@PathVariable("id") final Long id, final ModelMap model) {
+        final CautionDouane cautiondouane = cautionService.findOne(id);
+        model.addAttribute("cautiondouane", cautiondouane);
+        return "cautiondouane/edit";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateAction(@Valid final CautionDouane cautiondouane, final BindingResult result,
+            final ModelMap model, final RedirectAttributes redirectAttributes) {
+        System.out.println("in cautiondouane controller");
+        if (result.hasErrors()) {
+            System.out.println("in cautiondouane controller: Error occured");
+            model.addAttribute("error", "error");
+            model.addAttribute("cautiondouane", cautiondouane);
+            return "cautiondouane/edit";
+        } else {
+            System.out.println("in cautiondouane controller: no error");
+            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+            cautionService.update(cautiondouane);
+            System.out.println("in cautiondouane controller update method launched");
+            return "redirect:/cautiondouane/" + cautiondouane.getId() + "/show";
+        }
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteAction(final CautionDouane cautiondouane, final ModelMap model) {
+//        cautiondouaneService.deleteById(cautiondouane.getId());
+        CautionDouane toDelete = cautionService.findOne(cautiondouane.getId());
+        cautionService.disableEntity(toDelete);
+        return "redirect:/cautiondouane/";
     }
 }

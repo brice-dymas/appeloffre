@@ -86,7 +86,26 @@
                     </div>
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <form:label for="numeroAffaire" path="">
+                            <spring:message code="appelOffre.numeroAffaire" />
+                        </form:label>
+                        <form:input id="numeroAffaire" path="appelOffre.numeroAffaire" cssClass="form-control input-sm"/>
+                        <form:errors path="appelOffre.numeroAffaire" cssClass="text-danger"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <form:label for="numeroChrono" path="">
+                            <spring:message code="appelOffre.numeroChrono" />
+                        </form:label>
+                        <form:input id="numeroChrono" path="appelOffre.numeroChrono" cssClass="form-control input-sm"/>
+                        <form:errors path="appelOffre.numeroChrono" cssClass="text-danger"/>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-md-12">

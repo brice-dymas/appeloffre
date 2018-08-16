@@ -31,8 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AppelOffreService
         extends AbstractService<AppelOffre>
-        implements IAppelOffreService
-{
+        implements IAppelOffreService {
 
     @Autowired
     private IAppelOffreDao dao;
@@ -58,41 +57,35 @@ public class AppelOffreService
     @Autowired
     private IFilialeDao filialeDao;
 
-    public AppelOffreService()
-    {
+    public AppelOffreService() {
         super();
     }
 
     // API
     @Override
-    protected PagingAndSortingRepository<AppelOffre, Long> getDao()
-    {
+    protected PagingAndSortingRepository<AppelOffre, Long> getDao() {
         return dao;
     }
 
     @Override
-    public AppelOffre retrieveByName(final String name)
-    {
+    public AppelOffre retrieveByName(final String name) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<AppelOffre> filterByNom(final String nom)
-    {
+    public List<AppelOffre> filterByNom(final String nom) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Page<AppelOffre> findPaginated(final String query, final int i,
-            final Integer size)
-    {
+            final Integer size) {
         return super.findPaginated(i, size);
     }
 
     @Override
     @Transactional
-    public AppelOffre create(AppelOffre appelOffre)
-    {
+    public AppelOffre create(AppelOffre appelOffre) {
         System.out.println("DEBUT SAVE");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -118,8 +111,7 @@ public class AppelOffreService
             System.out.println("tour ligne 1");
             if (ligneAppel == null) {
                 System.out.println("Ligne Appel null");
-            }
-            else {
+            } else {
                 System.out.println("Ligne Appel correct");
                 ligneAppel.setAppelOffre(appelOffre);
                 ligneAppel.setMateriel(materielDao.findOne(ligneAppel.getMateriel().getId()));
@@ -132,8 +124,7 @@ public class AppelOffreService
 
     @Override
     @Transactional
-    public AppelOffre update(final AppelOffre appelOffre)
-    {
+    public AppelOffre update(final AppelOffre appelOffre) {
 
         System.out.println("DEBUT UPDATE");
         AppelOffre editAppelOffre = dao.findOne(appelOffre.getId());
@@ -151,6 +142,8 @@ public class AppelOffreService
         editAppelOffre.setMaitreDouvrage(appelOffre.getMaitreDouvrage());
         editAppelOffre.setDateDepot(appelOffre.getDateDepot());
         editAppelOffre.setUser(userConnected);
+        editAppelOffre.setNumeroAffaire(appelOffre.getNumeroAffaire());
+        editAppelOffre.setNumeroChrono(appelOffre.getNumeroChrono());
         editAppelOffre = dao.save(editAppelOffre);
 
         cautionDao.deleteInBatch(cautionDao.filterByAppelOffre(editAppelOffre
@@ -184,8 +177,7 @@ public class AppelOffreService
             System.out.println("tour ligne 1");
             if (ligneAppel == null) {
                 System.out.println("Ligne Appel null");
-            }
-            else {
+            } else {
                 System.out.println("Ligne Appel correct ");
                 LigneAppel lg = new LigneAppel();
                 lg.setAppelOffre(editAppelOffre);
@@ -209,15 +201,13 @@ public class AppelOffreService
     @Override
     public Page<AppelOffre> findPaginated(final Long filialeId,
             final String numero, final String intitule,
-            final String maitreDouvrage, Date debutPeriodeDepot, Date finPeriodeDepot, final boolean deleted, final int page, final Integer size)
-    {
+            final String maitreDouvrage, Date debutPeriodeDepot, Date finPeriodeDepot, final boolean deleted, final int page, final Integer size) {
         if (-1 == filialeId) {
             System.out.println("find-1 et deleted=" + deleted);
             return dao.searchLike('%' + numero + '%', '%' + maitreDouvrage + '%',
                     '%' + intitule + '%', deleted, debutPeriodeDepot, finPeriodeDepot,
                     new PageRequest(page, size, Sort.Direction.ASC, "numero"));
-        }
-        else {
+        } else {
             System.out.println("find-2 et deleted=" + deleted);
             return dao.searchLikeWithFiliale(filialeId, '%' + numero + '%',
                     '%' + maitreDouvrage + '%', '%' + intitule + '%', deleted, debutPeriodeDepot, finPeriodeDepot,
@@ -227,8 +217,7 @@ public class AppelOffreService
 
     @Override
     @Transactional
-    public AppelOffre updateFiles(AppelOffre appelOffre)
-    {
+    public AppelOffre updateFiles(AppelOffre appelOffre) {
         System.out.println("updateFile");
         AppelOffre editAppelOffre = dao.findOne(appelOffre.getId());
         List<String> files = editAppelOffre.getFiles();
@@ -236,8 +225,7 @@ public class AppelOffreService
             if (!files.contains(file)) {
                 System.out.println("File not inside");
                 editAppelOffre.addFile(file);
-            }
-            else {
+            } else {
                 System.out.println("File not inside");
             }
 
@@ -249,8 +237,7 @@ public class AppelOffreService
 
     @Override
 
-    public AppelOffre deleteFiles(Long idAppelOffre, String file)
-    {
+    public AppelOffre deleteFiles(Long idAppelOffre, String file) {
         System.out.println("removeFile");
         AppelOffre editAppelOffre = dao.findOne(idAppelOffre);
         List<String> files = editAppelOffre.getFiles();
@@ -266,8 +253,7 @@ public class AppelOffreService
         return dao.save(editAppelOffre);
     }
 
-    public void disableEntity(AppelOffre entity)
-    {
+    public void disableEntity(AppelOffre entity) {
         System.out.println("DEBUT UPDATE SIMPLE service  where deleted=" + entity.isDeleted());
         AppelOffre editAppelOffre = dao.findOne(entity.getId());
         System.out.println("after findOne method service  where deleted=" + entity.isDeleted());

@@ -7,14 +7,14 @@
 -- Version du serveur :  5.6.24
 -- Version de PHP :  5.6.8
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+-- SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+-- SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+-- /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+-- /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+-- /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+-- /*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données :  `appelOffre`
@@ -113,9 +113,9 @@ INSERT INTO `Materiel` (`id`, `version`, `code`, `description`, `nom`, `typeMate
 -- Contenu de la table `AppelOffre`
 --
 
-INSERT INTO `AppelOffre` (`id`, `version`, `dateDepot`, `delaiDeValidite`, `etat`, `intitule`, `maitreDouvrage`, `numero`, `pieceJointe1`, `pieceJointe2`, `pieceJointe3`, `pieceJointe4`, `pieceJointe5`, `pieceJointe6`, `pieceJointe7`, `pieceJointe8`, `filiale_id`, `dateModification`, `user_user_role_id`, `deleted`) VALUES
-(2, 7, '2015-07-28', '12', 'En cours', 'LA PRO-FORMAT POUR FOKOU', 'SANDO', 'AP20150725', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2015-08-10', 2, 0),
-(3, 11, '2015-08-17', '12', 'En cours', 'TEST', 'SANDO', 'AP20150727',  NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, 2, '2015-08-17', 2, 0);
+INSERT INTO `AppelOffre` (`id`, `version`, `dateDepot`, `delaiDeValidite`, `etat`, `intitule`, `maitreDouvrage`, `numero`, `pieceJointe1`, `pieceJointe2`, `pieceJointe3`, `pieceJointe4`, `pieceJointe5`, `pieceJointe6`, `pieceJointe7`, `pieceJointe8`, `filiale_id`, `dateModification`, `user_user_role_id`, `deleted`, `numeroAffaire`, `numeroChrono`) VALUES
+(2, 7, '2015-07-28', '12', 'En cours', 'LA PRO-FORMAT POUR FOKOU', 'SANDO', 'AP20150725', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2015-08-10', 2, 0, 'AFN001', '001'),
+(3, 11, '2015-08-17', '12', 'En cours', 'TEST', 'SANDO', 'AP20150727',  NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, 2, '2015-08-17', 2, 0, 'AFN002', '002');
 
 --
 -- Contenu de la table `Caution`
@@ -138,7 +138,7 @@ INSERT INTO `LigneAppel` (`id`, `version`, `prixUnitaire`, `quantite`, `appelOff
 (12, 0, 5000, 2, 3, 3, 0),
 (13, 0, 25000, 5, 3, 7, 0);
 
-
+ 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

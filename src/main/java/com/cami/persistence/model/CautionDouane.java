@@ -2,27 +2,52 @@ package com.cami.persistence.model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @Entity
-public class AppelOffre
+public class CautionDouane
         extends EntityObject
         implements Serializable {
+
+    @NotBlank(message = "{blank.message}")
+    private String numero;
+
+    @NotBlank(message = "{blank.message}")
+    private String libelle;
+
+    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    @Min(value = 100000, message = "{min.message}")
+    private int montant;
+
+    @NotNull(message = "{blank.message}")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Temporal(TemporalType.DATE)
+    private Date dateDebut;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Temporal(TemporalType.DATE)
+    private Date dateFin;
+
+    @NotBlank(message = "{blank.message}")
+    private String divers;
+
+    @ManyToOne(targetEntity = Banque.class)
+    private Banque banque;
 
     private String pieceJointe1;
 
@@ -64,131 +89,67 @@ public class AppelOffre
     @Transient
     private CommonsMultipartFile pieceJointe8Data;
 
-    @NotNull(message = "{blank.message}")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateDepot;
-
-    @NotBlank(message = "{blank.message}")
-    private String delaiDeValidite;
-
-    @ManyToOne(targetEntity = Filiale.class)
-    private Filiale filiale;
-
-    @OneToMany(mappedBy = "appelOffre", fetch = FetchType.LAZY)
-    private List<LigneAppel> ligneAppels = new ArrayList<>();
-
-    @OneToMany(mappedBy = "appelOffre")
-    private List<Caution> cautions;
-
-    @NotBlank(message = "{blank.message}")
-    private String numero;
-
-    @NotBlank(message = "{blank.message}")
-    private String intitule;
-
-    @NotBlank(message = "{blank.message}")
-    private String maitreDouvrage;
-
-    @ManyToOne(targetEntity = Role.class, fetch = FetchType.EAGER)
-    Role user;
-
-    @Temporal(TemporalType.DATE)
-    private Date dateModification;
-
-    private String etat;
-
-    @NotBlank(message = "{blank.message}")
-    private String numeroAffaire;
-
-    @NotBlank(message = "{blank.message}")
-    private String numeroChrono;
-
     @ElementCollection(fetch = FetchType.EAGER)
     @OrderColumn(name = "order_files")
     private List<String> files;
 
-    public AppelOffre() {
-    }
-
-    public Date getDateModification() {
-        return dateModification;
-    }
-
-    public void setDateModification(Date dateModification) {
-        this.dateModification = dateModification;
-    }
-
-    public Role getUser() {
-        return user;
-    }
-
-    public void setUser(Role user) {
-        this.user = user;
-    }
-
-    public Date getDateDepot() {
-        return dateDepot;
-    }
-
-    public void setDateDepot(final Date dateDepot) {
-        this.dateDepot = dateDepot;
-    }
-
-    public Filiale getFiliale() {
-        return filiale;
-    }
-
-    public void setFiliale(final Filiale filiale) {
-        this.filiale = filiale;
+    public CautionDouane() {
     }
 
     public String getNumero() {
         return numero;
     }
 
-    public void setNumero(final String numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
-    public String getIntitule() {
-        return intitule;
+    public String getLibelle() {
+        return libelle;
     }
 
-    public void setIntitule(final String intitule) {
-        this.intitule = intitule;
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
     }
 
-    public String getMaitreDouvrage() {
-        return maitreDouvrage;
+    public int getMontant() {
+        return montant;
     }
 
-    public void setMaitreDouvrage(final String maitreDouvrage) {
-        this.maitreDouvrage = maitreDouvrage;
+    public void setMontant(int montant) {
+        this.montant = montant;
     }
 
-    public List<Caution> getCautions() {
-        return cautions;
+    public Date getDateDebut() {
+        return dateDebut;
     }
 
-    public void setCautions(final List<Caution> cautions) {
-        this.cautions = cautions;
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
     }
 
-    public void addCautions(final Caution caution) {
-        cautions.add(caution);
+    public Date getDateFin() {
+        return dateFin;
     }
 
-    public List<LigneAppel> getLigneAppels() {
-        return ligneAppels;
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
     }
 
-    public void setLigneAppels(final List<LigneAppel> ligneAppels) {
-        this.ligneAppels = ligneAppels;
+    public String getDivers() {
+        return divers;
     }
 
-    public void addLigneAppels(final LigneAppel ligneAppel) {
-        ligneAppels.add(ligneAppel);
+    public void setDivers(String divers) {
+        this.divers = divers;
+    }
+
+    public Banque getBanque() {
+        return banque;
+    }
+
+    public void setBanque(Banque banque) {
+        this.banque = banque;
     }
 
     public String getPieceJointe1() {
@@ -319,36 +280,6 @@ public class AppelOffre
         this.pieceJointe8Data = pieceJointe8Data;
     }
 
-    /**
-     * @return the date parameter to the format day - month - year
-     */
-    public String getTrueDate(final Date date) {
-        return new SimpleDateFormat("dd-MM-yyyy").format(date);
-    }
-
-    /**
-     * @return the etat
-     */
-    public String getEtat() {
-        return etat;
-    }
-
-    /**
-     * @param etat the etat to set
-     */
-    public void setEtat(final String etat) {
-        this.etat = etat;
-    }
-
-    public String getDelaiDeValidite() {
-
-        return this.delaiDeValidite;
-    }
-
-    public void setDelaiDeValidite(String delaiDeValidite) {
-        this.delaiDeValidite = delaiDeValidite;
-    }
-
     public List<String> getFiles() {
         return files;
     }
@@ -357,35 +288,21 @@ public class AppelOffre
         this.files = files;
     }
 
-    public void addFile(String file) {
-        this.files.add(file);
-    }
-
-    public String getNumeroAffaire() {
-        return numeroAffaire;
-    }
-
-    public void setNumeroAffaire(String numeroAffaire) {
-        this.numeroAffaire = numeroAffaire;
-    }
-
-    public String getNumeroChrono() {
-        return numeroChrono;
-    }
-
-    public void setNumeroChrono(String numeroChrono) {
-        this.numeroChrono = numeroChrono;
+    /**
+     * @param date
+     * <p>
+     * @return the date parameter to the format day - month - year
+     */
+    public String getTrueDate(final Date date) {
+        return new SimpleDateFormat("dd-MM-yyyy").format(date);
     }
 
     @Override
     public String toString() {
-        return "AppelOffre{" + "dateDepot=" + dateDepot + ", delaiDeValidite="
-                + delaiDeValidite + ", filiale=" + filiale + ", ligneAppels="
-                + ligneAppels + ", cautions=" + cautions + ", numero=" + numero
-                + ", intitule=" + intitule + ", maitreDouvrage=" + maitreDouvrage
-                + ", user=" + user + ", dateModification=" + dateModification
-                + ", etat=" + etat + ", numeroAffaire=" + numeroAffaire
-                + ", numeroChrono=" + numeroChrono + '}';
+        return "CautionDouane{" + "numero=" + numero + ", libelle=" + libelle
+                + ", montant=" + montant + ", dateDebut=" + dateDebut + ", dateFin="
+                + dateFin + ", divers=" + divers + ", banque=" + banque
+                + ", files=" + files + '}';
     }
 
 }

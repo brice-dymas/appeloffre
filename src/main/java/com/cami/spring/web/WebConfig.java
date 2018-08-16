@@ -64,8 +64,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Override
-    public void configureContentNegotiation(final ContentNegotiationConfigurer configurer)
-    {
+    public void configureContentNegotiation(final ContentNegotiationConfigurer configurer) {
         configurer.ignoreAcceptHeader(true).defaultContentType(MediaType.TEXT_HTML);
     }
 
@@ -77,8 +76,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * @return A CNVR instance.
      */
     @Bean
-    public ViewResolver contentNegotiatingViewResolver(final ContentNegotiationManager manager)
-    {
+    public ViewResolver contentNegotiatingViewResolver(final ContentNegotiationManager manager) {
         final ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
         resolver.setContentNegotiationManager(manager);
         final List<ViewResolver> resolvers = new ArrayList<>();
@@ -115,7 +113,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean(name = "localeResolver")
     public LocaleResolver sessionLocaleResolver() {
         final SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("en"));
+        localeResolver.setDefaultLocale(new Locale("fr"));
 
         return localeResolver;
     }
@@ -140,6 +138,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             "WEB-INF/messages/appeloffre/messages",
             "WEB-INF/messages/banque/messages",
             "WEB-INF/messages/caution/messages",
+            "WEB-INF/messages/cautiondouane/messages",
             "WEB-INF/messages/default/messages",
             "WEB-INF/messages/employe/messages",
             "WEB-INF/messages/filiale/messages",
