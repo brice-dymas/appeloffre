@@ -22,15 +22,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter
-{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     DataSource dataSource;
 
     @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception
-    {
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery(
@@ -40,12 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
+    protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/appeloffre/new").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/appeloffre/**/edit**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/appeloffre/**").authenticated()
+                .antMatchers("/cautiondouane/new").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/cautiondouane/**/edit**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/cautiondouane/**").authenticated()
                 .antMatchers("/banque/new").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/banque/**/edit**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/banque/**").hasAnyRole("ADMIN", "COMMERCIAL")
@@ -82,8 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder()
-    {
+    public PasswordEncoder passwordEncoder() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }

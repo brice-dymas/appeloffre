@@ -1,6 +1,7 @@
 package com.cami.persistence.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.ElementCollection;
@@ -285,6 +286,15 @@ public class CautionDouane
 
     public void setFiles(List<String> files) {
         this.files = files;
+    }
+
+    /**
+     * @param date
+     * <p>
+     * @return the date parameter to the format day - month - year
+     */
+    public String getTrueDate(final Date date) {
+        return new SimpleDateFormat("dd-MM-yyyy").format(date);
     }
 
     @Override

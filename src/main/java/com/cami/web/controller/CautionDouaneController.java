@@ -23,9 +23,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/cautionDouane")
+@RequestMapping("/cautiondouane")
 public class CautionDouaneController {
 
     @Autowired
@@ -46,15 +47,15 @@ public class CautionDouaneController {
         model.addAttribute("results", datas);
         model.addAttribute("year", year);
         System.out.println("HomeController");
-        return "caution/stat";
+        return "cautiondouane/stat";
     }
 
     @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
     public String ShowAction(@PathVariable("id") final Long id,
             final ModelMap model) {
         final CautionDouane caution = cautionService.findOne(id);
-        model.addAttribute("caution", caution);
-        return "caution/show";
+        model.addAttribute("cautiondouane", caution);
+        return "cautiondouane/show";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -84,9 +85,6 @@ public class CautionDouaneController {
 //        final Long banqueId =  (webRequest.getParameter("querybanque") != null
 //                ? Long.valueOf(webRequest.getParameter("querybanque"))
 //                : -1);
-//        final Long typeCautionDouaneId = webRequest.getParameter("querytypecaution") != null
-//                ? Long.valueOf(webRequest.getParameter("querytypecaution"))
-//                : -1;
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
         final String debutPeriodeEcheance = (webRequest.getParameter("querydebutperiode") != null)
@@ -129,14 +127,15 @@ public class CautionDouaneController {
         caution.setBanque(new Banque(banqueId));
         caution.setMontant(montant);
         model.addAttribute("caution", caution);
+        model.addAttribute("querybanque", banqueId);
         model.addAttribute("querymontant", montant);
         model.addAttribute("querydebutperiode", debutPeriodeEcheance.equals("31/12/1975") ? "" : debutPeriodeEcheance);
         model.addAttribute("queryfinperiode", finPeriodeEcheance.equals("31/12/9999") ? "" : finPeriodeEcheance);
         model.addAttribute("page", page);
         model.addAttribute("Totalpage", resultPage.getTotalPages());
         model.addAttribute("size", size);
-        model.addAttribute("cautions", resultPage.getContent());
-        return "caution/index";
+        model.addAttribute("cautiondouanes", resultPage.getContent());
+        return "cautiondouane/index";
     }
 
     @ModelAttribute("todayDate")
@@ -152,5 +151,65 @@ public class CautionDouaneController {
             results.put(banque.getId(), banque.getLibelle());
         }
         return results;
+    }
+
+    // write
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String newAction(final ModelMap model) {
+        model.addAttribute("cautiondouane", new CautionDouane());
+        return "cautiondouane/new";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String createAction(@Valid CautionDouane cautiondouane,
+            final BindingResult result, final ModelMap model,
+            final RedirectAttributes redirectAttributes) {
+        System.out.println("Dans createAction DE CAUTION DOUANE CONTROLLER ");
+
+        if (result.hasErrors()) {
+            System.out.println("ERREUR DETECTEE DANS createAction");
+            model.addAttribute("error", "error");
+            model.addAttribute("cautiondouane", cautiondouane);
+            return "cautiondouane/new";
+        } else {
+            System.out.println("AUCUNE ERREUR DETECTEE DANS createAction");
+            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+            cautionService.create(cautiondouane);
+            return "redirect:/cautiondouane/" + cautiondouane.getId() + "/show";
+        }
+
+    }
+
+    @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
+    public String editAction(@PathVariable("id") final Long id, final ModelMap model) {
+        final CautionDouane cautiondouane = cautionService.findOne(id);
+        model.addAttribute("cautiondouane", cautiondouane);
+        return "cautiondouane/edit";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateAction(@Valid final CautionDouane cautiondouane, final BindingResult result,
+            final ModelMap model, final RedirectAttributes redirectAttributes) {
+        System.out.println("in cautiondouane controller");
+        if (result.hasErrors()) {
+            System.out.println("in cautiondouane controller: Error occured");
+            model.addAttribute("error", "error");
+            model.addAttribute("cautiondouane", cautiondouane);
+            return "cautiondouane/edit";
+        } else {
+            System.out.println("in cautiondouane controller: no error");
+            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+            cautionService.update(cautiondouane);
+            System.out.println("in cautiondouane controller update method launched");
+            return "redirect:/cautiondouane/" + cautiondouane.getId() + "/show";
+        }
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteAction(final CautionDouane cautiondouane, final ModelMap model) {
+//        cautiondouaneService.deleteById(cautiondouane.getId());
+        CautionDouane toDelete = cautionService.findOne(cautiondouane.getId());
+        cautionService.disableEntity(toDelete);
+        return "redirect:/cautiondouane/";
     }
 }

@@ -91,6 +91,15 @@ public class CautionDouaneService
     }
 
     @Override
+    @Transactional
+    public CautionDouane create(CautionDouane cautionDouane) {
+        System.out.println("AUCUNE ERREUR DETECTEE DANS createAction COUCHE SERVICE");
+        cautionDouane.setBanque(banqueDao.findOne(cautionDouane.getBanque().getId()));
+        System.out.println("cautionDouane = " + cautionDouane);
+        return dao.save(cautionDouane); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public List<Object[]> totalCautionParBanqueParMois(int year) {
         System.out.println("HomeController Service " + year);
         return dao.totalCautionParBanqueParMois(year);
