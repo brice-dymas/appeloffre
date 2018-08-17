@@ -55,11 +55,6 @@
                                     </th>
                                     <th>
                                         <span class="btn">
-                                            <spring:message code="cautiondouane.banque" />
-                                        </span>
-                                    </th>
-                                    <th>
-                                        <span class="btn">
                                             <spring:message code="action.titre" />
                                         </span>
                                     </th>
@@ -86,15 +81,18 @@
                                                 <td>
                                                     <fmt:formatNumber value="${cautiondouane.montant}" pattern="#,##0" />
                                                 </td>
-                                                <td>
-                                                    ${cautiondouane.banque.libelle}
-                                                </td>
                                                 <td class="text-center">
                                                     <spring:url value="/cautiondouane/${cautiondouane.id}/show" htmlEscape="true" var="cautiondouane_show" />
                                                     <a href="${cautiondouane_show}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-open">
                                                         </span>
                                                         <spring:message code="action.detail" />
+                                                    </a>&nbsp;&nbsp;
+                                                    <spring:url value="/cautiondouane/${cautiondouane.id}/edit" htmlEscape="true" var="cautiondouane_edit" />
+                                                    <a href="${cautiondouane_edit}" class="btn btn-primary btn-sm">
+                                                        <span class="glyphicon glyphicon-edit">
+                                                        </span>
+                                                        <spring:message code="action.modifier" />
                                                     </a>
                                                 </td>
                                             </tr>
@@ -110,15 +108,18 @@
                                                 <td>
                                                     <fmt:formatNumber value="${cautiondouane.montant}" pattern="#,##0" />
                                                 </td>
-                                                <td>
-                                                    ${cautiondouane.banque.libelle}
-                                                </td>
                                                 <td class="text-center">
                                                     <spring:url value="/cautiondouane/${cautiondouane.id}/show" htmlEscape="true" var="cautiondouane_show" />
                                                     <a href="${cautiondouane_show}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-open">
                                                         </span>
                                                         <spring:message code="action.detail" />
+                                                    </a>&nbsp;&nbsp;
+                                                    <spring:url value="/cautiondouane/${cautiondouane.id}/edit" htmlEscape="true" var="cautiondouane_edit" />
+                                                    <a href="${cautiondouane_edit}" class="btn btn-primary btn-sm">
+                                                        <span class="glyphicon glyphicon-edit">
+                                                        </span>
+                                                        <spring:message code="action.modifier" />
                                                     </a>
                                                 </td>
                                             </tr>
@@ -140,7 +141,19 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </c:if>
+                                </c:if>&nbsp;&nbsp;
+                                <spring:url value="/cautiondouane/stats" var="cautiondouane_stats"
+                                            htmlEscape="true" />
+                                <a class="btn btn-primary btn-sm" href="${cautiondouane_stats}">
+                                    <span class="glyphicon glyphicon-stats"></span> <spring:message code="action.stats"/>
+                                </a>&nbsp;&nbsp;
+                                <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                                    <spring:url value="/cautiondouane/new" htmlEscape="true" var="cautiondouane_new" />
+                                    <a href="${cautiondouane_new}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-new-window"></span>
+                                        <spring:message code="action.nouveau" />
+                                    </a>
+                                </sec:authorize>
                                 <div class="dropdown pull-right ">
                                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                                         <spring:message code="search.taille" />
@@ -170,8 +183,7 @@
                                     htmlEscape="true" />
                         <a class="btn btn-primary btn-sm" href="${cautiondouane_stats}">
                             <span class="glyphicon glyphicon-stats"></span> <spring:message code="action.stats"/>
-                        </a>
-                        <hr/>
+                        </a>&nbsp;&nbsp;
                         <sec:authorize access="hasRole('ROLE_ADMIN')" >
                             <spring:url value="/cautiondouane/new" htmlEscape="true" var="cautiondouane_new" />
                             <a href="${cautiondouane_new}" class="btn btn-primary btn-sm">
@@ -179,6 +191,7 @@
                                 <spring:message code="action.nouveau" />
                             </a>
                         </sec:authorize>
+                        <hr/>
                         <div class="pull-right">
                             <ul class="pager">
                                 <li><a href="?&querybanque=${cautiondouane.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querymontant=${cautiondouane.montant}&page=0" <c:if test="${page eq 0}">class ="btn btn-sm disabled"</c:if>>

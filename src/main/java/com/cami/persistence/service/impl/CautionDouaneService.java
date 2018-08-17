@@ -100,6 +100,20 @@ public class CautionDouaneService
     }
 
     @Override
+    public CautionDouane update(CautionDouane entity) {
+        CautionDouane toUpdate = dao.findOne(entity.getId());
+        toUpdate.setBanque(banqueDao.findOne(entity.getBanque().getId()));
+        toUpdate.setDateDebut(entity.getDateDebut());
+        toUpdate.setDateFin(entity.getDateFin());
+        toUpdate.setDivers(entity.getDivers());
+        toUpdate.setLibelle(entity.getLibelle());
+        toUpdate.setMontant(entity.getMontant());
+        toUpdate.setNumero(entity.getNumero());
+
+        return dao.save(toUpdate);
+    }
+
+    @Override
     public List<Object[]> totalCautionParBanqueParMois(int year) {
         System.out.println("HomeController Service " + year);
         return dao.totalCautionParBanqueParMois(year);
