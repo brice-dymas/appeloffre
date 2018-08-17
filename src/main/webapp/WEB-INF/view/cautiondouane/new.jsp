@@ -1,7 +1,7 @@
 <%--
     Document   : new
-    Created on : 29 janv. 2015, 22:00:59
-    Author     : fabrice
+    Created on : 16 aug. 2018, 22:00:59
+    Author     : sando
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -91,12 +91,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-11">
                     <div class="form-group">
                         <form:label for="divers" path="">
                             <spring:message code="cautiondouane.divers" /> :
                         </form:label>
-                        <form:textarea cols="60" rows="6" id="divers" path="divers" cssClass="form-control"/>
+                        <form:textarea cols="90" rows="6" id="divers" path="divers" cssClass="form-control"/>
                         <form:errors path="divers" cssClass="text-danger"/>
                     </div>
                 </div>
