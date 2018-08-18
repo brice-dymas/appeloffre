@@ -5,6 +5,7 @@ import com.cami.persistence.model.CautionDouane;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface ICautionDouaneService
         extends IOperations<CautionDouane> {
@@ -23,4 +24,9 @@ public interface ICautionDouaneService
             final Integer size);
 
     List<Object[]> totalCautionParBanqueParMois(int year);
+
+    @Transactional
+    public CautionDouane updateFiles(CautionDouane cautionDouane);
+
+    public CautionDouane deleteFiles(Long idCautionDouane, String file);
 }

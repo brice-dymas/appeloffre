@@ -12,6 +12,7 @@ import com.cami.persistence.model.CautionDouane;
 import com.cami.persistence.model.Role;
 import com.cami.persistence.service.ICautionDouaneService;
 import com.cami.persistence.service.common.AbstractService;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,5 +184,42 @@ public class CautionDouaneService
         }
         return null;
 
+    }
+
+    @Override
+    @Transactional
+    public CautionDouane updateFiles(CautionDouane cautionDouane) {
+        System.out.println("updateFile");
+        CautionDouane editCautionDouane = dao.findOne(cautionDouane.getId());
+        List<String> files = editCautionDouane.getFiles();
+        for (String file : cautionDouane.getFiles()) {
+            if (!files.contains(file)) {
+                System.out.println("File not inside");
+                editCautionDouane.addFile(file);
+            } else {
+                System.out.println("File not inside");
+            }
+
+        }
+
+        return dao.save(editCautionDouane);
+
+    }
+
+    @Override
+    public CautionDouane deleteFiles(Long idCautionDouane, String file) {
+        System.out.println("removeFile");
+        CautionDouane editCautionDouane = dao.findOne(idCautionDouane);
+        List<String> files = editCautionDouane.getFiles();
+        List<String> savedfiles = new ArrayList<>();
+        for (String fi : files) {
+            if (!fi.contains(file)) {
+
+                savedfiles.add(fi);
+            }
+
+        }
+        editCautionDouane.setFiles(savedfiles);
+        return dao.save(editCautionDouane);
     }
 }

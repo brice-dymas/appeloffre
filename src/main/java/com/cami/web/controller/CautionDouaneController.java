@@ -4,6 +4,8 @@ import com.cami.persistence.model.Banque;
 import com.cami.persistence.model.CautionDouane;
 import com.cami.persistence.service.IBanqueService;
 import com.cami.persistence.service.ICautionDouaneService;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -31,6 +35,9 @@ public class CautionDouaneController {
 
     @Autowired
     ICautionDouaneService cautionService;
+
+    @Autowired
+    private ServletContext servletContext;
 
     @Autowired
     IBanqueService banqueService;
@@ -211,5 +218,67 @@ public class CautionDouaneController {
         CautionDouane toDelete = cautionService.findOne(cautiondouane.getId());
         cautionService.disableEntity(toDelete);
         return "redirect:/cautiondouane/";
+    }
+
+    private void processData(CautionDouane cautionDouane)
+            throws IllegalStateException,
+            IOException {
+        MultipartFile file = cautionDouane.getPieceJointe1Data();
+        cautionDouane.setPieceJointe1(file.getOriginalFilename());
+        System.out.println("PJ = " + cautionDouane.getPieceJointe1());
+        processFileData(file, "documents");
+
+        file = cautionDouane.getPieceJointe2Data();
+        cautionDouane.setPieceJointe2(file.getOriginalFilename());
+        System.out.println("PJ = " + cautionDouane.getPieceJointe2());
+        processFileData(file, "documents");
+
+        file = cautionDouane.getPieceJointe3Data();
+        cautionDouane.setPieceJointe3(file.getOriginalFilename());
+        System.out.println("PJ = " + cautionDouane.getPieceJointe3());
+        processFileData(file, "documents");
+
+        file = cautionDouane.getPieceJointe4Data();
+        cautionDouane.setPieceJointe4(file.getOriginalFilename());
+        System.out.println("PJ = " + cautionDouane.getPieceJointe4());
+        processFileData(file, "documents");
+
+        file = cautionDouane.getPieceJointe5Data();
+        cautionDouane.setPieceJointe5(file.getOriginalFilename());
+        System.out.println("PJ = " + cautionDouane.getPieceJointe5());
+        processFileData(file, "documents");
+
+        file = cautionDouane.getPieceJointe6Data();
+        cautionDouane.setPieceJointe6(file.getOriginalFilename());
+        System.out.println("PJ = " + cautionDouane.getPieceJointe6());
+        processFileData(file, "documents");
+
+        file = cautionDouane.getPieceJointe7Data();
+        cautionDouane.setPieceJointe7(file.getOriginalFilename());
+        System.out.println("PJ = " + cautionDouane.getPieceJointe7());
+        processFileData(file, "documents");
+
+        file = cautionDouane.getPieceJointe8Data();
+        cautionDouane.setPieceJointe8(file.getOriginalFilename());
+        System.out.println("PJ = " + cautionDouane.getPieceJointe8());
+        processFileData(file, "documents");
+    }
+
+    private String getSavedFileName(MultipartFile file, String uploadDir) {
+        String webappRoot = servletContext.getRealPath("/");
+        String relativeFolder = File.separator + "resources" + File.separator + "bootstrap" + File.separator
+                + uploadDir + File.separator;
+        String filename = webappRoot + relativeFolder + file.getOriginalFilename();
+        System.out.println(filename);
+        return filename;
+    }
+
+    private void processFileData(MultipartFile file, String uploadDir)
+            throws IllegalStateException,
+            IOException {
+
+        String filename = getSavedFileName(file, uploadDir);
+        file.transferTo(new File(filename));
+
     }
 }

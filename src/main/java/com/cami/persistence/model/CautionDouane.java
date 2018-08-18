@@ -305,4 +305,8 @@ public class CautionDouane
                 + ", files=" + files + '}';
     }
 
+    public void addFile(String file) {
+        this.files.add(file);
+    }
+
 }

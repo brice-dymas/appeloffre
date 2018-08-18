@@ -111,7 +111,7 @@
                 <button type="submit" class="btn btn-primary btn-sm">
                     <span class="glyphicon glyphicon-save"></span>
                     <spring:message code="action.enregistrer" />
-                </button>
+                </button>&nbsp;&nbsp;
                 <spring:url value="/cautiondouane/" htmlEscape="true"
                             var="cautiondouane_home" />
                 <a href="${cautiondouane_home}" class="btn btn-default btn-sm">
