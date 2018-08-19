@@ -94,7 +94,9 @@ public class AppelOffreController {
         appelOffre.setCautions(cautions);
         appelOffre.setLigneAppels(ligneAppels);
         appelOffre.setUser(role);
+        final int nbFile = appelOffre.getFiles().size();
         model.addAttribute("appelOffre", appelOffre);
+        model.addAttribute("nbFile", nbFile);
         model.addAttribute("user", role);
         model.addAttribute("ligneAppels", ligneAppels);
         model.addAttribute("cautions", cautions);
@@ -111,8 +113,11 @@ public class AppelOffreController {
         final List<Caution> cautions = cautionService.filterByAppelOffre(appelOffre.getId());
         final AppelOffreForm appelOffreForm = new AppelOffreForm();
         appelOffreForm.setAppelOffre(appelOffre);
+        final int nbFile = appelOffre.getFiles().size();
+        System.out.println("Le nombre de fichier est de " + nbFile);
         appelOffreForm.setCautions(cautions);
         appelOffreForm.setLigneAppels(ligneAppels);
+        model.addAttribute("nbFile", nbFile);
         model.addAttribute("appelOffreForm", appelOffreForm);
         return "appeloffre/edit";
     }
@@ -357,19 +362,39 @@ public class AppelOffreController {
             final BindingResult result,
             final RedirectAttributes redirectAttributes) {
         System.out.println("enter");
-        if (result.hasErrors()) {
-            System.out.println("il ya eu erreur de modification");
-            model.addAttribute("appelOffre", appelOffreForm);
-            model.addAttribute("error", "error");
+
+        if (result.hasErrors() || files[0].isEmpty()) {
+            System.out.println("nul ou erreur and size = " + files.length);
+            if (files[0].isEmpty()) {
+                System.out.println("file error");
+                model.addAttribute("fileError", "Veuillez téléverser au moins un fichier!");
+            }
+            model.addAttribute("appelOffreForm", appelOffreForm);
             return "appeloffre/edit";
         } else {
-            if (files.length > 0) {
-                upload(files, appelOffreForm.getAppelOffre().getId());
-            }
+            System.out.println("non nul");
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             appelOffreService.update(appelOffreForm.getAppelOffre());
+            if (!files[0].isEmpty()) {
+                upload(files, appelOffreForm.getAppelOffre().getId());
+            }
             return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
+
         }
+
+//        if (result.hasErrors()) {
+//            System.out.println("il ya eu erreur de modification");
+//            model.addAttribute("appelOffre", appelOffreForm);
+//            model.addAttribute("error", "error");
+//            return "appeloffre/edit";
+//        } else {
+//            if (files.length > 0) {
+//                upload(files, appelOffreForm.getAppelOffre().getId());
+//            }
+//            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+//            appelOffreService.update(appelOffreForm.getAppelOffre());
+//            return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
+//        }
     }
 
     @ModelAttribute("todayDate")
