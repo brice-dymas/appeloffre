@@ -168,7 +168,7 @@ public class CautionDouaneController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createAction(@Valid CautionDouane cautiondouane,
+    public String createAction(@ModelAttribute("cautiondouane") @Valid final CautionDouane cautiondouane,
             final BindingResult result, final ModelMap model,
             final RedirectAttributes redirectAttributes) {
         System.out.println("Dans createAction DE CAUTION DOUANE CONTROLLER ");
@@ -195,7 +195,7 @@ public class CautionDouaneController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateAction(@Valid final CautionDouane cautiondouane, final BindingResult result,
+    public String updateAction(@ModelAttribute("cautiondouane") @Valid final CautionDouane cautiondouane, final BindingResult result,
             final ModelMap model, final RedirectAttributes redirectAttributes) {
         System.out.println("in cautiondouane controller");
         if (result.hasErrors()) {

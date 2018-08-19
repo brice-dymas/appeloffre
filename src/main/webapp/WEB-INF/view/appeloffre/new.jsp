@@ -108,7 +108,12 @@
                     </div>
                 </div>
             </div>
-
+                    <div class="row">
+                <div class="col-md-12">
+                    <hr/>
+                    <input type="file" name="file" multiple="multiple">
+                </div>
+            </div>
             <hr/>
 
             <div class="row">
@@ -358,6 +363,7 @@
                     </fieldset>
                 </div>
             </div>
+                            
 
             <div class="row">
                 <div class="col-md-12">

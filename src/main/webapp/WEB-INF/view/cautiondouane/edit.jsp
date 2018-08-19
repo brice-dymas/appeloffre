@@ -27,11 +27,6 @@
                     htmlEscape="true" />
         <form:form method="post" commandName="cautiondouane" action="${cautiondouane_update}">
             <div class="row">
-                <div class="col-md-12">
-                    <form:errors path="*"  cssClass="text-danger" />
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <form:label for="banque" path="">

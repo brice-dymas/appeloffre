@@ -45,7 +45,7 @@ public class FileController {
 
     LinkedList<FileMeta> files;
     FileMeta fileMeta = null;
-    final static String SAVE_DIRECTORY = "documents";
+    public final static String SAVE_DIRECTORY = "documents";
 
     @Autowired
     private ServletContext servletContext;

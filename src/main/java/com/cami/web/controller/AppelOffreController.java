@@ -16,6 +16,7 @@ import com.cami.persistence.service.ILigneAppelService;
 import com.cami.persistence.service.IMaterielService;
 import com.cami.persistence.service.IRoleService;
 import com.cami.persistence.service.ITypeCautionService;
+import static com.cami.web.controller.FileController.SAVE_DIRECTORY;
 import com.cami.web.form.AppelOffreForm;
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -210,15 +213,26 @@ public class AppelOffreController
         return "appeloffre/new";
     }
 
+    /**
+     *
+     * @param appelOffreForm
+     * @param files
+     * @param result
+     * @param model
+     * @param redirectAttributes
+     * @return
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createAction(@Valid AppelOffreForm appelOffreForm,
+    public String createAction(@Valid AppelOffreForm appelOffreForm, @RequestParam("files") MultipartFile[] files,
             final BindingResult result, final ModelMap model,
             final RedirectAttributes redirectAttributes)
     {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors() || files.length < 0) {
             System.out.println("nul ou erreur");
-            model.addAttribute("error", "error");
+            if (files.length < 0){
+                model.addAttribute("error", "Veuillez téléverser au moins un fichier!");
+            }
             model.addAttribute("appelOffreForm", appelOffreForm);
             return "appeloffre/new";
         }
@@ -226,6 +240,9 @@ public class AppelOffreController
             System.out.println("non nul");
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             appelOffreService.create(appelOffreForm.getAppelOffre());
+            if (files.length > 0){
+                upload(files, appelOffreForm.getAppelOffre().getId());
+            }
             return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
 
         }
@@ -256,7 +273,7 @@ public class AppelOffreController
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateAction(final ModelMap model,
+    public String updateAction(final ModelMap model, @RequestParam("files") MultipartFile[] files,
             @Valid final AppelOffreForm appelOffreForm,
             final BindingResult result,
             final RedirectAttributes redirectAttributes)
@@ -269,6 +286,9 @@ public class AppelOffreController
             return "appeloffre/edit";
         }
         else {
+            if (files.length > 0){
+                upload(files, appelOffreForm.getAppelOffre().getId());
+            }
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             appelOffreService.update(appelOffreForm.getAppelOffre());
             return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
@@ -410,6 +430,51 @@ public class AppelOffreController
         String filename = getSavedFileName(file, uploadDir);
         file.transferTo(new File(filename));
 
+    }
+    
+    void upload(MultipartFile[] files, Long idAppelOffre) {      
+        AppelOffre appelOffre = appelOffreService.findOne(idAppelOffre);
+        for (MultipartFile file : files) {
+             
+            try {
+                          
+                String saveName = getFileName(file, appelOffre);
+                processFileData(file, SAVE_DIRECTORY, saveName);
+                
+                appelOffre.addFile(saveName);
+                appelOffre = appelOffreService.updateFiles(appelOffre);
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+         }
+    }
+    
+     private void processFileData(MultipartFile file, String uploadDir, String nameOfFile)
+            throws IllegalStateException,
+            IOException {
+
+        String filename = getSavedFileName(uploadDir, nameOfFile);
+        file.transferTo(new File(filename));
+
+    }
+
+    private String getFileName(MultipartFile file, AppelOffre appelOffre) {
+        String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+        String saveName = appelOffre.getId() + "_" + new Date().getTime() + "." + ext;
+        return saveName;
+
+    }
+    
+     private String getSavedFileName(String uploadDir, String nameOfFile) {
+        String webappRoot = servletContext.getRealPath("/");
+        String relativeFolder = File.separator + "resources" + File.separator + "bootstrap" + File.separator
+                + uploadDir + File.separator;
+        String filename = webappRoot + relativeFolder + nameOfFile;
+
+        System.out.println(filename);
+        return filename;
     }
 
 }
