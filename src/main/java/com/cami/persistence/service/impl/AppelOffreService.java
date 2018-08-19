@@ -236,7 +236,6 @@ public class AppelOffreService
     }
 
     @Override
-
     public AppelOffre deleteFiles(Long idAppelOffre, String file) {
         System.out.println("removeFile");
         AppelOffre editAppelOffre = dao.findOne(idAppelOffre);
