@@ -28,12 +28,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         = {
             "com.cami.persistence.dao"
         })
-public class PersistenceJPAConfig
-{
+public class PersistenceJPAConfig {
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory()
-    {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[]{
@@ -48,21 +46,19 @@ public class PersistenceJPAConfig
     }
 
     @Bean(name = "dataSource")
-    public DataSource dataSource()
-    {
+    public DataSource dataSource() {
         final BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource
                 .setUrl("jdbc:mysql://localhost:3306/appelOffre?useUnicode=yes&characterEncoding=UTF-8");
         dataSource.setUsername("root");
-        dataSource.setPassword("elise");
+        dataSource.setPassword("sando");
         return dataSource;
     }
 
     @Bean
     public PlatformTransactionManager transactionManager(
-            final EntityManagerFactory emf)
-    {
+            final EntityManagerFactory emf) {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
 
@@ -70,13 +66,11 @@ public class PersistenceJPAConfig
     }
 
     @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation()
-    {
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    Properties additionalProperties()
-    {
+    Properties additionalProperties() {
         final Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         // properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");

@@ -205,10 +205,10 @@ public class AppelOffreController {
         appelOffreForm.setAppelOffre(appelOffre);
         model.addAttribute("appelOffreForm", appelOffreForm);
 
-        System.out.println("EXECUTION DE LA METHODE PERMETTANT DINSERER DES DONNES DE TEST ");
-        for (int i = 0; i < 1000; i++) {
-            appelOffreService.create(generateAppelOffre().getAppelOffre());
-        }
+//        System.out.println("EXECUTION DE LA METHODE PERMETTANT DINSERER DES DONNES DE TEST ");
+//        for (int i = 0; i < 1000; i++) {
+//            appelOffreService.create(generateAppelOffre().getAppelOffre());
+//        }
         return "appeloffre/new";
     }
 
@@ -222,14 +222,16 @@ public class AppelOffreController {
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createAction(@Valid AppelOffreForm appelOffreForm, @RequestParam("files") MultipartFile[] files,
-            final BindingResult result, final ModelMap model,
+    public String createAction(final ModelMap model, @RequestParam("files") MultipartFile[] files,
+            @Valid final AppelOffreForm appelOffreForm,
+            final BindingResult result,
             final RedirectAttributes redirectAttributes) {
 
-        if (result.hasErrors() || files.length < 0) {
-            System.out.println("nul ou erreur");
-            if (files.length < 0) {
-                model.addAttribute("error", "Veuillez téléverser au moins un fichier!");
+        if (result.hasErrors() || files[0].isEmpty()) {
+            System.out.println("nul ou erreur and size = " + files.length);
+            if (files[0].isEmpty()) {
+                System.out.println("file error");
+                model.addAttribute("fileError", "Veuillez téléverser au moins un fichier!");
             }
             model.addAttribute("appelOffreForm", appelOffreForm);
             return "appeloffre/new";
@@ -237,12 +239,30 @@ public class AppelOffreController {
             System.out.println("non nul");
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             appelOffreService.create(appelOffreForm.getAppelOffre());
-            if (files.length > 0) {
+            if (!files[0].isEmpty()) {
                 upload(files, appelOffreForm.getAppelOffre().getId());
             }
             return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
 
         }
+//
+//        if (result.hasErrors() || files.length < 0) {
+//            System.out.println("nul ou erreur");
+//            if (files.length < 0) {
+//                model.addAttribute("error", "Veuillez téléverser au moins un fichier!");
+//            }
+//            model.addAttribute("appelOffreForm", appelOffreForm);
+//            return "appeloffre/new";
+//        } else {
+//            System.out.println("non nul");
+//            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+//            appelOffreService.create(appelOffreForm.getAppelOffre());
+//            if (files.length > 0) {
+//                upload(files, appelOffreForm.getAppelOffre().getId());
+//            }
+//            return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
+//
+//        }
 
     }
 
