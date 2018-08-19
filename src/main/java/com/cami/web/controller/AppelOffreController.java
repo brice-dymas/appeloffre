@@ -22,10 +22,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
@@ -33,6 +35,8 @@ import javax.validation.Valid;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -47,8 +51,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/appeloffre")
-public class AppelOffreController
-{
+public class AppelOffreController {
 
     @Autowired
     private ServletContext servletContext;
@@ -81,8 +84,7 @@ public class AppelOffreController
     // read - one
     @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
     public String ShowAction(@PathVariable("id") final Long id,
-            final ModelMap model)
-    {
+            final ModelMap model) {
         final AppelOffre appelOffre;
         final List<Caution> cautions;
         appelOffre = appelOffreService.findOne(id);
@@ -96,15 +98,13 @@ public class AppelOffreController
         model.addAttribute("user", role);
         model.addAttribute("ligneAppels", ligneAppels);
         model.addAttribute("cautions", cautions);
-
         System.out.println("this appelOffre is deleted ? " + appelOffre.isDeleted());
         return "appeloffre/show";
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
     public String editAction(@PathVariable("id") final Long id,
-            final ModelMap model)
-    {
+            final ModelMap model) {
 
         final AppelOffre appelOffre = appelOffreService.findOne(id);
         final List<LigneAppel> ligneAppels = ligneAppelService.filterByAppelOffre(appelOffre.getId());
@@ -126,8 +126,7 @@ public class AppelOffreController
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String indexAction(final ModelMap model, final WebRequest webRequest)
-    {
+    public String indexAction(final ModelMap model, final WebRequest webRequest) {
         boolean deleted = false;
         final Long filialeId = (webRequest.getParameter("queryfiliale") != null && !webRequest.getParameter("queryfiliale").equals(""))
                 ? Long.valueOf(webRequest.getParameter("queryfiliale"))
@@ -159,23 +158,19 @@ public class AppelOffreController
         Date finPeriode = new Date();
         try {
             debutPeriode = dateFormatter.parse(debutPeriodeDepot);
-        }
-        catch (ParseException ex) {
+        } catch (ParseException ex) {
             try {
                 debutPeriode = dateFormatter.parse("31/12/1975");
-            }
-            catch (ParseException ex1) {
+            } catch (ParseException ex1) {
                 Logger.getLogger(CautionController.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
         try {
             finPeriode = dateFormatter.parse(finPeriodeDepot);
-        }
-        catch (ParseException ex) {
+        } catch (ParseException ex) {
             try {
                 finPeriode = dateFormatter.parse("31/12/9999");
-            }
-            catch (ParseException ex1) {
+            } catch (ParseException ex1) {
                 Logger.getLogger(CautionController.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
@@ -185,7 +180,7 @@ public class AppelOffreController
                 : 0;
         final Integer size = webRequest.getParameter("size") != null
                 ? Integer.valueOf(webRequest.getParameter("size"))
-                : 5;
+                : 50;
 
         final Page<AppelOffre> resultPage = appelOffreService.findPaginated(filialeId, numero, intitule, maitreDouvrage, debutPeriode, finPeriode, deleted, page, size);
         final AppelOffre appelOffre = new AppelOffre();
@@ -204,12 +199,16 @@ public class AppelOffreController
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newAction(final ModelMap model)
-    {
+    public String newAction(final ModelMap model) {
         AppelOffreForm appelOffreForm = new AppelOffreForm();
         AppelOffre appelOffre = new AppelOffre();
         appelOffreForm.setAppelOffre(appelOffre);
         model.addAttribute("appelOffreForm", appelOffreForm);
+
+        System.out.println("EXECUTION DE LA METHODE PERMETTANT DINSERER DES DONNES DE TEST ");
+        for (int i = 0; i < 1000; i++) {
+            appelOffreService.create(generateAppelOffre().getAppelOffre());
+        }
         return "appeloffre/new";
     }
 
@@ -225,22 +224,20 @@ public class AppelOffreController
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createAction(@Valid AppelOffreForm appelOffreForm, @RequestParam("files") MultipartFile[] files,
             final BindingResult result, final ModelMap model,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors() || files.length < 0) {
             System.out.println("nul ou erreur");
-            if (files.length < 0){
+            if (files.length < 0) {
                 model.addAttribute("error", "Veuillez téléverser au moins un fichier!");
             }
             model.addAttribute("appelOffreForm", appelOffreForm);
             return "appeloffre/new";
-        }
-        else {
+        } else {
             System.out.println("non nul");
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             appelOffreService.create(appelOffreForm.getAppelOffre());
-            if (files.length > 0){
+            if (files.length > 0) {
                 upload(files, appelOffreForm.getAppelOffre().getId());
             }
             return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
@@ -249,9 +246,72 @@ public class AppelOffreController
 
     }
 
+    private AppelOffreForm generateAppelOffre() {
+        AppelOffreForm appelOffreForm = new AppelOffreForm();
+        AppelOffre appelOffre;
+        List<Caution> cautions;
+        List<LigneAppel> ligneAppels;
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 4 + 1);
+
+        appelOffre = new AppelOffre();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        appelOffre.setDateDepot(new Date());
+        appelOffre.setDelaiDeValidite("12");
+        appelOffre.setEtat("EN COURS");
+        appelOffre.setIntitule("TEST N-" + new Date().getTime());
+        appelOffre.setMaitreDouvrage("KAPORAL--" + randomNum);
+        appelOffre.setNumero("AP-" + new Date().getTime());
+        appelOffre.setNumeroAffaire("AFN-" + new Date().getTime());
+        appelOffre.setNumeroChrono("CHR-" + new Date().getTime());
+        appelOffre.setFiliale(new Filiale(Long.valueOf(randomNum)));
+        appelOffre.setDateModification(new Date());
+        appelOffre.setDeleted(false);
+        cautions = new ArrayList<>();
+
+        System.out.println("Debut CREATION DES Caution ");
+        for (int j = 1; j < 6; j++) {
+            System.out.println("tour caution Num--" + j);
+            Caution caution = new Caution();
+            caution.setBanque(new Banque(Long.valueOf(j)));
+            caution.setTypeCaution(new TypeCaution(Long.valueOf(j)));
+            caution.setDateDebut(new Date());
+            Role role = new Role();
+            role.setId(7L);
+            caution.setCommercial(role);
+            caution.setDateFin(new Date(2016 + j, j, 2 * j));
+            caution.setDeleted(false);
+            caution.setMontant(305090 * j);
+            caution.setMontantMarche(78087 * j);
+            caution.setNumero("CA-2018--00" + j);
+            caution.setReferenceMarche("REF-2018--00" + j);
+            cautions.add(caution);
+        }
+
+        ligneAppels = new ArrayList<>();
+        System.out.println("Debut  CREATION DES LigneAppel ");
+        for (int j = 1; j < 6; j++) {
+            System.out.println("tour ligne - " + j);
+            LigneAppel ligneAppel = new LigneAppel();
+            ligneAppel.setDeleted(false);
+            ligneAppel.setAppelOffre(appelOffre);
+            Materiel materiel = new Materiel();
+            materiel.setId(Long.valueOf(j));
+            ligneAppel.setMateriel(materiel);
+            ligneAppel.setPrixUnitaire(1250 * j);
+            ligneAppel.setQuantite(j);
+            ligneAppels.add(ligneAppel);
+        }
+
+        appelOffreForm.setAppelOffre(appelOffre);
+        appelOffreForm.setCautions(cautions);
+        appelOffreForm.setLigneAppels(ligneAppels);
+
+        return appelOffreForm;
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAction(final AppelOffre appelOffre, final ModelMap model)
-    {
+    public String deleteAction(final AppelOffre appelOffre, final ModelMap model) {
         AppelOffre appelOffreToDelete = appelOffreService.findOne(appelOffre.getId());
         System.out.println("deleteAction of a appelOffre =" + appelOffreToDelete.getId() + " -intitulé=" + appelOffreToDelete.getIntitule() + " deleted ?= " + appelOffreToDelete.isDeleted());
         System.out.println("deletion beginning deleted = " + appelOffreToDelete.isDeleted());
@@ -260,8 +320,7 @@ public class AppelOffreController
             appelOffreToDelete.setDeleted(false);
             appelOffreService.disableEntity(appelOffreToDelete);
 //            System.out.println("(suppose to be false) after calling service  deleted= " + appelOffreToDelete.isDeleted());
-        }
-        else {
+        } else {
             System.out.println("(suppose to be false) deleted= " + appelOffreToDelete.isDeleted());
             appelOffreToDelete.setDeleted(true);
             appelOffreService.disableEntity(appelOffreToDelete);
@@ -276,17 +335,15 @@ public class AppelOffreController
     public String updateAction(final ModelMap model, @RequestParam("files") MultipartFile[] files,
             @Valid final AppelOffreForm appelOffreForm,
             final BindingResult result,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
         System.out.println("enter");
         if (result.hasErrors()) {
             System.out.println("il ya eu erreur de modification");
             model.addAttribute("appelOffre", appelOffreForm);
             model.addAttribute("error", "error");
             return "appeloffre/edit";
-        }
-        else {
-            if (files.length > 0){
+        } else {
+            if (files.length > 0) {
                 upload(files, appelOffreForm.getAppelOffre().getId());
             }
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
@@ -296,14 +353,12 @@ public class AppelOffreController
     }
 
     @ModelAttribute("todayDate")
-    public Date getDate()
-    {
+    public Date getDate() {
         return new Date();
     }
 
     @ModelAttribute("filiales")
-    public Map<Long, String> populateFilialesFields()
-    {
+    public Map<Long, String> populateFilialesFields() {
         final Map<Long, String> results = new HashMap<>();
         final List<Filiale> filiales = filialeService.findAll();
         for (final Filiale filiale : filiales) {
@@ -313,8 +368,7 @@ public class AppelOffreController
     }
 
     @ModelAttribute("materiels")
-    public Map<Long, String> populateMaterielFields()
-    {
+    public Map<Long, String> populateMaterielFields() {
         final Map<Long, String> results = new HashMap<>();
         final List<Materiel> materiels = materielService.findAll();
         for (final Materiel materiel : materiels) {
@@ -325,8 +379,7 @@ public class AppelOffreController
     }
 
     @ModelAttribute("banques")
-    public Map<Long, String> populateBanqueFields()
-    {
+    public Map<Long, String> populateBanqueFields() {
         final Map<Long, String> results = new HashMap<>();
         final List<Banque> banques = banqueService.findAll();
         for (final Banque banque : banques) {
@@ -336,8 +389,7 @@ public class AppelOffreController
     }
 
     @ModelAttribute("commerciaux")
-    public Map<Long, String> populateCommerciauxFileds()
-    {
+    public Map<Long, String> populateCommerciauxFileds() {
         final Map<Long, String> results = new HashMap<>();
         final List<Role> roles = roleService.retrieveCommerciaux();
         for (Role role : roles) {
@@ -347,8 +399,7 @@ public class AppelOffreController
     }
 
     @ModelAttribute("etats")
-    public Map<Boolean, String> populateEtatFields()
-    {
+    public Map<Boolean, String> populateEtatFields() {
         final Map<Boolean, String> results = new HashMap<>();
         results.put(false, "Actif");
         results.put(true, "Inactif");
@@ -356,8 +407,7 @@ public class AppelOffreController
     }
 
     @ModelAttribute("typeCautions")
-    public Map<Long, String> populateTypeCautionFields()
-    {
+    public Map<Long, String> populateTypeCautionFields() {
         final Map<Long, String> results = new HashMap<>();
         final List<TypeCaution> typeCautions = typeCautionService.findAll();
         for (final TypeCaution typeCaution : typeCautions) {
@@ -369,8 +419,7 @@ public class AppelOffreController
 
     private void processData(AppelOffre appelOffre)
             throws IllegalStateException,
-            IOException
-    {
+            IOException {
         MultipartFile file = appelOffre.getPieceJointe1Data();
         appelOffre.setPieceJointe1(file.getOriginalFilename());
         System.out.println("PJ = " + appelOffre.getPieceJointe1());
@@ -412,8 +461,7 @@ public class AppelOffreController
         processFileData(file, "documents");
     }
 
-    private String getSavedFileName(MultipartFile file, String uploadDir)
-    {
+    private String getSavedFileName(MultipartFile file, String uploadDir) {
         String webappRoot = servletContext.getRealPath("/");
         String relativeFolder = File.separator + "resources" + File.separator + "bootstrap" + File.separator
                 + uploadDir + File.separator;
@@ -424,23 +472,22 @@ public class AppelOffreController
 
     private void processFileData(MultipartFile file, String uploadDir)
             throws IllegalStateException,
-            IOException
-    {
+            IOException {
 
         String filename = getSavedFileName(file, uploadDir);
         file.transferTo(new File(filename));
 
     }
-    
-    void upload(MultipartFile[] files, Long idAppelOffre) {      
+
+    void upload(MultipartFile[] files, Long idAppelOffre) {
         AppelOffre appelOffre = appelOffreService.findOne(idAppelOffre);
         for (MultipartFile file : files) {
-             
+
             try {
-                          
+
                 String saveName = getFileName(file, appelOffre);
                 processFileData(file, SAVE_DIRECTORY, saveName);
-                
+
                 appelOffre.addFile(saveName);
                 appelOffre = appelOffreService.updateFiles(appelOffre);
 
@@ -448,10 +495,10 @@ public class AppelOffreController
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-         }
+        }
     }
-    
-     private void processFileData(MultipartFile file, String uploadDir, String nameOfFile)
+
+    private void processFileData(MultipartFile file, String uploadDir, String nameOfFile)
             throws IllegalStateException,
             IOException {
 
@@ -466,8 +513,8 @@ public class AppelOffreController
         return saveName;
 
     }
-    
-     private String getSavedFileName(String uploadDir, String nameOfFile) {
+
+    private String getSavedFileName(String uploadDir, String nameOfFile) {
         String webappRoot = servletContext.getRealPath("/");
         String relativeFolder = File.separator + "resources" + File.separator + "bootstrap" + File.separator
                 + uploadDir + File.separator;

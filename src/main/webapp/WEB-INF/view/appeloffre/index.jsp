@@ -92,7 +92,7 @@
                                                     <spring:url value="/appeloffre/${appelOffre.id}/edit" htmlEscape="true" var="appeloffre_edit" />
                                                     <a href="${appeloffre_edit}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-edit">
-                                                            <spring:message code="action.modifier" />
+                                                            <%--<spring:message code="action.modifier" />--%>
                                                         </span>
 
                                                     </a>
@@ -100,7 +100,7 @@
                                                     <spring:url value="/appeloffre/${appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
                                                     <a href="${appeloffre_show}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-open">
-                                                            <spring:message code="action.detail" />
+                                                            <%--<spring:message code="action.detail" />--%>
                                                         </span>
                                                     </a>
                                                 </td>
@@ -124,7 +124,7 @@
                                                     <spring:url value="/appeloffre/${appelOffre.id}/edit" htmlEscape="true" var="appeloffre_edit" />
                                                     <a href="${appeloffre_edit}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-edit">
-                                                            <spring:message code="action.modifier" />
+                                                            <%--<spring:message code="action.modifier" />--%>
                                                         </span>
 
                                                     </a>
@@ -132,7 +132,7 @@
                                                     <spring:url value="/appeloffre/${appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
                                                     <a href="${appeloffre_show}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-open">
-                                                            <spring:message code="action.detail" />
+                                                            <%--<spring:message code="action.detail" />--%>
                                                         </span>
                                                     </a>
                                                 </td>

@@ -137,7 +137,7 @@ public class CautionController {
         final Integer size = webRequest.getParameter("size") != null
                 ? Integer
                         .valueOf(webRequest.getParameter("size"))
-                : 5;
+                : 50;
         final Page<Caution> resultPage = cautionService.filter(banqueId, typeCautionId, debutPeriode, finPeriode, page, size);
 
         final Caution caution = new Caution();
