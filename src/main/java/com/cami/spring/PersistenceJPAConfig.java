@@ -48,11 +48,17 @@ public class PersistenceJPAConfig {
     @Bean(name = "dataSource")
     public DataSource dataSource() {
         final BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//        dataSource
+//                .setUrl("jdbc:mysql://localhost:3306/appelOffre?useUnicode=yes&characterEncoding=UTF-8");
+        dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource
-                .setUrl("jdbc:mysql://localhost:3306/appelOffre?useUnicode=yes&characterEncoding=UTF-8");
-        dataSource.setUsername("root");
+                .setUrl("jdbc:postgresql://localhost:5432/appelOffre");
+        dataSource.setUsername("postgres");
+//        dataSource.setUsername("root");
         dataSource.setPassword("sando");
+//        dataSource.setPassword("Camicaution2018");
+//        dataSource.setPassword("Camicaution2018");
         return dataSource;
     }
 
@@ -74,8 +80,10 @@ public class PersistenceJPAConfig {
         final Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         // properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+//        properties.setProperty("hibernate.dialect",
+//                "org.hibernate.dialect.MySQL5Dialect");
         properties.setProperty("hibernate.dialect",
-                "org.hibernate.dialect.MySQL5Dialect");
+                "org.hibernate.dialect.PostgreSQLDialect");
         return properties;
     }
 

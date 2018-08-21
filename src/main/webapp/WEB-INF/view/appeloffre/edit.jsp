@@ -115,7 +115,7 @@
                                 ${fileError}
                             </div>
                         </c:if>
-                        <input type="file" name="files" multiple="multiple" class="form-control input-lg">
+                        <input type="file" name="fichiers" multiple="multiple" class="form-control input-lg">
                     </div>
                 </div>
             </c:if>

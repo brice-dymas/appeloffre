@@ -25,7 +25,7 @@
 
         <spring:url value="/cautiondouane/update" var="cautiondouane_update"
                     htmlEscape="true" />
-        <form:form method="post" commandName="cautiondouane" action="${cautiondouane_update}">
+        <form:form method="post" enctype="multipart/form-data" commandName="cautiondouane" action="${cautiondouane_update}?${_csrf.parameterName}=${_csrf.token}">
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -88,6 +88,17 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <hr/>
+                    <c:if test="${fileError!=null}">
+                        <div class="text-danger">
+                            ${fileError}
+                        </div>
+                    </c:if>
+                    <input type="file" name="fichiers" multiple="multiple">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="form-group">
                         <form:label for="divers" path="">
                             <spring:message code="cautiondouane.divers" /> :
@@ -103,7 +114,6 @@
             </div>
 
             <form:hidden path="id"/>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <div class="panel-footer">
                 <button type="submit" class="btn btn-primary btn-sm">
                     <span class="glyphicon glyphicon-save"></span>

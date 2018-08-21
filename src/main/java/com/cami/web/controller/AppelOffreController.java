@@ -137,13 +137,13 @@ public class AppelOffreController {
                 ? Long.valueOf(webRequest.getParameter("queryfiliale"))
                 : -1;
         final String numero = webRequest.getParameter("querynumero") != null
-                ? webRequest.getParameter("querynumero")
+                ? webRequest.getParameter("querynumero").trim()
                 : "";
         final String intitule = webRequest.getParameter("queryintitule") != null
-                ? webRequest.getParameter("queryintitule")
+                ? webRequest.getParameter("queryintitule").trim()
                 : "";
         final String maitreDouvrage = webRequest.getParameter("querymaitredouvrage") != null
-                ? webRequest.getParameter("querymaitredouvrage")
+                ? webRequest.getParameter("querymaitredouvrage").trim()
                 : "";
         if (webRequest.getParameter("querydeleted") != null) {
             if (webRequest.getParameter("querydeleted").equals("true")) {
@@ -185,7 +185,7 @@ public class AppelOffreController {
                 : 0;
         final Integer size = webRequest.getParameter("size") != null
                 ? Integer.valueOf(webRequest.getParameter("size"))
-                : 50;
+                : 25;
 
         final Page<AppelOffre> resultPage = appelOffreService.findPaginated(filialeId, numero, intitule, maitreDouvrage, debutPeriode, finPeriode, deleted, page, size);
         final AppelOffre appelOffre = new AppelOffre();
@@ -357,17 +357,20 @@ public class AppelOffreController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateAction(final ModelMap model, @RequestParam("files") MultipartFile[] files,
+    public String updateAction(final ModelMap model, @RequestParam("fichiers") MultipartFile[] files,
             @Valid final AppelOffreForm appelOffreForm,
             final BindingResult result,
             final RedirectAttributes redirectAttributes) {
         System.out.println("enter");
 
-        if (result.hasErrors() || files[0].isEmpty()) {
+        if (result.hasErrors() || (files != null && files[0].isEmpty())) {
             System.out.println("nul ou erreur and size = " + files.length);
-            if (files[0].isEmpty()) {
-                System.out.println("file error");
-                model.addAttribute("fileError", "Veuillez téléverser au moins un fichier!");
+            if (files != null) {
+                model.addAttribute("nbFile", 1);
+                if (files[0].isEmpty()) {
+                    System.out.println("file error");
+                    model.addAttribute("fileError", "Veuillez téléverser au moins un fichier!");
+                }
             }
             model.addAttribute("appelOffreForm", appelOffreForm);
             return "appeloffre/edit";
@@ -375,12 +378,42 @@ public class AppelOffreController {
             System.out.println("non nul");
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             appelOffreService.update(appelOffreForm.getAppelOffre());
-            if (!files[0].isEmpty()) {
+            if (files != null && !files[0].isEmpty()) {
                 upload(files, appelOffreForm.getAppelOffre().getId());
             }
             return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
 
         }
+    }
+//    @RequestMapping(value = "/update", method = RequestMethod.POST)
+//    public String updateAction(final ModelMap model, @RequestParam("files") MultipartFile[] files,
+//            @Valid final AppelOffreForm appelOffreForm,
+//            final BindingResult result,
+//            final RedirectAttributes redirectAttributes) {
+//        System.out.println("enter");
+//        final int nbFile = appelOffreForm.getAppelOffre().getFiles().size();
+//        model.addAttribute("nbFile", nbFile);
+//        System.out.println("nbFile = " + nbFile);
+//        if (result.hasErrors() || files[0].isEmpty()) {
+//            System.out.println("nul ou erreur and size = " + files.length);
+//            if (files[0].isEmpty()) {
+//                System.out.println("file error");
+//                model.addAttribute("fileError", "Veuillez téléverser au moins un fichier!");
+//            }
+//            model.addAttribute("appelOffreForm", appelOffreForm);
+//            return "appeloffre/edit";
+//        } else {
+//            System.out.println("non nul");
+//            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+//            appelOffreService.update(appelOffreForm.getAppelOffre());
+//            if (!files[0].isEmpty()) {
+//                upload(files, appelOffreForm.getAppelOffre().getId());
+//            }
+////            final int nbFile = appelOffreForm.getAppelOffre().getFiles().size();
+////            model.addAttribute("nbFile", nbFile);
+//            return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
+//
+//        }
 
 //        if (result.hasErrors()) {
 //            System.out.println("il ya eu erreur de modification");
@@ -395,8 +428,7 @@ public class AppelOffreController {
 //            appelOffreService.update(appelOffreForm.getAppelOffre());
 //            return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
 //        }
-    }
-
+//    }
     @ModelAttribute("todayDate")
     public Date getDate() {
         return new Date();

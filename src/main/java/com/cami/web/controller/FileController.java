@@ -6,22 +6,19 @@
 package com.cami.web.controller;
 
 import com.cami.persistence.model.AppelOffre;
+import com.cami.persistence.model.CautionDouane;
 import com.cami.persistence.service.IAppelOffreService;
+import com.cami.persistence.service.ICautionDouaneService;
 import com.cami.web.form.FileMeta;
-
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +46,9 @@ public class FileController {
 
     @Autowired
     private ServletContext servletContext;
+
+    @Autowired
+    private ICautionDouaneService cautionDouaneService;
 
     @Autowired
     private IAppelOffreService appelOffreService;
@@ -91,7 +91,7 @@ public class FileController {
             try {
                 //fileMeta.setBytes(mpf.getBytes());
 
-                // copy file to local disk (make sure the path "e.g. D:/temp/files" exists)            
+                // copy file to local disk (make sure the path "e.g. D:/temp/files" exists)
                 String saveName = getFileName(mpf, appelOffre);
                 processFileData(mpf, SAVE_DIRECTORY, saveName);
                 //FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("/home/gervais/" + saveName));
@@ -109,6 +109,59 @@ public class FileController {
         // [{"fileName":"app_engine-85x77.png","fileSize":"8 Kb","fileType":"image/png"},...]
         files = new LinkedList<>();
         for (String file : appelOffre.getFiles()) {
+            fileMeta = new FileMeta();
+            fileMeta.setFileName(file);
+            files.add(fileMeta);
+        }
+        return files;
+    }
+
+    @RequestMapping(value = "/{idCautionDouane}/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    LinkedList<FileMeta> uploader(MultipartHttpServletRequest request, HttpServletResponse response, @PathVariable String idCautionDouane) {
+
+        //1. build an iterator
+        Iterator<String> itr = request.getFileNames();
+        MultipartFile mpf = null;
+        CautionDouane cautionDouane = cautionDouaneService.findOne(Long.valueOf(idCautionDouane));
+        int i = 0;
+        //2. get each file
+        while (itr.hasNext()) {
+            System.out.println("i = " + i);
+            //2.1 get next MultipartFile
+            mpf = request.getFile(itr.next());
+
+            System.out.println(mpf.getOriginalFilename() + " uploaded! ");
+
+            //2.2 if files > 10 remove the first from the list
+//             if(files.size() >= 10)
+//                 files.pop();
+            //2.3 create new fileMeta
+//             fileMeta = new FileMeta();
+//             fileMeta.setFileName(saveName);
+//             fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
+//             fileMeta.setFileType(mpf.getContentType());
+            try {
+                //fileMeta.setBytes(mpf.getBytes());
+
+                // copy file to local disk (make sure the path "e.g. D:/temp/files" exists)
+                String saveName = getFileName(mpf, cautionDouane);
+                processFileData(mpf, SAVE_DIRECTORY, saveName);
+                //FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("/home/gervais/" + saveName));
+                cautionDouane.addFile(saveName);
+                cautionDouane = cautionDouaneService.updateFiles(cautionDouane);
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            //2.4 add to files
+            // files.add(fileMeta);
+        }
+        // result will be like this
+        // [{"fileName":"app_engine-85x77.png","fileSize":"8 Kb","fileType":"image/png"},...]
+        files = new LinkedList<>();
+        for (String file : cautionDouane.getFiles()) {
             fileMeta = new FileMeta();
             fileMeta.setFileName(file);
             files.add(fileMeta);
@@ -146,14 +199,13 @@ public class FileController {
             e.printStackTrace();
         }
     }
-    
-    
-     @RequestMapping(value = "/remove/{value}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/remove/{value}", method = RequestMethod.GET)
     public @ResponseBody
     LinkedList<FileMeta> remove(HttpServletResponse response, @PathVariable String value) {
         Long idAppelOffre = Long.valueOf(value.split("_")[0]);
-         AppelOffre appelOffre = appelOffreService.deleteFiles(idAppelOffre, value);
-        
+        AppelOffre appelOffre = appelOffreService.deleteFiles(idAppelOffre, value);
+
         files = new LinkedList<>();
         for (String file : appelOffre.getFiles()) {
             fileMeta = new FileMeta();
@@ -161,7 +213,7 @@ public class FileController {
             files.add(fileMeta);
         }
         return files;
-        
+
     }
 
     private String getSavedFileName(String uploadDir, String nameOfFile) {
@@ -186,6 +238,13 @@ public class FileController {
     private String getFileName(MultipartFile file, AppelOffre appelOffre) {
         String ext = FilenameUtils.getExtension(file.getOriginalFilename());
         String saveName = appelOffre.getId() + "_" + new Date().getTime() + "." + ext;
+        return saveName;
+
+    }
+
+    private String getFileName(MultipartFile file, CautionDouane cautionDouane) {
+        String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+        String saveName = cautionDouane.getId() + "_" + new Date().getTime() + "." + ext;
         return saveName;
 
     }

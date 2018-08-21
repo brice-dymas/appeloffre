@@ -158,7 +158,8 @@
                                         <ul class="dropdown-menu" role="menu" aria-labeledby="dropdown-user">
 
                                             <li>
-                                                <spring:url htmlEscape="true" var="xls_print" value="/caution.xls" />
+                                                <%--<spring:url htmlEscape="true" var="xls_print" value="/caution.xls" />--%>
+                                                <spring:url htmlEscape="true" var="xls_print" value="/printCautionExcel.xls" />
                                                 <a href="${xls_print}">
                                                     <spring:message code="print.xls" />
                                                 </a>
@@ -166,6 +167,13 @@
                                         </ul>
                                     </div>
                                 </c:if>
+                                <div class="dropdown pull-left ">
+                                    <spring:url value="/caution/stats" var="caution_stats"
+                                                htmlEscape="true" />
+                                    <a class="btn btn-primary btn-sm" href="${caution_stats}">
+                                        <span class="glyphicon glyphicon-stats"></span> <spring:message code="action.stats"/>
+                                    </a>
+                                </div>
                                 <div class="dropdown pull-right ">
                                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                                         <spring:message code="search.taille" />

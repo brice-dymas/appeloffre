@@ -191,7 +191,7 @@
         </dependency>
 
         <!--JSON dependency-->
-         <dependency>
+        <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.13</version>
@@ -208,7 +208,7 @@
             <version>2.4.1</version>
         </dependency>
         <!-- End of JSON dependency-->
- 
+
         <!-- Apache Commons Upload -->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -235,6 +235,14 @@
             <version>3.11</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.4</version>
+            <!--<version>9.4.1211</version>-->
+            <!--<version>9.1-901.jdbc4</version>-->
+        </dependency>
 
 
         <!-- Test Artifacts -->

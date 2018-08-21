@@ -18,6 +18,15 @@
                     <hr/>
                 </div>
 
+                <div class="dropdown pull-left ">
+                    <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                        <spring:url value="/banque/new" htmlEscape="true" var="banque_new" />
+                        <a href="${banque_new}" class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-new-window"></span>
+                            <spring:message code="action.nouveau" />
+                        </a>
+                    </sec:authorize>&nbsp;&nbsp;
+                </div>
                 <div class="dropdown pull-right ">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                         <spring:message code="search.taille" />

@@ -16,7 +16,7 @@
     <body class="row">
         <hr>
         <div class="text-center">
-            <img alt="cami.png" height="92" width="400" src="<c:url value="/resources/img/cami.png"/>"/>
+            <img alt="new-cami.png" height="92" width="325" src="<c:url value="/resources/img/new-cami.png"/>"/>
         </div>
         <div id="login-form">
             <br>

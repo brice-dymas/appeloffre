@@ -21,8 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/typemateriel")
-public class TypeMaterielController
-{
+public class TypeMaterielController {
 
     @Autowired
     private ITypeMaterielService typeMaterielService;
@@ -30,8 +29,7 @@ public class TypeMaterielController
     // API
     // read - one
     @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
-    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model) {
         final TypeMateriel typeMateriel = typeMaterielService.findOne(id);
 
         model.addAttribute("typeMateriel", typeMateriel);
@@ -46,13 +44,12 @@ public class TypeMaterielController
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String indexAction(final ModelMap model, final WebRequest webRequest)
-    {
+    public String indexAction(final ModelMap model, final WebRequest webRequest) {
 
-        final String code = webRequest.getParameter("querycode") != null ? webRequest.getParameter("querycode") : "";
-        final String nom = webRequest.getParameter("querynom") != null ? webRequest.getParameter("querynom") : "";
+        final String code = webRequest.getParameter("querycode") != null ? webRequest.getParameter("querycode").trim() : "";
+        final String nom = webRequest.getParameter("querynom") != null ? webRequest.getParameter("querynom").trim() : "";
         final Integer page = webRequest.getParameter("page") != null ? Integer.valueOf(webRequest.getParameter("page")) : 0;
-        final Integer size = webRequest.getParameter("size") != null ? Integer.valueOf(webRequest.getParameter("size")) : 55;
+        final Integer size = webRequest.getParameter("size") != null ? Integer.valueOf(webRequest.getParameter("size")) : 20;
         boolean deleted = false;
         if (webRequest.getParameter("querydeleted") != null) {
             deleted = webRequest.getParameter("querydeleted").equals("true");
@@ -78,8 +75,7 @@ public class TypeMaterielController
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newAction(final ModelMap model)
-    {
+    public String newAction(final ModelMap model) {
         final TypeMateriel typeMateriel = new TypeMateriel();
         model.addAttribute("typeMateriel", typeMateriel);
         return "typemateriel/new";
@@ -88,16 +84,14 @@ public class TypeMaterielController
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createAction(@Valid final TypeMateriel typeMateriel,
             final BindingResult result, final ModelMap model,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
         System.out.println("nous somme dans le controlleur et tm= " + typeMateriel.getCode() + "" + typeMateriel.getNom());
         if (result.hasErrors()) {
             System.out.println("il ya ereur");
             model.addAttribute("error", "error");
             model.addAttribute("typeMateriel", typeMateriel);
             return "typemateriel/new";
-        }
-        else {
+        } else {
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             typeMaterielService.create(typeMateriel);
             return "redirect:/typemateriel/" + typeMateriel.getId() + "/show";
@@ -106,8 +100,7 @@ public class TypeMaterielController
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAction(final TypeMateriel typeMateriel, final ModelMap model)
-    {
+    public String deleteAction(final TypeMateriel typeMateriel, final ModelMap model) {
 //        typeMaterielService.deleteById(typeMateriel.getId());
         TypeMateriel toDelete = typeMaterielService.findOne(typeMateriel.getId());
         typeMaterielService.disableEntity(toDelete);
@@ -115,16 +108,14 @@ public class TypeMaterielController
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String searchAction(@Valid final TypeMateriel typeMateriel, final BindingResult result, final ModelMap model)
-    {
+    public String searchAction(@Valid final TypeMateriel typeMateriel, final BindingResult result, final ModelMap model) {
 
         return "redirect:/typemateriel?query=" + typeMateriel.getNom() + "&page=1&size=2";
 
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
-    public String editAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String editAction(@PathVariable("id") final Long id, final ModelMap model) {
         final TypeMateriel typeMateriel = typeMaterielService.findOne(id);
         model.addAttribute("typeMateriel", typeMateriel);
         return "typemateriel/edit";
@@ -133,14 +124,12 @@ public class TypeMaterielController
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateAction(final ModelMap model,
             @Valid final TypeMateriel typeMateriel, final BindingResult result,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
         System.out.println("here we are in the controller update method");
         if (result.hasErrors()) {
             model.addAttribute("error", "error");
             return "typemateriel/edit";
-        }
-        else {
+        } else {
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             typeMaterielService.update(typeMateriel);
             return "redirect:/typemateriel/" + typeMateriel.getId() + "/show";
@@ -148,8 +137,7 @@ public class TypeMaterielController
     }
 
     @ModelAttribute("typeMateriels")
-    public Map<String, String> populateTypeMateriel()
-    {
+    public Map<String, String> populateTypeMateriel() {
         final Map<String, String> typeMateriels = new LinkedHashMap<>();
         typeMateriels.put("Vehicules Lourds", "Vehicules Lourds");
         typeMateriels.put("Vehicules Legers", "Vehicules Legers");
@@ -161,8 +149,7 @@ public class TypeMaterielController
     }
 
     @ModelAttribute("etats")
-    public Map<Boolean, String> populateEtatFields()
-    {
+    public Map<Boolean, String> populateEtatFields() {
         final Map<Boolean, String> results = new HashMap<>();
         results.put(false, "Actif");
         results.put(true, "Inactif");

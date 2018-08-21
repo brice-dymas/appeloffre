@@ -23,11 +23,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 public class Excelview
-        extends AbstractExcelView
-{
+        extends AbstractExcelView {
 
-    public HSSFCellStyle getRedStyle(final HSSFWorkbook workbook)
-    {
+    public HSSFCellStyle getRedStyle(final HSSFWorkbook workbook) {
         HSSFCellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
         font.setColor(HSSFColor.RED.index);
@@ -43,25 +41,20 @@ public class Excelview
     protected void buildExcelDocument(final Map<String, Object> model,
             final HSSFWorkbook workbook, final HttpServletRequest request,
             final HttpServletResponse response)
-            throws Exception
-    {
-        if (model.get("mesTypeMateriels") != null)
-        {
+            throws Exception {
+        if (model.get("mesTypeMateriels") != null) {
             buildExcelDocumentForTypeMateriel(model, workbook, request, response);
         }
-        if (model.get("appelOffre") != null)
-        {
+        if (model.get("appelOffre") != null) {
             buildExcelDocumentForAppelOfffre(model, workbook, request, response);
         }
-        if (model.get("cautionsReport") != null)
-        {
+        if (model.get("cautionsReport") != null) {
             System.out.println("building the excel document");
             buildExcelDocumentForCautions(model, workbook, request, response);
         }
     }
 
-    public CellStyle getCellStyle(final HSSFWorkbook workbook)
-    {
+    public CellStyle getCellStyle(final HSSFWorkbook workbook) {
         final CellStyle style = workbook.createCellStyle();
 
         style.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.index);
@@ -72,8 +65,7 @@ public class Excelview
         return style;
     }
 
-    public HSSFCellStyle getHSSFCellStyle(final HSSFWorkbook workbook, final HSSFSheet hSSFSheet)
-    {
+    public HSSFCellStyle getHSSFCellStyle(final HSSFWorkbook workbook, final HSSFSheet hSSFSheet) {
         HSSFCellStyle style = workbook.createCellStyle();
         style.setFillForegroundColor(HSSFColor.LIME.index);
         style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
@@ -85,8 +77,7 @@ public class Excelview
     protected void buildExcelDocumentForAppelOfffre(final Map<String, Object> model,
             final HSSFWorkbook workbook, final HttpServletRequest request,
             final HttpServletResponse response)
-            throws Exception
-    {
+            throws Exception {
         final HSSFSheet sheet = workbook.createSheet("sheet 1");
 
         final AppelOffre appelOffre = (AppelOffre) model.get("appelOffre");
@@ -159,8 +150,7 @@ public class Excelview
         cell.setCellStyle(this.getHSSFCellStyle(workbook, sheet));
         cell.setCellValue("Quantité");
 
-        for (LigneAppel ligneAppel : appelOffre.getLigneAppels())
-        {
+        for (LigneAppel ligneAppel : appelOffre.getLigneAppels()) {
             row = sheet.createRow(rowCount++);
             colCount = 0;
             row.createCell(colCount).setCellValue(ligneAppel.getMateriel().getCode());
@@ -178,8 +168,7 @@ public class Excelview
         row.createCell(colCount).setCellValue("Liste des Cautions");
         row = sheet.createRow(rowCount++);
 
-        if (appelOffre.getCautions().size() > 0)
-        {
+        if (appelOffre.getCautions().size() > 0) {
             colCount = 0;
             // Headers for Cautions within this Appel d'offre
             cell = row.createCell(colCount++);
@@ -218,8 +207,7 @@ public class Excelview
             cell.setCellStyle(this.getHSSFCellStyle(workbook, sheet));
             cell.setCellValue("Date Fin");
 
-            for (Caution caution : appelOffre.getCautions())
-            {
+            for (Caution caution : appelOffre.getCautions()) {
                 row = sheet.createRow(rowCount++);
                 colCount = 0;
                 row.createCell(colCount).setCellValue(caution.getReferenceMarche());
@@ -241,14 +229,11 @@ public class Excelview
                 row.createCell(colCount).setCellValue(caution.getDateFin().toString());
             }
 
-        }
-        else
-        {
+        } else {
             colCount = 0;
             row.createCell(colCount).setCellValue("Aucune caution pour cet appel d'offre");
         }
-        for (int i = 0; i < 12; i++)
-        {
+        for (int i = 0; i < 12; i++) {
             sheet.autoSizeColumn(i, true);
         }
 
@@ -257,12 +242,12 @@ public class Excelview
     protected void buildExcelDocumentForCautions(final Map<String, Object> model,
             final HSSFWorkbook workbook, final HttpServletRequest request,
             final HttpServletResponse response)
-            throws Exception
-    {
+            throws Exception {
 
         System.out.println("building the excel document method .. ");
         final HSSFSheet sheet = workbook.createSheet("sheet 1");
         sheet.setVerticallyCenter(true);
+
         final List<AppelOffre> appelOffres = (List<AppelOffre>) model.get("cautionsReport");
         Row row = null;
         Cell cell = null;
@@ -356,14 +341,11 @@ public class Excelview
         cell.setCellValue("Apporteur d'affaires"); // Commercial
 
         // Fill Datas in excel cells
-        for (AppelOffre appelOffre : appelOffres)
-        {
+        for (AppelOffre appelOffre : appelOffres) {
             List<Caution> cautions = appelOffre.getCautions();
-            for (Caution caution : cautions)
-            {
+            for (Caution caution : cautions) {
                 row = sheet.createRow(rowCount++);
-                if (caution.getDateFin().before(new Date()) | caution.getDateFin().equals(new Date()))
-                {
+                if (caution.getDateFin().before(new Date()) | caution.getDateFin().equals(new Date())) {
                     row.setRowStyle(this.getRedStyle(workbook));
                     row.createCell(colCount).setCellStyle(this.getRedStyle(workbook));
                 }
@@ -415,8 +397,7 @@ public class Excelview
 
         }
 
-        for (int i = 0; i < 27; i++)
-        {
+        for (int i = 0; i < 27; i++) {
             sheet.autoSizeColumn(i, true);
         }
 
@@ -426,8 +407,7 @@ public class Excelview
     protected void buildExcelDocumentForTypeMateriel(final Map<String, Object> model,
             final HSSFWorkbook workbook, final HttpServletRequest request,
             final HttpServletResponse response)
-            throws Exception
-    {
+            throws Exception {
 
         final List<TypeMateriel> materiels = (List<TypeMateriel>) model
                 .get("mesTypeMateriels");
@@ -459,8 +439,7 @@ public class Excelview
         // Create data cells
         System.out.println("taille liste to send to excel ="
                 + materiels.size());
-        for (final TypeMateriel typeMateriel : materiels)
-        {
+        for (final TypeMateriel typeMateriel : materiels) {
             row = sheet.createRow(rowCount++);
             colCount = 0;
             row.createCell(colCount).setCellValue(typeMateriel.getId() + "");
@@ -469,8 +448,7 @@ public class Excelview
             colCount++;
             row.createCell(colCount).setCellValue(typeMateriel.getNom());
         }
-        for (int i = 0; i < 7; i++)
-        {
+        for (int i = 0; i < 7; i++) {
             sheet.autoSizeColumn(i, true);
         }
     }
