@@ -77,10 +77,17 @@ public class CautionController {
                 + "&page=1&size=2";
     }
 
+    @RequestMapping(value = "/caution/print-cautions.xls", method = RequestMethod.GET)
+    public String printAction(final ModelMap model) {
+        final List<AppelOffre> appelOffres = cautionService.getThemComplete();
+        model.addAttribute("cautionsReport", appelOffres); //for the report
+        return "/caution.xls";
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public String indexAction(final ModelMap model, final WebRequest webRequest) {
         // The next line is used to generate the final report
-        final List<AppelOffre> appelOffres = cautionService.getThemComplete();
+//        final List<AppelOffre> appelOffres = cautionService.getThemComplete();
 
         Long banqueId = 0L;
         Long typeCautionId = 0L;
@@ -137,13 +144,13 @@ public class CautionController {
         final Integer size = webRequest.getParameter("size") != null
                 ? Integer
                         .valueOf(webRequest.getParameter("size"))
-                : 5;
+                : 20;
         final Page<Caution> resultPage = cautionService.filter(banqueId, typeCautionId, debutPeriode, finPeriode, page, size);
 
         final Caution caution = new Caution();
         caution.setBanque(new Banque(banqueId));
         caution.setTypeCaution(new TypeCaution(typeCautionId));
-        model.addAttribute("cautionsReport", appelOffres); //for the report
+        model.addAttribute("cautionsReport", "cautionsReport"); //for the report
         model.addAttribute("caution", caution);
         model.addAttribute("querydebutperiode", debutPeriodeEcheance.equals("31/12/1975") ? "" : debutPeriodeEcheance);
         model.addAttribute("queryfinperiode", finPeriodeEcheance.equals("31/12/9999") ? "" : finPeriodeEcheance);

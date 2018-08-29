@@ -28,8 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequestMapping("/banque")
-public class BanqueController
-{
+public class BanqueController {
 
     @Autowired
     private IBanqueService banqueService;
@@ -37,8 +36,7 @@ public class BanqueController
     // API
     // read - one
     @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
-    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model) {
         final Banque banque = banqueService.findOne(id);
 
         model.addAttribute("banque", banque);
@@ -53,13 +51,12 @@ public class BanqueController
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String indexAction(final ModelMap model, final WebRequest webRequest)
-    {
+    public String indexAction(final ModelMap model, final WebRequest webRequest) {
 
-        final String code = webRequest.getParameter("querycode") != null ? webRequest.getParameter("querycode") : "";
-        final String libelle = webRequest.getParameter("querynom") != null ? webRequest.getParameter("querynom") : "";
+        final String code = webRequest.getParameter("querycode") != null ? webRequest.getParameter("querycode").trim() : "";
+        final String libelle = webRequest.getParameter("querynom") != null ? webRequest.getParameter("querynom").trim() : "";
         final Integer page = webRequest.getParameter("page") != null ? Integer.valueOf(webRequest.getParameter("page")) : 0;
-        final Integer size = webRequest.getParameter("size") != null ? Integer.valueOf(webRequest.getParameter("size")) : 55;
+        final Integer size = webRequest.getParameter("size") != null ? Integer.valueOf(webRequest.getParameter("size")) : 25;
         boolean deleted = false;
         if (webRequest.getParameter("querydeleted") != null) {
             deleted = webRequest.getParameter("querydeleted").equals("true");
@@ -82,8 +79,7 @@ public class BanqueController
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newAction(final ModelMap model)
-    {
+    public String newAction(final ModelMap model) {
         final Banque banque = new Banque();
         model.addAttribute("banque", banque);
         return "banque/new";
@@ -92,16 +88,14 @@ public class BanqueController
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createAction(@Valid final Banque banque,
             final BindingResult result, final ModelMap model,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
         System.out.println("nous somme dans le controlleur et tm= " + banque.getCode() + "" + banque.getLibelle());
         if (result.hasErrors()) {
             System.out.println("il ya ereur");
             model.addAttribute("error", "error");
             model.addAttribute("banque", banque);
             return "banque/new";
-        }
-        else {
+        } else {
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             banqueService.create(banque);
             return "redirect:/banque/" + banque.getId() + "/show";
@@ -110,24 +104,21 @@ public class BanqueController
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAction(final Banque banque, final ModelMap model)
-    {
+    public String deleteAction(final Banque banque, final ModelMap model) {
         Banque banqueToDisable = banqueService.findOne(banque.getId());
         banqueService.disableEntity(banqueToDisable);
         return "redirect:/banque/";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String searchAction(@Valid final Banque banque, final BindingResult result, final ModelMap model)
-    {
+    public String searchAction(@Valid final Banque banque, final BindingResult result, final ModelMap model) {
 
         return "redirect:/banque?query=" + banque.getLibelle() + "&page=1&size=2";
 
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
-    public String editAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String editAction(@PathVariable("id") final Long id, final ModelMap model) {
         final Banque banque = banqueService.findOne(id);
         model.addAttribute("banque", banque);
         return "banque/edit";
@@ -136,14 +127,12 @@ public class BanqueController
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateAction(final ModelMap model,
             @Valid final Banque banque, final BindingResult result,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
         System.out.println("here we are in the controller update method");
         if (result.hasErrors()) {
             model.addAttribute("error", "error");
             return "banque/edit";
-        }
-        else {
+        } else {
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             banqueService.update(banque);
             return "redirect:/banque/" + banque.getId() + "/show";
@@ -151,8 +140,7 @@ public class BanqueController
     }
 
     @ModelAttribute("etats")
-    public Map<Boolean, String> populateEtatFields()
-    {
+    public Map<Boolean, String> populateEtatFields() {
         final Map<Boolean, String> results = new HashMap<>();
         results.put(false, "Actif");
         results.put(true, "Inactif");

@@ -21,7 +21,7 @@
         <link href="<c:url value="/resources/css/jquery.loader.min.css" />" rel="stylesheet">
 
         <link href="<c:url value="/resources/css/jquery.jqplot.min.css" />" rel="stylesheet">
-        <link href="<c:url value="/resources/img/cami.png" />" rel="shortcut icon"  type="image/png">
+        <link href="<c:url value="/resources/img/new-cami.png" />" rel="shortcut icon"  type="image/png">
 
         <script src="<c:url value="/resources/js/jquery.min.js" />"></script>
         <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-2">
                     <a class="thumbnail" href="<spring:url value="/"/>">
-                        <img alt="cami.png"  src="<c:url value="/resources/img/cami.png"/>"/>
+                        <img alt="new-cami.png"  src="<c:url value="/resources/img/new-cami.png"/>"/>
                     </a>
                 </div>
                 <div class="col-lg-10">

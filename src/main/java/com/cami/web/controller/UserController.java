@@ -34,8 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
-public class UserController
-{
+public class UserController {
 
     @Autowired
     IUserService userService;
@@ -51,12 +50,11 @@ public class UserController
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String indexAction(final ModelMap model, final WebRequest webRequest)
-    {
+    public String indexAction(final ModelMap model, final WebRequest webRequest) {
 
-        final String nom = webRequest.getParameter("querynom") != null ? webRequest.getParameter("querynom") : "";
+        final String nom = webRequest.getParameter("querynom") != null ? webRequest.getParameter("querynom").trim() : "";
         final Integer page = webRequest.getParameter("page") != null ? Integer.valueOf(webRequest.getParameter("page")) : 0;
-        final Integer size = webRequest.getParameter("size") != null ? Integer.valueOf(webRequest.getParameter("size")) : 55;
+        final Integer size = webRequest.getParameter("size") != null ? Integer.valueOf(webRequest.getParameter("size")) : 20;
 
         System.out.println("querynom = " + nom);
 
@@ -76,16 +74,14 @@ public class UserController
     }
 
     @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
-    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model) {
         final Role role = roleService.findOne(id);
         model.addAttribute("user", role);
         return "user/show";
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newAction(final ModelMap model)
-    {
+    public String newAction(final ModelMap model) {
         final Role role = new Role();
         model.addAttribute("user", role);
         return "user/new";
@@ -94,8 +90,7 @@ public class UserController
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createAction(@Valid final Role role,
             final BindingResult result, final ModelMap model,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
         System.out.println("nous somme dans le USER_controlleur  ");
         if (result.hasErrors()) {
             System.out.println("il ya ereur");
@@ -108,8 +103,7 @@ public class UserController
             model.addAttribute("user", role);
             model.addAttribute("password.error", "password.error");
             return "user/new";
-        }
-        else {
+        } else {
 
             try {
                 redirectAttributes.addFlashAttribute("info", "alert.success.new");
@@ -117,8 +111,7 @@ public class UserController
                 System.out.println("depuis controller: role=" + role.getRole());
                 roleService.createRole(role);
                 return "redirect:/user/" + role.getId() + "/show";
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 model.addAttribute("exist", "exist");
                 model.addAttribute("user", role);
                 Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,14 +124,12 @@ public class UserController
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAction(final Role role, final ModelMap model)
-    {
+    public String deleteAction(final Role role, final ModelMap model) {
         System.out.println("in delete action for user with ID=" + role.getId());
         Role roleToDelete = roleService.findOne(role.getId());
         if (roleToDelete.getUser().isEnabled() == true) {
             roleToDelete.getUser().setEnabled(false);
-        }
-        else {
+        } else {
             roleToDelete.getUser().setEnabled(true);
         }
 
@@ -148,8 +139,7 @@ public class UserController
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
-    public String editAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String editAction(@PathVariable("id") final Long id, final ModelMap model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName(); //get logged in username
 
@@ -159,16 +149,14 @@ public class UserController
             model.addAttribute("fonction_user", userConnected.getRole());
             model.addAttribute("user", role);
             return "user/edit";
-        }
-        else {
+        } else {
             return "redirect:/403";
         }
 
     }
 
     @RequestMapping(value = "{id}/editSimpleUser", method = RequestMethod.GET)
-    public String editSimpleUser(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String editSimpleUser(@PathVariable("id") final Long id, final ModelMap model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName(); //get logged in username
 
@@ -178,8 +166,7 @@ public class UserController
             model.addAttribute("fonction_user", userConnected.getRole());
             model.addAttribute("user", role);
             return "user/sedit";
-        }
-        else {
+        } else {
             return "redirect:/403";
         }
 
@@ -188,8 +175,7 @@ public class UserController
     @RequestMapping(value = "/{id}/updateSimpleUser", method = RequestMethod.POST)
     public String updateSimpleUserAction(final ModelMap model, @PathVariable("id") final Long id,
             final Role role, final BindingResult result,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("info", "alert.success.new");
         System.out.println("in controller user role= " + role.getRole());
         final Role roleUpdated = roleService.updateUser(role);
@@ -201,8 +187,7 @@ public class UserController
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public String updateAction(final ModelMap model, @PathVariable("id") final Long id,
             @Valid final Role role, final BindingResult result,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
         System.out.println("here we are in the controller update method");
         System.out.println("the role= " + role.getRole() + " -P=" + role.getUser().getPassword() + " -U" + role.getUser().getUsername());
         if (result.hasErrors()) {
@@ -216,8 +201,7 @@ public class UserController
             model.addAttribute("password.error", "password.error");
             model.addAttribute("user", role);
             return "user/edit";
-        }
-        else {
+        } else {
             System.out.println("tout va bien ... ou presque! ");
             try {
 
@@ -226,8 +210,7 @@ public class UserController
                 final Role roleUpdated = roleService.updateUser(role);
                 System.out.println("là c sur tout va bien et le role nouveau c " + roleUpdated.getRole());
                 return "redirect:/user/" + roleUpdated.getId() + "/show";
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 System.out.println("le username choisi existant");
                 model.addAttribute("exist", "exist");
                 model.addAttribute("user", role);
@@ -239,8 +222,7 @@ public class UserController
     }
 
     @ModelAttribute("roles")
-    public Map<Long, String> populateRolesFields()
-    {
+    public Map<Long, String> populateRolesFields() {
         final Map<Long, String> results = new HashMap();
         results.put(1L, "ADMINISTRATEUR");
         results.put(2L, "TRESORIER");

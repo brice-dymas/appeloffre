@@ -20,8 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/typecaution")
-public class TypeCautionController
-{
+public class TypeCautionController {
 
     @Autowired
     private ITypeCautionService typeCautionService;
@@ -29,8 +28,7 @@ public class TypeCautionController
     // API
     // read - one
     @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
-    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model) {
         final TypeCaution typeCaution = typeCautionService.findOne(id);
         model.addAttribute("typeCaution", typeCaution);
         return "typecaution/show";
@@ -45,21 +43,20 @@ public class TypeCautionController
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String indexAction(final ModelMap model, final WebRequest webRequest)
-    {
+    public String indexAction(final ModelMap model, final WebRequest webRequest) {
 
         final String code = webRequest.getParameter("querycode") != null
-                ? webRequest.getParameter("querycode")
+                ? webRequest.getParameter("querycode").trim()
                 : "";
         final String nom = webRequest.getParameter("querynom") != null
-                ? webRequest.getParameter("querynom")
+                ? webRequest.getParameter("querynom").trim()
                 : "";
         final Integer page = webRequest.getParameter("page") != null
                 ? Integer.valueOf(webRequest.getParameter("page"))
                 : 0;
         final Integer size = webRequest.getParameter("size") != null
                 ? Integer.valueOf(webRequest.getParameter("size"))
-                : 5;
+                : 20;
         boolean deleted = false;
         if (webRequest.getParameter("querydeleted") != null) {
             deleted = webRequest.getParameter("querydeleted").equals("true");
@@ -82,8 +79,7 @@ public class TypeCautionController
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newAction(final ModelMap model)
-    {
+    public String newAction(final ModelMap model) {
         final TypeCaution typeCaution = new TypeCaution();
         model.addAttribute("typeCaution", typeCaution);
         return "typecaution/new";
@@ -92,15 +88,13 @@ public class TypeCautionController
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createAction(@Valid final TypeCaution typeCaution,
             final BindingResult result, final ModelMap model,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             model.addAttribute("error", "error");
             model.addAttribute("typeCaution", typeCaution);
             return "typecaution/new";
-        }
-        else {
+        } else {
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             typeCautionService.create(typeCaution);
             return "redirect:/typecaution/" + typeCaution.getId() + "/show";
@@ -109,8 +103,7 @@ public class TypeCautionController
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAction(final TypeCaution typeCaution, final ModelMap model)
-    {
+    public String deleteAction(final TypeCaution typeCaution, final ModelMap model) {
 //        typeCautionService.deleteById(typeCaution.getId());
         TypeCaution toDelete = typeCautionService.findOne(typeCaution.getId());
         typeCautionService.disableEntity(toDelete);
@@ -118,16 +111,14 @@ public class TypeCautionController
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String searchAction(@Valid final TypeCaution typeCaution, final BindingResult result, final ModelMap model)
-    {
+    public String searchAction(@Valid final TypeCaution typeCaution, final BindingResult result, final ModelMap model) {
 
         return "redirect:/typecaution?query=" + typeCaution.getNom() + "&page=1&size=2";
 
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
-    public String editAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String editAction(@PathVariable("id") final Long id, final ModelMap model) {
         final TypeCaution typeCaution = typeCautionService.findOne(id);
         model.addAttribute("typeCaution", typeCaution);
         return "typecaution/edit";
@@ -137,16 +128,14 @@ public class TypeCautionController
 //    @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public String updateAction(@Valid final TypeCaution typeCaution,
             final BindingResult result, final ModelMap model,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
         System.out.println("in type caution controller ");
         if (result.hasErrors()) {
             System.out.println("errors detected ");
             model.addAttribute("error", "error");
 //            model.addAttribute("typeCaution", typeCaution);
             return "typecaution/edit";
-        }
-        else {
+        } else {
             System.out.println("no error detected");
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             System.out.println("launching update method from controller ..");
@@ -157,8 +146,7 @@ public class TypeCautionController
 
     @ModelAttribute("typeCautions")
 
-    public Map<String, String> populateTypeCaution()
-    {
+    public Map<String, String> populateTypeCaution() {
         final Map<String, String> typeCautions = new LinkedHashMap<>();
         typeCautions.put("Vehicules Lourds", "Vehicules Lourds");
         typeCautions.put("Vehicules Legers", "Vehicules Legers");
@@ -170,8 +158,7 @@ public class TypeCautionController
     }
 
     @ModelAttribute("etats")
-    public Map<Boolean, String> populateEtatFields()
-    {
+    public Map<Boolean, String> populateEtatFields() {
         final Map<Boolean, String> results = new HashMap<>();
         results.put(false, "Actif");
         results.put(true, "Inactif");

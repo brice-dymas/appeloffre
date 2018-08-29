@@ -19,6 +19,15 @@
                             </h3>
                             <hr/>
                         </div>
+                        <div class="dropdown pull-left ">
+                            <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                                <spring:url value="/appeloffre/new" htmlEscape="true" var="appeloffre_new" />
+                                <a href="${appeloffre_new}" class="btn btn-primary btn-sm">
+                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <spring:message code="action.nouveau" />
+                                </a>
+                            </sec:authorize>&nbsp;&nbsp;
+                        </div>
                         <div class="dropdown pull-right ">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                                 <spring:message code="search.taille" />
@@ -92,7 +101,7 @@
                                                     <spring:url value="/appeloffre/${appelOffre.id}/edit" htmlEscape="true" var="appeloffre_edit" />
                                                     <a href="${appeloffre_edit}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-edit">
-                                                            <spring:message code="action.modifier" />
+                                                            <%--<spring:message code="action.modifier" />--%>
                                                         </span>
 
                                                     </a>
@@ -100,7 +109,7 @@
                                                     <spring:url value="/appeloffre/${appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
                                                     <a href="${appeloffre_show}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-open">
-                                                            <spring:message code="action.detail" />
+                                                            <%--<spring:message code="action.detail" />--%>
                                                         </span>
                                                     </a>
                                                 </td>
@@ -124,7 +133,7 @@
                                                     <spring:url value="/appeloffre/${appelOffre.id}/edit" htmlEscape="true" var="appeloffre_edit" />
                                                     <a href="${appeloffre_edit}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-edit">
-                                                            <spring:message code="action.modifier" />
+                                                            <%--<spring:message code="action.modifier" />--%>
                                                         </span>
 
                                                     </a>
@@ -132,7 +141,7 @@
                                                     <spring:url value="/appeloffre/${appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
                                                     <a href="${appeloffre_show}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-open">
-                                                            <spring:message code="action.detail" />
+                                                            <%--<spring:message code="action.detail" />--%>
                                                         </span>
                                                     </a>
                                                 </td>
@@ -214,30 +223,30 @@
                 <spring:url value="/appeloffre/" var="appeloffre_home"
                             htmlEscape="true" />
                 <form:form method="get" commandName="appelOffre" action="${appeloffre_home}">
+                    <!--<div class="form-group">-->
+                    <!--<label>-->
+                    <%--<spring:message code="element.statut" />--%>
+                    <!--</label>-->
+                    <!--
+                                            <select name="querydeleted" class="form-control input-sm">
+                                                <option value="">---</option>-->
+                    <%--<c:forEach var="deleted" items="${etats}">--%>
+
+                    <%--  <!--<option value="${deleted.key}" >-->
+                          ${deleted.value}
+                      </option>
+                    <%--</c:forEach>--%>
+                    <!--                        </select>
+                                        </div>-->
                     <div class="form-group">
                         <label>
-                            <spring:message code="element.statut" />
-                        </label>
-
-                        <select name="querydeleted" class="form-control input-sm">
-                            <option value="">---</option>
-                            <c:forEach var="deleted" items="${etats}">
-
-                                <option value="${deleted.key}" >
-                                    ${deleted.value}
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            <spring:message code="caution.debutPeriodeEcheance" />
+                            <spring:message code="appelOffre.debutPeriodeEcheance" />
                         </label>
                         <input id="dateDebut" type="text" value="${querydebutperiode}" class="form-control input-sm" name="querydebutperiode"/>
                     </div>
                     <div class="form-group">
                         <label>
-                            <spring:message code="caution.finPeriodeEcheance" />
+                            <spring:message code="appelOffre.finPeriodeEcheance" />
                         </label>
                         <input id="dateFin" type="text" value="${queryfinperiode}" class="form-control input-sm" name="queryfinperiode"/>
                     </div>
@@ -254,19 +263,6 @@
                             :</label>
                         <input type="text" value="${appelOffre.intitule}" class="form-control input-sm" name="queryintitule"/>
                     </div>
-                    <div class="form-group">
-                        <label>
-                            <spring:message code="appelOffre.debutPeriode" />
-                        </label>
-                        <input id="dateDebut" type="text" value="${appelOffre.dateDepot}" class="form-control input-sm" name="querydebutperiode"/>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            <spring:message code="appelOffre.finPeriode" />
-                        </label>
-                        <input id="dateFin" type="text" value="${materiel.nom}" class="form-control input-sm" name="queryfinperiode"/>
-                    </div>
-
                     <div class="form-group">
                         <label>
                             <spring:message code="appelOffre.filiale" />

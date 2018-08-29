@@ -48,7 +48,7 @@
                 </li>
             </ul>
         </div>
-        <div class="dropdown" style="display: inline-block !important">
+        <%--<div class="dropdown" style="display: inline-block !important">
             <button class="btn btn-default dropdown-toogle" id="dropdown-language" data-toggle="dropdown">
                 <c:if test="${pageContext.response.locale == 'fr' or pageContext.response.locale == 'fr_FR'}">
                     <img alt="<spring:message code="language.user"/> "  src="<c:url value="/resources/flags/16/France.png"/>"/>
@@ -77,7 +77,7 @@
                         </a>
                     </li>
                 </c:if>
-        </div>
+        </div>--%>
     </div>
 </nav>
 <div class="row">

@@ -108,10 +108,15 @@
                     </div>
                 </div>
             </div>
-                    <div class="row">
+            <div class="row">
                 <div class="col-md-12">
                     <hr/>
-                    <input type="file" name="file" multiple="multiple">
+                    <c:if test="${fileError!=null}">
+                        <div class="text-danger">
+                            ${fileError}
+                        </div>
+                    </c:if>
+                    <input type="file" name="fichiers" multiple="multiple">
                 </div>
             </div>
             <hr/>
@@ -363,7 +368,7 @@
                     </fieldset>
                 </div>
             </div>
-                            
+
 
             <div class="row">
                 <div class="col-md-12">

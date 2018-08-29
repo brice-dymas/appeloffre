@@ -22,9 +22,8 @@
             </div>
         </div>
 
-        <spring:url value="/cautiondouane/create" var="cautiondouane_create"
-                    htmlEscape="true" />
-        <form:form method="post" commandName="cautiondouane" action="${cautiondouane_create}">
+        <spring:url value="/cautiondouane/create" var="cautiondouane_create" htmlEscape="true" />
+        <form:form method="post" enctype="multipart/form-data" commandName="cautiondouane" action="${cautiondouane_create}?${_csrf.parameterName}=${_csrf.token}">
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -86,6 +85,18 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-12">
+                    <hr/>
+                    <c:if test="${fileError!=null}">
+                        <div class="text-danger">
+                            ${fileError}
+                        </div>
+                    </c:if>
+                    <input type="file" name="fichiers" multiple="multiple">
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
                 <div class="col-md-11">
                     <div class="form-group">
                         <form:label for="divers" path="">
@@ -101,7 +112,6 @@
                 </div>
             </div>
 
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <div class="panel-footer">
                 <button type="submit" class="btn btn-primary btn-sm">
                     <span class="glyphicon glyphicon-save"></span>

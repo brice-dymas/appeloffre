@@ -28,12 +28,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         = {
             "com.cami.persistence.dao"
         })
-public class PersistenceJPAConfig
-{
+public class PersistenceJPAConfig {
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory()
-    {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[]{
@@ -48,21 +46,25 @@ public class PersistenceJPAConfig
     }
 
     @Bean(name = "dataSource")
-    public DataSource dataSource()
-    {
+    public DataSource dataSource() {
         final BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//        dataSource
+//                .setUrl("jdbc:mysql://localhost:3306/appelOffre?useUnicode=yes&characterEncoding=UTF-8");
+        dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource
-                .setUrl("jdbc:mysql://localhost:3306/appelOffre?useUnicode=yes&characterEncoding=UTF-8");
-        dataSource.setUsername("root");
-        dataSource.setPassword("elise");
+                .setUrl("jdbc:postgresql://localhost:5432/appelOffre");
+        dataSource.setUsername("postgres");
+//        dataSource.setUsername("root");
+        dataSource.setPassword("sando");
+//        dataSource.setPassword("Camicaution2018");
+//        dataSource.setPassword("Camicaution2018");
         return dataSource;
     }
 
     @Bean
     public PlatformTransactionManager transactionManager(
-            final EntityManagerFactory emf)
-    {
+            final EntityManagerFactory emf) {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
 
@@ -70,18 +72,18 @@ public class PersistenceJPAConfig
     }
 
     @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation()
-    {
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    Properties additionalProperties()
-    {
+    Properties additionalProperties() {
         final Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         // properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+//        properties.setProperty("hibernate.dialect",
+//                "org.hibernate.dialect.MySQL5Dialect");
         properties.setProperty("hibernate.dialect",
-                "org.hibernate.dialect.MySQL5Dialect");
+                "org.hibernate.dialect.PostgreSQLDialect");
         return properties;
     }
 

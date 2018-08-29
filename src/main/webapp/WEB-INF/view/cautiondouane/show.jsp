@@ -110,12 +110,13 @@
 
                             <div class="row">
                                 <div class="col-md-2">
-
-                                    <input id="fileupload" class="filestyle" type="file" name="files[]"
-                                           data-badge="false" data-iconName="glyphicon glyphicon-inbox"
-                                           data-input="false" data-size="sm" data-buttonText= "Upload"
-                                           data-buttonName="btn-primary"
-                                           data-url="${file_upload}?${_csrf.parameterName}=${_csrf.token}">
+                                    <c:if test="${nbFile le 7 }">
+                                        <input id="fileupload" class="filestyle" type="file" name="files[]"
+                                               data-badge="false" data-iconName="glyphicon glyphicon-inbox"
+                                               data-input="false" data-size="sm" data-buttonText= "Upload"
+                                               data-buttonName="btn-primary"
+                                               data-url="${file_upload}?${_csrf.parameterName}=${_csrf.token}">
+                                    </c:if>
                                 </div>
                                 <div class="col-md-1 text-right">
                                     &nbsp;<span class="loader"></span>

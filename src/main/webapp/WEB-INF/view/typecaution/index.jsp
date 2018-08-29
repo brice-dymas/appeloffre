@@ -19,6 +19,15 @@
                     <hr/>
                 </div>
 
+                <div class="dropdown pull-left ">
+                    <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                        <spring:url value="/typecaution/new" htmlEscape="true" var="typecaution_new" />
+                        <a href="${typecaution_new}" class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-new-window"></span>
+                            <spring:message code="action.nouveau" />
+                        </a>
+                    </sec:authorize>
+                </div>
                 <div class="dropdown pull-right ">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                         <spring:message code="search.taille" />

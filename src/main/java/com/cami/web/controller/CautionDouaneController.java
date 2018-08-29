@@ -4,6 +4,7 @@ import com.cami.persistence.model.Banque;
 import com.cami.persistence.model.CautionDouane;
 import com.cami.persistence.service.IBanqueService;
 import com.cami.persistence.service.ICautionDouaneService;
+import static com.cami.web.controller.FileController.SAVE_DIRECTORY;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -16,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -61,6 +64,8 @@ public class CautionDouaneController {
     public String ShowAction(@PathVariable("id") final Long id,
             final ModelMap model) {
         final CautionDouane caution = cautionService.findOne(id);
+        final int nbFile = caution.getFiles().size();
+        model.addAttribute("nbFile", nbFile);
         model.addAttribute("cautiondouane", caution);
         return "cautiondouane/show";
     }
@@ -168,48 +173,91 @@ public class CautionDouaneController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createAction(@ModelAttribute("cautiondouane") @Valid final CautionDouane cautiondouane,
-            final BindingResult result, final ModelMap model,
+    public String createAction(final ModelMap model, @RequestParam("fichiers") MultipartFile[] files,
+            @ModelAttribute("cautiondouane") @Valid final CautionDouane cautiondouane,
+            final BindingResult result,
             final RedirectAttributes redirectAttributes) {
         System.out.println("Dans createAction DE CAUTION DOUANE CONTROLLER ");
 
-        if (result.hasErrors()) {
-            System.out.println("ERREUR DETECTEE DANS createAction");
-            model.addAttribute("error", "error");
+        if (result.hasErrors() || files[0].isEmpty()) {
+            System.out.println("ERROR = " + result.getAllErrors());
+            System.out.println("nul ou erreur and size = " + files.length);
+            if (files[0].isEmpty()) {
+                System.out.println("file error");
+                model.addAttribute("fileError", "Veuillez téléverser au moins un fichier!");
+            }
             model.addAttribute("cautiondouane", cautiondouane);
             return "cautiondouane/new";
         } else {
-            System.out.println("AUCUNE ERREUR DETECTEE DANS createAction");
+            System.out.println("non nul");
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             cautionService.create(cautiondouane);
+            if (!files[0].isEmpty()) {
+                upload(files, cautiondouane.getId());
+            }
             return "redirect:/cautiondouane/" + cautiondouane.getId() + "/show";
         }
 
+//        if (result.hasErrors()) {
+//            System.out.println("ERREUR DETECTEE DANS createAction");
+//            model.addAttribute("error", "error");
+//            model.addAttribute("cautiondouane", cautiondouane);
+//            return "cautiondouane/new";
+//        } else {
+//            System.out.println("AUCUNE ERREUR DETECTEE DANS createAction");
+//            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+//            cautionService.create(cautiondouane);
+//            return "redirect:/cautiondouane/" + cautiondouane.getId() + "/show";
+//        }
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
     public String editAction(@PathVariable("id") final Long id, final ModelMap model) {
         final CautionDouane cautiondouane = cautionService.findOne(id);
+        final int nbFile = cautiondouane.getFiles().size();
+        model.addAttribute("nbFile", nbFile);
         model.addAttribute("cautiondouane", cautiondouane);
         return "cautiondouane/edit";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateAction(@ModelAttribute("cautiondouane") @Valid final CautionDouane cautiondouane, final BindingResult result,
-            final ModelMap model, final RedirectAttributes redirectAttributes) {
+    public String updateAction(final ModelMap model, @RequestParam("fichiers") MultipartFile[] files,
+            @ModelAttribute("cautiondouane") @Valid final CautionDouane cautiondouane,
+            final BindingResult result,
+            final RedirectAttributes redirectAttributes) {
         System.out.println("in cautiondouane controller");
-        if (result.hasErrors()) {
-            System.out.println("in cautiondouane controller: Error occured");
-            model.addAttribute("error", "error");
+
+        if (result.hasErrors() || files[0].isEmpty()) {
+            System.out.println("ERROR = " + result.getAllErrors());
+            System.out.println("nul ou erreur and size = " + files.length);
+            if (files[0].isEmpty()) {
+                System.out.println("file error");
+                model.addAttribute("fileError", "Veuillez téléverser au moins un fichier!");
+            }
             model.addAttribute("cautiondouane", cautiondouane);
             return "cautiondouane/edit";
         } else {
-            System.out.println("in cautiondouane controller: no error");
+            System.out.println("non nul");
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             cautionService.update(cautiondouane);
-            System.out.println("in cautiondouane controller update method launched");
+            if (!files[0].isEmpty()) {
+                upload(files, cautiondouane.getId());
+            }
             return "redirect:/cautiondouane/" + cautiondouane.getId() + "/show";
         }
+//
+//        if (result.hasErrors()) {
+//            System.out.println("in cautiondouane controller: Error occured");
+//            model.addAttribute("error", "error");
+//            model.addAttribute("cautiondouane", cautiondouane);
+//            return "cautiondouane/edit";
+//        } else {
+//            System.out.println("in cautiondouane controller: no error");
+//            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+//            cautionService.update(cautiondouane);
+//            System.out.println("in cautiondouane controller update method launched");
+//            return "redirect:/cautiondouane/" + cautiondouane.getId() + "/show";
+//        }
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
@@ -262,6 +310,51 @@ public class CautionDouaneController {
         cautionDouane.setPieceJointe8(file.getOriginalFilename());
         System.out.println("PJ = " + cautionDouane.getPieceJointe8());
         processFileData(file, "documents");
+    }
+
+    void upload(MultipartFile[] files, Long idCautionDouane) {
+        CautionDouane cautionDouane = cautionService.findOne(idCautionDouane);
+        for (MultipartFile file : files) {
+
+            try {
+
+                String saveName = getFileName(file, cautionDouane);
+                processFileData(file, SAVE_DIRECTORY, saveName);
+
+                cautionDouane.addFile(saveName);
+                cautionDouane = cautionService.updateFiles(cautionDouane);
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void processFileData(MultipartFile file, String uploadDir, String nameOfFile)
+            throws IllegalStateException,
+            IOException {
+
+        String filename = getSavedFileName(uploadDir, nameOfFile);
+        file.transferTo(new File(filename));
+
+    }
+
+    private String getFileName(MultipartFile file, CautionDouane cautionDouane) {
+        String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+        String saveName = cautionDouane.getId() + "_" + new Date().getTime() + "." + ext;
+        return saveName;
+
+    }
+
+    private String getSavedFileName(String uploadDir, String nameOfFile) {
+        String webappRoot = servletContext.getRealPath("/");
+        String relativeFolder = File.separator + "resources" + File.separator + "bootstrap" + File.separator
+                + uploadDir + File.separator;
+        String filename = webappRoot + relativeFolder + nameOfFile;
+
+        System.out.println(filename);
+        return filename;
     }
 
     private String getSavedFileName(MultipartFile file, String uploadDir) {

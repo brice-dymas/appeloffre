@@ -20,8 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/filiale")
-public class FilialeController
-{
+public class FilialeController {
 
     @Autowired
     private IFilialeService filialeService;
@@ -29,8 +28,7 @@ public class FilialeController
     // API
     // read - one
     @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
-    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String ShowAction(@PathVariable("id") final Long id, final ModelMap model) {
         System.out.println("filiale");
         final Filiale filiale = filialeService.findOne(id);
         model.addAttribute("filiale", filiale);
@@ -45,13 +43,12 @@ public class FilialeController
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String indexAction(final ModelMap model, final WebRequest webRequest)
-    {
-        final String agence = webRequest.getParameter("queryagence") != null ? webRequest.getParameter("queryagence") : "";
-        final String code = webRequest.getParameter("querycode") != null ? webRequest.getParameter("querycode") : "";
-        final String nom = webRequest.getParameter("querynom") != null ? webRequest.getParameter("querynom") : "";
+    public String indexAction(final ModelMap model, final WebRequest webRequest) {
+        final String agence = webRequest.getParameter("queryagence") != null ? webRequest.getParameter("queryagence").trim() : "";
+        final String code = webRequest.getParameter("querycode") != null ? webRequest.getParameter("querycode").trim() : "";
+        final String nom = webRequest.getParameter("querynom") != null ? webRequest.getParameter("querynom").trim() : "";
         final Integer page = webRequest.getParameter("page") != null ? Integer.valueOf(webRequest.getParameter("page")) : 0;
-        final Integer size = webRequest.getParameter("size") != null ? Integer.valueOf(webRequest.getParameter("size")) : 5;
+        final Integer size = webRequest.getParameter("size") != null ? Integer.valueOf(webRequest.getParameter("size")) : 20;
         boolean deleted = false;
         if (webRequest.getParameter("querydeleted") != null) {
             deleted = webRequest.getParameter("querydeleted").equals("true");
@@ -75,8 +72,7 @@ public class FilialeController
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newAction(final ModelMap model)
-    {
+    public String newAction(final ModelMap model) {
         final Filiale filiale = new Filiale();
         model.addAttribute("filiale", filiale);
         return "filiale/new";
@@ -85,15 +81,13 @@ public class FilialeController
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createAction(@Valid final Filiale filiale,
             final BindingResult result, final ModelMap model,
-            final RedirectAttributes redirectAttributes)
-    {
+            final RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             model.addAttribute("error", "error");
             model.addAttribute("filiale", filiale);
             return "filiale/new";
-        }
-        else {
+        } else {
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             filialeService.create(filiale);
             return "redirect:/filiale/" + filiale.getId() + "/show";
@@ -102,8 +96,7 @@ public class FilialeController
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAction(final Filiale filiale, final ModelMap model)
-    {
+    public String deleteAction(final Filiale filiale, final ModelMap model) {
 //        filialeService.deleteById(filiale.getId());
         Filiale toDelete = filialeService.findOne(filiale.getId());
         filialeService.disableEntity(toDelete);
@@ -111,14 +104,12 @@ public class FilialeController
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String searchAction(@Valid final Filiale filiale, final BindingResult result, final ModelMap model)
-    {
+    public String searchAction(@Valid final Filiale filiale, final BindingResult result, final ModelMap model) {
         return "redirect:/filiale?query=" + filiale.getNom() + "&page=1&size=2";
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
-    public String editAction(@PathVariable("id") final Long id, final ModelMap model)
-    {
+    public String editAction(@PathVariable("id") final Long id, final ModelMap model) {
         final Filiale filiale = filialeService.findOne(id);
         model.addAttribute("filiale", filiale);
         return "filiale/edit";
@@ -127,8 +118,7 @@ public class FilialeController
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public String updateAction(@Valid final Filiale filiale,
             @PathVariable("id") final Long id, final BindingResult result,
-            final ModelMap model, final RedirectAttributes redirectAttributes)
-    {
+            final ModelMap model, final RedirectAttributes redirectAttributes) {
         System.out.println("launchind update of controller");
         if (result.hasErrors()) {
             System.out.println("launching update of controller with errors ");
@@ -136,8 +126,7 @@ public class FilialeController
             model.addAttribute("error", "error");
             model.addAttribute("filiale", filiale);
             return "filiale/edit";
-        }
-        else {
+        } else {
             redirectAttributes.addFlashAttribute("info", "alert.success.new");
             System.out.println("pas d'erreurs launching update method");
             filialeService.update(filiale);
@@ -147,8 +136,7 @@ public class FilialeController
 
     @ModelAttribute("filiales")
 
-    public Map<String, String> populateFiliale()
-    {
+    public Map<String, String> populateFiliale() {
         final Map<String, String> filiales = new LinkedHashMap<>();
         filiales.put("Vehicules Lourds", "Vehicules Lourds");
         filiales.put("Vehicules Legers", "Vehicules Legers");
@@ -160,8 +148,7 @@ public class FilialeController
     }
 
     @ModelAttribute("etats")
-    public Map<Boolean, String> populateEtatFields()
-    {
+    public Map<Boolean, String> populateEtatFields() {
         final Map<Boolean, String> results = new HashMap<>();
         results.put(false, "Actif");
         results.put(true, "Inactif");
