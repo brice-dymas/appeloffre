@@ -159,7 +159,7 @@
 
                                             <li>
                                                 <%--<spring:url htmlEscape="true" var="xls_print" value="/caution.xls" />--%>
-                                                <spring:url htmlEscape="true" var="xls_print" value="/printCautionExcel.xls" />
+                                                <spring:url htmlEscape="true" var="xls_print" value="/caution/print-cautions.xls" />
                                                 <a href="${xls_print}">
                                                     <spring:message code="print.xls" />
                                                 </a>

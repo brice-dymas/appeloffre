@@ -77,6 +77,13 @@ public class CautionController {
                 + "&page=1&size=2";
     }
 
+    @RequestMapping(value = "/caution/print-cautions.xls", method = RequestMethod.GET)
+    public String printAction(final ModelMap model) {
+        final List<AppelOffre> appelOffres = cautionService.getThemComplete();
+        model.addAttribute("cautionsReport", appelOffres); //for the report
+        return "/caution.xls";
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public String indexAction(final ModelMap model, final WebRequest webRequest) {
         // The next line is used to generate the final report

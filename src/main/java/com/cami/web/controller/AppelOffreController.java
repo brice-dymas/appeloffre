@@ -210,10 +210,10 @@ public class AppelOffreController {
         appelOffreForm.setAppelOffre(appelOffre);
         model.addAttribute("appelOffreForm", appelOffreForm);
 
-//        System.out.println("EXECUTION DE LA METHODE PERMETTANT DINSERER DES DONNES DE TEST ");
-//        for (int i = 0; i < 1000; i++) {
-//            appelOffreService.create(generateAppelOffre().getAppelOffre());
-//        }
+        System.out.println("EXECUTION DE LA METHODE PERMETTANT DINSERER DES DONNES DE TEST ");
+        for (int i = 0; i < 1000; i++) {
+            appelOffreService.create(generateAppelOffre().getAppelOffre());
+        }
         return "appeloffre/new";
     }
 
@@ -276,7 +276,7 @@ public class AppelOffreController {
         AppelOffre appelOffre;
         List<Caution> cautions;
         List<LigneAppel> ligneAppels;
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 4 + 1);
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 4);
 
         appelOffre = new AppelOffre();
 
