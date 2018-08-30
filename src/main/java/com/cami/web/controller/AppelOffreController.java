@@ -210,10 +210,10 @@ public class AppelOffreController {
         appelOffreForm.setAppelOffre(appelOffre);
         model.addAttribute("appelOffreForm", appelOffreForm);
 
-        System.out.println("EXECUTION DE LA METHODE PERMETTANT DINSERER DES DONNES DE TEST ");
-        for (int i = 0; i < 1000; i++) {
-            appelOffreService.create(generateAppelOffre().getAppelOffre());
-        }
+//        System.out.println("EXECUTION DE LA METHODE PERMETTANT DINSERER DES DONNES DE TEST ");
+//        for (int i = 0; i < 1000; i++) {
+//            appelOffreService.create(generateAppelOffre().getAppelOffre());
+//        }
         return "appeloffre/new";
     }
 
@@ -227,7 +227,7 @@ public class AppelOffreController {
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createAction(final ModelMap model, @RequestParam("files") MultipartFile[] files,
+    public String createAction(final ModelMap model, @RequestParam("fichiers") MultipartFile[] files,
             @Valid final AppelOffreForm appelOffreForm,
             final BindingResult result,
             final RedirectAttributes redirectAttributes) {
