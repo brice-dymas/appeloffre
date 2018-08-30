@@ -137,6 +137,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             "classpath:ValidationMessages",
             "WEB-INF/messages/appeloffre/messages",
             "WEB-INF/messages/banque/messages",
+            "WEB-INF/messages/legende/messages",
             "WEB-INF/messages/caution/messages",
             "WEB-INF/messages/cautiondouane/messages",
             "WEB-INF/messages/default/messages",
