@@ -250,25 +250,6 @@ public class AppelOffreController {
             return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
 
         }
-//
-//        if (result.hasErrors() || files.length < 0) {
-//            System.out.println("nul ou erreur");
-//            if (files.length < 0) {
-//                model.addAttribute("error", "Veuillez téléverser au moins un fichier!");
-//            }
-//            model.addAttribute("appelOffreForm", appelOffreForm);
-//            return "appeloffre/new";
-//        } else {
-//            System.out.println("non nul");
-//            redirectAttributes.addFlashAttribute("info", "alert.success.new");
-//            appelOffreService.create(appelOffreForm.getAppelOffre());
-//            if (files.length > 0) {
-//                upload(files, appelOffreForm.getAppelOffre().getId());
-//            }
-//            return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
-//
-//        }
-
     }
 
     private AppelOffreForm generateAppelOffre() {
@@ -296,15 +277,17 @@ public class AppelOffreController {
 
         System.out.println("Debut CREATION DES Caution ");
         for (int j = 1; j < 6; j++) {
-            System.out.println("tour caution Num--" + j);
             Caution caution = new Caution();
             caution.setBanque(new Banque(Long.valueOf(j)));
             caution.setTypeCaution(new TypeCaution(Long.valueOf(j)));
             caution.setDateDebut(new Date());
             Role role = new Role();
             role.setId(7L);
+            int annee = 2016 + j;
+            int jour = 2 * j;
             caution.setCommercial(role);
-            caution.setDateFin(new Date(2016 + j, j, 2 * j));
+            caution.setDateFin(new Date(annee, j, jour));
+            System.out.println("CAUTION date de fin = " + caution.getDateFin());
             caution.setDeleted(false);
             caution.setMontant(305090 * j);
             caution.setMontantMarche(78087 * j);
@@ -385,50 +368,7 @@ public class AppelOffreController {
 
         }
     }
-//    @RequestMapping(value = "/update", method = RequestMethod.POST)
-//    public String updateAction(final ModelMap model, @RequestParam("files") MultipartFile[] files,
-//            @Valid final AppelOffreForm appelOffreForm,
-//            final BindingResult result,
-//            final RedirectAttributes redirectAttributes) {
-//        System.out.println("enter");
-//        final int nbFile = appelOffreForm.getAppelOffre().getFiles().size();
-//        model.addAttribute("nbFile", nbFile);
-//        System.out.println("nbFile = " + nbFile);
-//        if (result.hasErrors() || files[0].isEmpty()) {
-//            System.out.println("nul ou erreur and size = " + files.length);
-//            if (files[0].isEmpty()) {
-//                System.out.println("file error");
-//                model.addAttribute("fileError", "Veuillez téléverser au moins un fichier!");
-//            }
-//            model.addAttribute("appelOffreForm", appelOffreForm);
-//            return "appeloffre/edit";
-//        } else {
-//            System.out.println("non nul");
-//            redirectAttributes.addFlashAttribute("info", "alert.success.new");
-//            appelOffreService.update(appelOffreForm.getAppelOffre());
-//            if (!files[0].isEmpty()) {
-//                upload(files, appelOffreForm.getAppelOffre().getId());
-//            }
-////            final int nbFile = appelOffreForm.getAppelOffre().getFiles().size();
-////            model.addAttribute("nbFile", nbFile);
-//            return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
-//
-//        }
 
-//        if (result.hasErrors()) {
-//            System.out.println("il ya eu erreur de modification");
-//            model.addAttribute("appelOffre", appelOffreForm);
-//            model.addAttribute("error", "error");
-//            return "appeloffre/edit";
-//        } else {
-//            if (files.length > 0) {
-//                upload(files, appelOffreForm.getAppelOffre().getId());
-//            }
-//            redirectAttributes.addFlashAttribute("info", "alert.success.new");
-//            appelOffreService.update(appelOffreForm.getAppelOffre());
-//            return "redirect:/appeloffre/" + appelOffreForm.getAppelOffre().getId() + "/show";
-//        }
-//    }
     @ModelAttribute("todayDate")
     public Date getDate() {
         return new Date();

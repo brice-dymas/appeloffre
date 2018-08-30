@@ -3,10 +3,14 @@ package com.cami.web.controller;
 import com.cami.persistence.model.AppelOffre;
 import com.cami.persistence.model.Banque;
 import com.cami.persistence.model.Caution;
+import com.cami.persistence.model.Legende;
+import com.cami.persistence.model.Role;
 import com.cami.persistence.model.TypeCaution;
 import com.cami.persistence.service.IAppelOffreService;
 import com.cami.persistence.service.IBanqueService;
 import com.cami.persistence.service.ICautionService;
+import com.cami.persistence.service.ILegendeService;
+import com.cami.persistence.service.IRoleService;
 import com.cami.persistence.service.ITypeCautionService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/caution")
@@ -40,6 +45,12 @@ public class CautionController {
 
     @Autowired
     ITypeCautionService typeCautionService;
+
+    @Autowired
+    IRoleService roleService;
+
+    @Autowired
+    ILegendeService legendeService;
 
     @Autowired
     IAppelOffreService appelOffreService;
@@ -172,6 +183,30 @@ public class CautionController {
         return "caution/index";
     }
 
+    @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
+    public String editAction(@PathVariable("id") final Long id, final ModelMap model) {
+        final Caution caution = cautionService.findOne(id);
+        model.addAttribute("caution", caution);
+        return "caution/edit";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateAction(final ModelMap model, @ModelAttribute("caution") @Valid final Caution caution,
+            final BindingResult result, final RedirectAttributes redirectAttributes) {
+        System.out.println("in caution controller");
+
+        if (result.hasErrors()) {
+            System.out.println("ERROR = " + result.getAllErrors());
+            model.addAttribute("caution", caution);
+            return "caution/edit";
+        } else {
+            System.out.println("non nul");
+            redirectAttributes.addFlashAttribute("info", "alert.success.new");
+            cautionService.update(caution);
+            return "redirect:/caution/" + caution.getId() + "/show";
+        }
+    }
+
     @ModelAttribute("todayDate")
     public Date getTodayDate() {
         return new Date();
@@ -183,6 +218,26 @@ public class CautionController {
         final List<Banque> banques = banqueService.findAll();
         for (final Banque banque : banques) {
             results.put(banque.getId(), banque.getLibelle());
+        }
+        return results;
+    }
+
+    @ModelAttribute("legendes")
+    public Map<Long, String> populateLegendeFields() {
+        final Map<Long, String> results = new HashMap<>();
+        final List<Legende> legendes = legendeService.findAll();
+        for (final Legende legende : legendes) {
+            results.put(legende.getId(), legende.getLibelle());
+        }
+        return results;
+    }
+
+    @ModelAttribute("commercials")
+    public Map<Long, String> populateCommerciauxFileds() {
+        final Map<Long, String> results = new HashMap<>();
+        final List<Role> roles = roleService.retrieveCommerciaux();
+        for (Role role : roles) {
+            results.put(role.getId(), role.getUser().getNom());
         }
         return results;
     }

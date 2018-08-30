@@ -109,6 +109,14 @@
                                                         </span>
                                                         <%--<spring:message code="action.detail" />--%>
                                                     </a>
+                                                    &nbsp;&nbsp;
+                                                    <spring:url value="/caution/${caution.id}/edit" htmlEscape="true" var="caution_edit" />
+                                                    <a href="${caution_edit}" class="btn btn-warning btn-sm">
+                                                        <span class="glyphicon glyphicon-pencil">
+
+                                                        </span>
+                                                        <%--<spring:message code="action.detail" />--%>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </c:if>
@@ -126,7 +134,7 @@
                                                     ${caution.commercial.user.nom}
                                                 </td>
                                                 <td>
-                                                    ${caution.montant}
+                                                    <fmt:formatNumber value="${caution.montant}" pattern="#,##0" />
                                                 </td>
                                                 <td class="text-center">
                                                     <spring:url value="/appeloffre/${caution.appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
@@ -139,6 +147,14 @@
                                                     <spring:url value="/caution/${caution.id}/show" htmlEscape="true" var="caution_show" />
                                                     <a href="${caution_show}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-eye-open">
+
+                                                        </span>
+                                                        <%--<spring:message code="action.detail" />--%>
+                                                    </a>
+                                                    &nbsp;&nbsp;
+                                                    <spring:url value="/caution/${caution.id}/edit" htmlEscape="true" var="caution_edit" />
+                                                    <a href="${caution_edit}" class="btn btn-warning btn-sm">
+                                                        <span class="glyphicon glyphicon-pencil">
 
                                                         </span>
                                                         <%--<spring:message code="action.detail" />--%>

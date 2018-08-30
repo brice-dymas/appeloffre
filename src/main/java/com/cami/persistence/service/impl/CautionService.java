@@ -6,9 +6,12 @@
 package com.cami.persistence.service.impl;
 
 import com.cami.persistence.dao.IAppelOffreDao;
+import com.cami.persistence.dao.IBanqueDao;
 import com.cami.persistence.dao.ICautionDao;
+import com.cami.persistence.dao.ILegendeDao;
 import com.cami.persistence.dao.ILigneAppelDao;
 import com.cami.persistence.dao.IRoleDao;
+import com.cami.persistence.dao.ITypeCautionDao;
 import com.cami.persistence.model.AppelOffre;
 import com.cami.persistence.model.Caution;
 import com.cami.persistence.model.Role;
@@ -42,7 +45,15 @@ public class CautionService
     private ICautionDao dao;
 
     @Autowired
-    private IAppelOffreDao offreDao;
+    private ILegendeDao legendeDao;
+    @Autowired
+    private IBanqueDao banqueDao;
+
+    @Autowired
+    ITypeCautionDao typeCautionDao;
+
+    @Autowired
+    private IAppelOffreDao appelOffreDao;
 
     @Autowired
     private ILigneAppelDao ligneAppelDao;
@@ -55,6 +66,29 @@ public class CautionService
         return dao;
     }
 
+    @Override
+    public Caution update(Caution entity) {
+        Caution toUpdate = dao.findOne(entity.getId());
+        toUpdate.setCommercial(roleDao.findOne(entity.getCommercial().getId()));
+        toUpdate.setBanque(banqueDao.findOne(entity.getBanque().getId()));
+//        toUpdate.setAppelOffre(appelOffreDao.findOne(entity.getAppelOffre().getId()));
+        toUpdate.setLegende(legendeDao.findOne(entity.getLegende().getId()));
+        toUpdate.setTypeCaution(typeCautionDao.findOne(entity.getTypeCaution().getId()));
+        toUpdate.setCommissionTrimestrielle(entity.getCommissionTrimestrielle());
+        toUpdate.setDateDebut(entity.getDateDebut());
+        toUpdate.setDateFin(entity.getDateFin());
+        toUpdate.setDateModification(new Date());
+        toUpdate.setDeleted(entity.isDeleted());
+        toUpdate.setStatut(entity.getStatut());
+        toUpdate.setMontant(entity.getMontant());
+        toUpdate.setMontantMarche(entity.getMontantMarche());
+        toUpdate.setNumero(entity.getNumero());
+        toUpdate.setReferenceMarche(entity.getReferenceMarche());
+        toUpdate.setStatut(entity.getStatut());
+
+        return dao.save(toUpdate);
+    }
+
     // This method returns a list of appeloffre complete with their cautions and ligneAppel
 //    this will be used to generate the final report for excel and pdf format
     @Override
@@ -62,7 +96,7 @@ public class CautionService
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final Role userConnected = roleDao.retrieveAUser(auth.getName()); // get the current logged user
         List<Caution> cautions = new ArrayList<>();
-        List<AppelOffre> appelOffres = offreDao.findAll();
+        List<AppelOffre> appelOffres = appelOffreDao.findAll();
         if (userConnected.getRole().equals("ROLE_COMMERCIAL")) {
             for (AppelOffre appelOffre : appelOffres) {
                 appelOffre.setCautions(dao.filterByAppelOffreAndUser(appelOffre.getId(), userConnected.getId()));

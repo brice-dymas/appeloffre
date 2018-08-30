@@ -52,11 +52,23 @@ public class Caution
     @NotBlank(message = "{blank.message}")
     private String referenceMarche;
 
+    private String statut;
+
     @ManyToOne(targetEntity = AppelOffre.class)
     private AppelOffre appelOffre;
 
     @ManyToOne(targetEntity = Banque.class)
     private Banque banque;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Temporal(TemporalType.DATE)
+    private Date dateModification;
+
+//    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    private long commissionTrimestrielle;
+
+    @ManyToOne(targetEntity = Legende.class, optional = true)
+    private Legende legende;
 
     public Caution() {
 
@@ -156,4 +168,47 @@ public class Caution
     public void setReferenceMarche(String referenceMarche) {
         this.referenceMarche = referenceMarche;
     }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public Date getDateModification() {
+        return dateModification;
+    }
+
+    public void setDateModification(Date dateModification) {
+        this.dateModification = dateModification;
+    }
+
+    public long getCommissionTrimestrielle() {
+        return commissionTrimestrielle;
+    }
+
+    public void setCommissionTrimestrielle(long commissionTrimestrielle) {
+        this.commissionTrimestrielle = commissionTrimestrielle;
+    }
+
+    public Legende getLegende() {
+        return legende;
+    }
+
+    public void setLegende(Legende legende) {
+        this.legende = legende;
+    }
+
+    @Override
+    public String toString() {
+        return "Caution{" + "numero=" + numero + ", dateDebut=" + dateDebut
+                + ", montant=" + montant + ", dateFin=" + dateFin + ", commercial=" + commercial
+                + ", typeCaution=" + typeCaution + ", montantMarche=" + montantMarche
+                + ", referenceMarche=" + referenceMarche + ", statut=" + statut
+                + ", appelOffre=" + appelOffre + ", banque=" + banque + ", dateModification=" + dateModification
+                + ", commissionTrimestrielle=" + commissionTrimestrielle + ", legende=" + legende + '}';
+    }
+
 }
