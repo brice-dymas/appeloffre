@@ -145,15 +145,25 @@ public class CautionController {
                 ? Integer
                         .valueOf(webRequest.getParameter("size"))
                 : 20;
-        final Page<Caution> resultPage = cautionService.filter(banqueId, typeCautionId, debutPeriode, finPeriode, page, size);
+        final String numero = (webRequest.getParameter("querynumero") != null && !webRequest.getParameter("querynumero").isEmpty())
+                ? webRequest.getParameter("querynumero").trim() : "";
+        final String maitreDouvrage = (webRequest.getParameter("querymaitredouvrage") != null && !webRequest.getParameter("querymaitredouvrage").isEmpty())
+                ? webRequest.getParameter("querymaitredouvrage").trim() : "";
+        final Page<Caution> resultPage = cautionService.filter(numero, maitreDouvrage, banqueId, typeCautionId, debutPeriode, finPeriode, page, size);
 
         final Caution caution = new Caution();
+        AppelOffre appelOffre = new AppelOffre();
+        appelOffre.setMaitreDouvrage(maitreDouvrage);
+        caution.setNumero(numero);
+        caution.setAppelOffre(appelOffre);
         caution.setBanque(new Banque(banqueId));
         caution.setTypeCaution(new TypeCaution(typeCautionId));
         model.addAttribute("cautionsReport", "cautionsReport"); //for the report
         model.addAttribute("caution", caution);
         model.addAttribute("querydebutperiode", debutPeriodeEcheance.equals("31/12/1975") ? "" : debutPeriodeEcheance);
         model.addAttribute("queryfinperiode", finPeriodeEcheance.equals("31/12/9999") ? "" : finPeriodeEcheance);
+        model.addAttribute("querynumero", numero);
+        model.addAttribute("querymaitredouvrage", maitreDouvrage);
         model.addAttribute("page", page);
         model.addAttribute("Totalpage", resultPage.getTotalPages());
         model.addAttribute("size", size);
