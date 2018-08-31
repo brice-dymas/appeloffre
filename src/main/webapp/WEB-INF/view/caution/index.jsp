@@ -109,6 +109,14 @@
                                                         </span>
                                                         <%--<spring:message code="action.detail" />--%>
                                                     </a>
+                                                    &nbsp;&nbsp;
+                                                    <spring:url value="/caution/${caution.id}/edit" htmlEscape="true" var="caution_edit" />
+                                                    <a href="${caution_edit}" class="btn btn-warning btn-sm">
+                                                        <span class="glyphicon glyphicon-pencil">
+
+                                                        </span>
+                                                        <%--<spring:message code="action.detail" />--%>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </c:if>
@@ -126,7 +134,7 @@
                                                     ${caution.commercial.user.nom}
                                                 </td>
                                                 <td>
-                                                    ${caution.montant}
+                                                    <fmt:formatNumber value="${caution.montant}" pattern="#,##0" />
                                                 </td>
                                                 <td class="text-center">
                                                     <spring:url value="/appeloffre/${caution.appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
@@ -139,6 +147,14 @@
                                                     <spring:url value="/caution/${caution.id}/show" htmlEscape="true" var="caution_show" />
                                                     <a href="${caution_show}" class="btn btn-primary btn-sm">
                                                         <span class="glyphicon glyphicon-eye-open">
+
+                                                        </span>
+                                                        <%--<spring:message code="action.detail" />--%>
+                                                    </a>
+                                                    &nbsp;&nbsp;
+                                                    <spring:url value="/caution/${caution.id}/edit" htmlEscape="true" var="caution_edit" />
+                                                    <a href="${caution_edit}" class="btn btn-warning btn-sm">
+                                                        <span class="glyphicon glyphicon-pencil">
 
                                                         </span>
                                                         <%--<spring:message code="action.detail" />--%>
@@ -181,12 +197,12 @@
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?&querybanque=${caution.banque.id}&size=5&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">5</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?&querybanque=${caution.banque.id}&size=10&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">10</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?&querybanque=${caution.banque.id}&size=20&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">20</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?&querybanque=${caution.banque.id}&size=30&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">30</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?&querybanque=${caution.banque.id}&size=40&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">40</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?&querybanque=${caution.banque.id}&size=50&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">50</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=5&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">5</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=10&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">10</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=20&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">20</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=30&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">30</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=40&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">40</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=50&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}">50</a></li>
                                     </ul>
                                 </div>
                             </c:if>
@@ -206,10 +222,10 @@
                         </a>
                         <div class="pull-right">
                             <ul class="pager">
-                                <li><a href="?&querybanque=${caution.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}&page=0" <c:if test="${page eq 0}">class ="btn btn-sm disabled"</c:if>>
+                                <li><a href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}&page=0" <c:if test="${page eq 0}">class ="btn btn-sm disabled"</c:if>>
                                             <span class="glyphicon glyphicon-fast-backward"></span>
                                         </a></li>
-                                    <li><a href="?&querybanque=${caution.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}&page=${page-1}" <c:if test="${page eq 0}">class ="btn btn-sm disabled"</c:if>>
+                                    <li><a href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}&page=${page-1}" <c:if test="${page eq 0}">class ="btn btn-sm disabled"</c:if>>
                                             <span class="glyphicon glyphicon-backward"></span>
                                         </a></li>
                                     <li><input type="text" class="pager_detail text-center" readonly
@@ -220,7 +236,7 @@
                                         />
                                 </li>
                                 <li>
-                                    <a href="?&querybanque=${caution.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}&page=${page+1}"
+                                    <a href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}&page=${page+1}"
                                        <c:choose>
                                            <c:when test="${page+1 eq Totalpage}">class ="btn btn-sm disabled"</c:when>
                                            <c:when test="${Totalpage eq 0}">class ="btn btn-sm disabled"</c:when>
@@ -229,7 +245,7 @@
                                         <span class="glyphicon glyphicon-forward"></span>
                                     </a>
                                 </li>
-                                <li><a href="?querybanque=${caution.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}&page=${Totalpage-1}"
+                                <li><a href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}&page=${Totalpage-1}"
                                        <c:choose>
                                            <c:when test="${page+1 eq Totalpage}">class ="btn btn-sm disabled"</c:when>
                                            <c:when test="${Totalpage eq 0}">class ="btn btn-sm disabled"</c:when>
@@ -272,6 +288,18 @@
                             </c:forEach>
                         </select>
                         <input type="hidden" value="${size}" name="size"/>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <spring:message code="caution.numero" />
+                        </label>
+                        <input id="numero" type="text" value="${querynumero}" class="form-control input-sm" name="querynumero"/>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <spring:message code="appelOffre.maitreDouvrage" />
+                        </label>
+                        <input id="numero" type="text" value="${querymaitredouvrage}" class="form-control input-sm" name="querymaitredouvrage"/>
                     </div>
                     <div class="form-group">
                         <label>

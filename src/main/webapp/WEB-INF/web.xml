@@ -10,6 +10,6 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="formulaire" version="3.0"
     </welcome-file-list>
 
     <session-config>
-        <session-timeout>15</session-timeout>
+        <session-timeout>-1</session-timeout>
     </session-config>
 </web-app>

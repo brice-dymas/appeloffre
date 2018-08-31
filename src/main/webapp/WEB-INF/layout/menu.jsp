@@ -21,7 +21,8 @@
             <div id="collapseAdministration"  role="tabpanel" aria-labelledby="administration"
                  <c:choose>
                      <c:when test="${fn:containsIgnoreCase(url, 'materiel') || fn:containsIgnoreCase(url, 'filiale') || fn:containsIgnoreCase(url, 'typecaution')
-                                     || fn:containsIgnoreCase(url, 'typemateriel') || fn:containsIgnoreCase(url, 'banque')|| fn:containsIgnoreCase(url, 'user') }">
+                                     || fn:containsIgnoreCase(url, 'typemateriel') || fn:containsIgnoreCase(url, 'banque')|| fn:containsIgnoreCase(url, 'user')
+                                     || fn:containsIgnoreCase(url, 'legende') }">
                              class="panel-collapse collapse in"
                      </c:when>
                      <c:otherwise>
@@ -31,6 +32,15 @@
                  >
                 <div class="panel-body">
                     <ul class="list-unstyled">
+                        <li>
+                            <a
+                                <c:if test="${fn:containsIgnoreCase(url, 'legende')}">
+                                    class="list-group-item active"
+                                </c:if>
+                                href="<spring:url  value="/legende/" />">
+                                <spring:message code="menu.legende" />
+                            </a>
+                        </li>
                         <li>
                             <a
                                 <c:if test="${fn:containsIgnoreCase(url, 'materiel')}">

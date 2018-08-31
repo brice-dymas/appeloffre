@@ -100,6 +100,7 @@ public class AppelOffreService
         for (final Caution caution : appelOffre.getCautions()) {
             System.out.println("tour caution 1");
             caution.setAppelOffre(appelOffre);
+            caution.setDateModification(new Date());
             caution.setCommercial(roleDao.findOne(caution.getCommercial().getId()));
             caution.setBanque(banqueDao.findOne(caution.getBanque().getId()));
             caution.setTypeCaution(typeCautionDao.findOne(caution.getTypeCaution().getId()));
