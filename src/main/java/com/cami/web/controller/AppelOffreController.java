@@ -340,7 +340,7 @@ public class AppelOffreController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateAction(final ModelMap model, @RequestParam("fichiers") MultipartFile[] files,
+    public String updateAction(final ModelMap model, @RequestParam(value = "fichiers", required = false) MultipartFile[] files,
             @Valid final AppelOffreForm appelOffreForm,
             final BindingResult result,
             final RedirectAttributes redirectAttributes) {
