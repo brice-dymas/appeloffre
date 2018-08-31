@@ -39,5 +39,11 @@ public interface IAppelOffreDao extends JpaRepository<AppelOffre, Long>, JpaSpec
             @Param("intitule") String intitule, @Param("deleted") boolean deleted,
             @Param("debutPeriodeDepot") Date debutPeriodeDepot,
             @Param("finPeriodeDepot") Date finPeriodeDepot, Pageable pageable);
+    
+    @Query("SELECT DISTINCT a FROM AppelOffre a WHERE a.deleted= :deleted")
+    List<AppelOffre> getAllAppelOffreToPrint(@Param("deleted") Boolean deleted);
+    
+    @Query("SELECT DISTINCT a FROM AppelOffre a JOIN FETCH a.cautions c WHERE c.commercial.id= :idUser AND a.deleted= :deleted AND c.deleted= :deleted ")
+    List<AppelOffre> getAllAppelOffreToPrintForCommercial(@Param("idUser") long idUser, @Param("deleted") Boolean deleted);
 
 }

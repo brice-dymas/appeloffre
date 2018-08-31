@@ -91,25 +91,38 @@ public class CautionService
 
     // This method returns a list of appeloffre complete with their cautions and ligneAppel
 //    this will be used to generate the final report for excel and pdf format
+//    @Override
+//    public List<AppelOffre> getThemComplete() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        final Role userConnected = roleDao.retrieveAUser(auth.getName()); // get the current logged user
+//        List<Caution> cautions = new ArrayList<>();
+//        List<AppelOffre> appelOffres = offreDao.findAll();
+//        if (userConnected.getRole().equals("ROLE_COMMERCIAL")) {
+//            for (AppelOffre appelOffre : appelOffres) {
+//                appelOffre.setCautions(dao.filterByAppelOffreAndUser(appelOffre.getId(), userConnected.getId()));
+//                appelOffre.setLigneAppels(ligneAppelDao.filterByAppelOffre(appelOffre.getId()));
+//            }
+//            return appelOffres;
+//        } else {
+//            for (AppelOffre appelOffre : appelOffres) {
+//                appelOffre.setCautions(dao.filterByAppelOffre(appelOffre.getId()));
+//                appelOffre.setLigneAppels(ligneAppelDao.filterByAppelOffre(appelOffre.getId()));
+//            }
+//            return appelOffres;
+//        }
+//    }
+    
     @Override
     public List<AppelOffre> getThemComplete() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final Role userConnected = roleDao.retrieveAUser(auth.getName()); // get the current logged user
-        List<Caution> cautions = new ArrayList<>();
-        List<AppelOffre> appelOffres = appelOffreDao.findAll();
+        List<AppelOffre> appelOffres = new ArrayList<>();
         if (userConnected.getRole().equals("ROLE_COMMERCIAL")) {
-            for (AppelOffre appelOffre : appelOffres) {
-                appelOffre.setCautions(dao.filterByAppelOffreAndUser(appelOffre.getId(), userConnected.getId()));
-                appelOffre.setLigneAppels(ligneAppelDao.filterByAppelOffre(appelOffre.getId()));
-            }
-            return appelOffres;
+            appelOffres = appelOffreDao.getAllAppelOffreToPrintForCommercial(userConnected.getId(),Boolean.FALSE);            
         } else {
-            for (AppelOffre appelOffre : appelOffres) {
-                appelOffre.setCautions(dao.filterByAppelOffre(appelOffre.getId()));
-                appelOffre.setLigneAppels(ligneAppelDao.filterByAppelOffre(appelOffre.getId()));
-            }
-            return appelOffres;
+            appelOffres = appelOffreDao.getAllAppelOffreToPrint(Boolean.FALSE);
         }
+        return appelOffres;
     }
 
     @Override

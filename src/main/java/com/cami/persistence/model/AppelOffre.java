@@ -75,7 +75,7 @@ public class AppelOffre
     @ManyToOne(targetEntity = Filiale.class)
     private Filiale filiale;
 
-    @OneToMany(mappedBy = "appelOffre", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "appelOffre")
     private List<LigneAppel> ligneAppels = new ArrayList<>();
 
     @OneToMany(mappedBy = "appelOffre")

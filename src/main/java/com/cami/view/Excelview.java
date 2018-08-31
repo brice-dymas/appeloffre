@@ -341,9 +341,12 @@ public class Excelview
         cell.setCellValue("Apporteur d'affaires"); // Commercial
 
         // Fill Datas in excel cells
+        System.out.println(appelOffres.size());
         for (AppelOffre appelOffre : appelOffres) {
             List<Caution> cautions = appelOffre.getCautions();
+            System.out.println(cautions.size());
             for (Caution caution : cautions) {
+                
                 row = sheet.createRow(rowCount++);
                 if (caution.getDateFin().before(new Date()) | caution.getDateFin().equals(new Date())) {
                     row.setRowStyle(this.getRedStyle(workbook));

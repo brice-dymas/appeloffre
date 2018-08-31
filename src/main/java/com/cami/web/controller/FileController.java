@@ -116,7 +116,7 @@ public class FileController {
         return files;
     }
 
-    @RequestMapping(value = "/{idCautionDouane}/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/caution/{idCautionDouane}/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     LinkedList<FileMeta> uploader(MultipartHttpServletRequest request, HttpServletResponse response, @PathVariable String idCautionDouane) {
 

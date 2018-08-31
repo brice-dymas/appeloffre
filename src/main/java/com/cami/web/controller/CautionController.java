@@ -88,7 +88,7 @@ public class CautionController {
                 + "&page=1&size=2";
     }
 
-    @RequestMapping(value = "/caution/print-cautions.xls", method = RequestMethod.GET)
+    @RequestMapping(value = "/print-cautions.xls", method = RequestMethod.GET)
     public String printAction(final ModelMap model) {
         final List<AppelOffre> appelOffres = cautionService.getThemComplete();
         model.addAttribute("cautionsReport", appelOffres); //for the report
