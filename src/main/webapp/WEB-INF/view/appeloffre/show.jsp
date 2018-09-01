@@ -174,7 +174,7 @@
 
                         <c:if test="${appelOffre.deleted}" >
                             <button type="submit" class="btn btn-default  btn-success">
-                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                                <span class="glyphicon glyphicon-ok"></span>
                                 <spring:message code="action.activer" />
                             </button>
                         </c:if>
@@ -209,7 +209,7 @@
                         </ul>
                     </div>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                        <span class="glyphicon glyphicon-book"></span>
+                        <span class="glyphicon glyphicon-paperclip"></span>
                         <spring:message code="action.document" />
                     </button>
                 </form:form>

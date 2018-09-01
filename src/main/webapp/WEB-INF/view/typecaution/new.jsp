@@ -22,7 +22,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-6 col-md-offset-2">
                 <spring:url value="/typecaution/create" var="typecaution_create"
                             htmlEscape="true" />
                 <form:form method="post" commandName="typeCaution" action="${typecaution_create}">
@@ -57,13 +57,13 @@
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <div class="panel-footer">
 
-                            <button type="submit" class="btn btn-primary btn-sm">
+                            <button type="submit" class="btn btn-success btn-sm">
                                 <span class="glyphicon glyphicon-save"></span>
                                 <spring:message code="action.enregistrer" />
                             </button>
                             <spring:url value="/typecaution/" htmlEscape="true"
                                         var="typecaution_home" />
-                            <a href="${typecaution_home}" class="btn btn-default btn-sm">
+                            <a href="${typecaution_home}" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-list"></span>
                                 <spring:message code="typeCaution.liste" />
                             </a>

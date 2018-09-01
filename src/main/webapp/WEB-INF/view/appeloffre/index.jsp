@@ -23,7 +23,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/appeloffre/new" htmlEscape="true" var="appeloffre_new" />
                                 <a href="${appeloffre_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>&nbsp;&nbsp;
@@ -99,7 +99,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <spring:url value="/appeloffre/${appelOffre.id}/edit" htmlEscape="true" var="appeloffre_edit" />
-                                                    <a href="${appeloffre_edit}" class="btn btn-primary btn-sm">
+                                                    <a href="${appeloffre_edit}" class="btn btn-warning btn-sm">
                                                         <span class="glyphicon glyphicon-edit">
                                                             <%--<spring:message code="action.modifier" />--%>
                                                         </span>
@@ -108,7 +108,7 @@
                                                     &nbsp;&nbsp;
                                                     <spring:url value="/appeloffre/${appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
                                                     <a href="${appeloffre_show}" class="btn btn-primary btn-sm">
-                                                        <span class="glyphicon glyphicon-open">
+                                                        <span class="glyphicon glyphicon-eye-open">
                                                             <%--<spring:message code="action.detail" />--%>
                                                         </span>
                                                     </a>
@@ -131,7 +131,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <spring:url value="/appeloffre/${appelOffre.id}/edit" htmlEscape="true" var="appeloffre_edit" />
-                                                    <a href="${appeloffre_edit}" class="btn btn-primary btn-sm">
+                                                    <a href="${appeloffre_edit}" class="btn btn-warning btn-sm">
                                                         <span class="glyphicon glyphicon-edit">
                                                             <%--<spring:message code="action.modifier" />--%>
                                                         </span>
@@ -140,9 +140,10 @@
                                                     &nbsp;&nbsp;
                                                     <spring:url value="/appeloffre/${appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
                                                     <a href="${appeloffre_show}" class="btn btn-primary btn-sm">
-                                                        <span class="glyphicon glyphicon-open">
+                                                        <!--<span class="glyphicon glyphicon-eye-open">-->
+                                                        <i class="glyphicon glyphicon-eye-open">
                                                             <%--<spring:message code="action.detail" />--%>
-                                                        </span>
+                                                            <!--</span>-->
                                                     </a>
                                                 </td>
                                             </tr>
@@ -162,7 +163,7 @@
                         <sec:authorize access="hasRole('ROLE_ADMIN')" >
                             <spring:url value="/appeloffre/new" htmlEscape="true" var="appeloffre_new" />
                             <a href="${appeloffre_new}" class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-new-window"></span>
+                                <span class="glyphicon glyphicon-plus"></span>
                                 <spring:message code="action.nouveau" />
                             </a>
                         </sec:authorize>

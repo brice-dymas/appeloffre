@@ -69,13 +69,13 @@
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <div class="panel-footer">
 
-                            <button type="submit" class="btn btn-primary btn-sm">
+                            <button type="submit" class="btn btn-success btn-sm">
                                 <span class="glyphicon glyphicon-save"></span>
                                 <spring:message code="action.enregistrer" />
                             </button>
                             <spring:url value="/materiel/" htmlEscape="true"
                                         var="materiel_home" />
-                            <a href="${materiel_home}" class="btn btn-default btn-sm">
+                            <a href="${materiel_home}" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-list"></span>
                                 <spring:message code="materiel.liste" />
                             </a>

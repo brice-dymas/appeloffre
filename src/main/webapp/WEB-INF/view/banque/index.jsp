@@ -22,7 +22,7 @@
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <spring:url value="/banque/new" htmlEscape="true" var="banque_new" />
                         <a href="${banque_new}" class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-new-window"></span>
+                            <span class="glyphicon glyphicon-plus"></span>
                             <spring:message code="action.nouveau" />
                         </a>
                     </sec:authorize>&nbsp;&nbsp;
@@ -70,7 +70,7 @@
                             <hr/>
                             <spring:url value="/banque/new" htmlEscape="true" var="banque_new" />
                             <a href="${banque_new}" class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-new-window"></span>
+                                <span class="glyphicon glyphicon-plus"></span>
                                 <spring:message code="action.nouveau" />
                             </a>
 
@@ -108,7 +108,7 @@
                                 <td class="text-center">
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                         <spring:url value="/banque/${banque.id}/edit" htmlEscape="true" var="banque_edit" />
-                                        <a href="${banque_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${banque_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
@@ -116,7 +116,7 @@
                                     </sec:authorize>
                                     <spring:url value="/banque/${banque.id}/show" htmlEscape="true" var="banque_show" />
                                     <a href="${banque_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
+                                        <span class="glyphicon glyphicon-eye-open"></span>
                                         <spring:message code="action.detail" />
                                     </a>
                                 </td>
@@ -133,7 +133,7 @@
                                 <td class="text-center">
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                         <spring:url value="/banque/${banque.id}/edit" htmlEscape="true" var="banque_edit" />
-                                        <a href="${banque_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${banque_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
@@ -141,7 +141,7 @@
                                     </sec:authorize>
                                     <spring:url value="/banque/${banque.id}/show" htmlEscape="true" var="banque_show" />
                                     <a href="${banque_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
+                                        <span class="glyphicon glyphicon-eye-open"></span>
                                         <spring:message code="action.detail" />
                                     </a>
                                 </td>
@@ -160,7 +160,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/banque/new" htmlEscape="true" var="banque_new" />
                                 <a href="${banque_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>

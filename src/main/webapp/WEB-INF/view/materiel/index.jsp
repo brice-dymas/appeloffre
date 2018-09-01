@@ -26,7 +26,7 @@
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <spring:url value="/materiel/new" htmlEscape="true" var="materiel_new" />
                         <a href="${materiel_new}" class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-new-window"></span>
+                            <span class="glyphicon glyphicon-plus"></span>
                             <spring:message code="action.nouveau" />
                         </a>
                     </sec:authorize>&nbsp;&nbsp;
@@ -90,7 +90,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/materiel/new" htmlEscape="true" var="materiel_new" />
                                 <a href="${materiel_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>
@@ -129,19 +129,19 @@
                                     ${materiel.typeMateriel.nom}
                                 </td>
                                 <td class="text-center">
+                                    <spring:url value="/materiel/${materiel.id}/show" htmlEscape="true" var="materiel_show" />
+                                    <a href="${materiel_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                                        &nbsp;&nbsp;
                                         <spring:url value="/materiel/${materiel.id}/edit" htmlEscape="true" var="materiel_edit" />
-                                        <a href="${materiel_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${materiel_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/materiel/${materiel.id}/show" htmlEscape="true" var="materiel_show" />
-                                    <a href="${materiel_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
@@ -157,19 +157,19 @@
                                     ${materiel.typeMateriel.nom}
                                 </td>
                                 <td class="text-center">
+                                    <spring:url value="/materiel/${materiel.id}/show" htmlEscape="true" var="materiel_show" />
+                                    <a href="${materiel_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                                        &nbsp;&nbsp;
                                         <spring:url value="/materiel/${materiel.id}/edit" htmlEscape="true" var="materiel_edit" />
-                                        <a href="${materiel_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${materiel_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/materiel/${materiel.id}/show" htmlEscape="true" var="materiel_show" />
-                                    <a href="${materiel_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
@@ -184,7 +184,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/materiel/new" htmlEscape="true" var="materiel_new" />
                                 <a href="${materiel_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>

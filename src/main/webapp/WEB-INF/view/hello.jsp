@@ -9,9 +9,8 @@
 <tiles:insertDefinition name="layout">
     <tiles:putAttribute name="body">
         <div class="page-header">
-        <h1>Hello</h1>
+            <h1>Hello</h1>
         </div>
-       
-        
+        <%--<c:redirect url="/caution/stats"/>--%>
     </tiles:putAttribute>
 </tiles:insertDefinition>

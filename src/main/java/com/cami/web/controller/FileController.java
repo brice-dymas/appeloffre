@@ -24,6 +24,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,7 +66,8 @@ public class FileController {
      */
     @RequestMapping(value = "/{idAppelOffre}/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    LinkedList<FileMeta> upload(MultipartHttpServletRequest request, HttpServletResponse response, @PathVariable String idAppelOffre) {
+    LinkedList<FileMeta> upload(MultipartHttpServletRequest request, HttpServletResponse response, @PathVariable String idAppelOffre,
+            final ModelMap model) {
 
         //1. build an iterator
         Iterator<String> itr = request.getFileNames();
@@ -113,62 +115,63 @@ public class FileController {
             fileMeta.setFileName(file);
             files.add(fileMeta);
         }
+        final int nbFile = appelOffre.getFiles().size();
+        model.addAttribute("nbFile", nbFile);
         return files;
     }
 
-    @RequestMapping(value = "/caution/{idCautionDouane}/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    LinkedList<FileMeta> uploader(MultipartHttpServletRequest request, HttpServletResponse response, @PathVariable String idCautionDouane) {
-
-        //1. build an iterator
-        Iterator<String> itr = request.getFileNames();
-        MultipartFile mpf = null;
-        CautionDouane cautionDouane = cautionDouaneService.findOne(Long.valueOf(idCautionDouane));
-        int i = 0;
-        //2. get each file
-        while (itr.hasNext()) {
-            System.out.println("i = " + i);
-            //2.1 get next MultipartFile
-            mpf = request.getFile(itr.next());
-
-            System.out.println(mpf.getOriginalFilename() + " uploaded! ");
-
-            //2.2 if files > 10 remove the first from the list
-//             if(files.size() >= 10)
-//                 files.pop();
-            //2.3 create new fileMeta
-//             fileMeta = new FileMeta();
-//             fileMeta.setFileName(saveName);
-//             fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
-//             fileMeta.setFileType(mpf.getContentType());
-            try {
-                //fileMeta.setBytes(mpf.getBytes());
-
-                // copy file to local disk (make sure the path "e.g. D:/temp/files" exists)
-                String saveName = getFileName(mpf, cautionDouane);
-                processFileData(mpf, SAVE_DIRECTORY, saveName);
-                //FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("/home/gervais/" + saveName));
-                cautionDouane.addFile(saveName);
-                cautionDouane = cautionDouaneService.updateFiles(cautionDouane);
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            //2.4 add to files
-            // files.add(fileMeta);
-        }
-        // result will be like this
-        // [{"fileName":"app_engine-85x77.png","fileSize":"8 Kb","fileType":"image/png"},...]
-        files = new LinkedList<>();
-        for (String file : cautionDouane.getFiles()) {
-            fileMeta = new FileMeta();
-            fileMeta.setFileName(file);
-            files.add(fileMeta);
-        }
-        return files;
-    }
-
+//    @RequestMapping(value = "/{idCautionDouane}/upload", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    LinkedList<FileMeta> uploader(MultipartHttpServletRequest request, HttpServletResponse response, @PathVariable String idCautionDouane) {
+//
+//        //1. build an iterator
+//        Iterator<String> itr = request.getFileNames();
+//        MultipartFile mpf = null;
+//        CautionDouane cautionDouane = cautionDouaneService.findOne(Long.valueOf(idCautionDouane));
+//        int i = 0;
+//        //2. get each file
+//        while (itr.hasNext()) {
+//            System.out.println("i = " + i);
+//            //2.1 get next MultipartFile
+//            mpf = request.getFile(itr.next());
+//
+//            System.out.println(mpf.getOriginalFilename() + " uploaded! ");
+//
+//            //2.2 if files > 10 remove the first from the list
+////             if(files.size() >= 10)
+////                 files.pop();
+//            //2.3 create new fileMeta
+////             fileMeta = new FileMeta();
+////             fileMeta.setFileName(saveName);
+////             fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
+////             fileMeta.setFileType(mpf.getContentType());
+//            try {
+//                //fileMeta.setBytes(mpf.getBytes());
+//
+//                // copy file to local disk (make sure the path "e.g. D:/temp/files" exists)
+//                String saveName = getFileName(mpf, cautionDouane);
+//                processFileData(mpf, SAVE_DIRECTORY, saveName);
+//                //FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("/home/gervais/" + saveName));
+//                cautionDouane.addFile(saveName);
+//                cautionDouane = cautionDouaneService.updateFiles(cautionDouane);
+//
+//            } catch (IOException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            //2.4 add to files
+//            // files.add(fileMeta);
+//        }
+//        // result will be like this
+//        // [{"fileName":"app_engine-85x77.png","fileSize":"8 Kb","fileType":"image/png"},...]
+//        files = new LinkedList<>();
+//        for (String file : cautionDouane.getFiles()) {
+//            fileMeta = new FileMeta();
+//            fileMeta.setFileName(file);
+//            files.add(fileMeta);
+//        }
+//        return files;
+//    }
     /**
      * *************************************************
      * URL: /appel-offre/file/get/{value} get(): get file as an attachment
@@ -202,7 +205,8 @@ public class FileController {
 
     @RequestMapping(value = "/remove/{value}", method = RequestMethod.GET)
     public @ResponseBody
-    LinkedList<FileMeta> remove(HttpServletResponse response, @PathVariable String value) {
+    LinkedList<FileMeta> remove(HttpServletResponse response, @PathVariable String value,
+            final ModelMap model) {
         Long idAppelOffre = Long.valueOf(value.split("_")[0]);
         AppelOffre appelOffre = appelOffreService.deleteFiles(idAppelOffre, value);
 
@@ -212,6 +216,8 @@ public class FileController {
             fileMeta.setFileName(file);
             files.add(fileMeta);
         }
+        final int nbFile = appelOffre.getFiles().size();
+        model.addAttribute("nbFile", nbFile);
         return files;
 
     }

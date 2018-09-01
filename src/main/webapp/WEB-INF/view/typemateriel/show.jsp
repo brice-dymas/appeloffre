@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h4>
-                    <spring:message code="typeMateriel.afficher" /> : ${typeMateriel.nom}
+                    <spring:message code="typeMateriel.afficher" /> : <b> ${typeMateriel.nom} </b>
                 </h4>
                 <c:if test="${typeMateriel.deleted}" >
                     <div class="text-danger">
@@ -28,7 +28,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4 col-md-offset-4" id="table_show">
+            <div class="col-md-6 col-md-offset-2" id="table_show">
                 <table class="table table-condensed">
                     <tbody>
                         <tr>
@@ -45,44 +45,39 @@
                         </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
 
-
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-
+            <div class="col-md-6 col-md-offset-2">
                 <hr/>
-
                 <spring:url value="/typemateriel/delete" var="typemateriel_delete"/>
                 <form:form method="post" commandName="typeMateriel" action="${typemateriel_delete}">
                     <form:hidden path="id"/>
                     <spring:url value="/typemateriel/" var="typemateriel_home"/>
-                    <a href="${typemateriel_home}" class="btn btn-primary  btn-sm">
+                    <a href="${typemateriel_home}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-list"></span>
                         <spring:message code="typeMateriel.liste" />
                     </a>
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <spring:url value="/typemateriel/${typeMateriel.id}/edit" var="typemateriel_edit"/>
-                        <a href="${typemateriel_edit}" class="btn btn-default  btn-warning">
+                        <a href="${typemateriel_edit}" class="btn btn-warning">
                             <span class="glyphicon glyphicon-edit"></span>
                             <spring:message code="action.modifier" />
                         </a>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <c:if test="${not typeMateriel.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-danger">
+                            <button type="submit" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 <spring:message code="action.effacer" />
                             </button>
                         </c:if>
                         <c:if test="${typeMateriel.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-success">
-                                <span class="glyphicon glyphicon-trash"></span>
+                            <button type="submit" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok"></span>
                                 <spring:message code="action.activer" />
                             </button>
                         </c:if>
-
                     </sec:authorize>
                 </form:form>
             </div>

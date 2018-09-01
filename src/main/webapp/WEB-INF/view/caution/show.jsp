@@ -83,10 +83,6 @@
                             <th><spring:message code="caution.typeCaution" /></th>
                             <td>${caution.typeCaution.nom}</td>
                         </tr>
-                        <tr>
-                            <th><spring:message code="caution.dateModification" /></th>
-                            <td><fmt:formatDate value="${caution.dateModification}" pattern="dd/MM/yyyy" /></td>
-                        </tr>
                         <%--<c:if test="${caution.commissionTrimestrielle}">--%>
                         <tr>
                             <th><spring:message code="caution.commissionTrimestrielle" /></th>
@@ -102,6 +98,10 @@
                             <th><spring:message code="caution.legende" /></th>
                             <td>${caution.legende.libelle}</td>
                         </tr>
+                        <tr>
+                            <th><spring:message code="caution.dateModification" /></th>
+                            <td><fmt:formatDate value="${caution.dateModification}" pattern="dd/MM/yyyy" /></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -109,8 +109,8 @@
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
-                            <th><spring:message code="caution.statut" /></th>
-                            <td>${caution.statut}</td>
+                            <th class="col-md-3"><spring:message code="caution.statut" /></th>
+                            <td class="col-md-9">${caution.statut}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -127,12 +127,12 @@
                 </a>
                 <spring:url value="/appeloffre/${caution.appelOffre.id}/show" var="caution_appel"/>
                 <a href="${caution_appel}" class="btn btn-success  btn-sm">
-                    <span class="glyphicon glyphicon-open"></span>
+                    <span class="glyphicon glyphicon-briefcase"></span>
                     <spring:message code="caution.appelOffre" />
                 </a>
                 <spring:url value="/caution/${caution.id}/edit" htmlEscape="true" var="caution_edit" />
                 <a href="${caution_edit}" class="btn btn-warning btn-sm">
-                    <span class="glyphicon glyphicon-pencil">
+                    <span class="glyphicon glyphicon-edit">
 
                     </span>
                     <spring:message code="action.modifier" />

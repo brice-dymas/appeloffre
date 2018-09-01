@@ -59,27 +59,27 @@
                 <spring:url value="/filiale/delete" var="filiale_delete"/>
                 <form:form method="post" commandName="filiale" action="${filiale_delete}">
                     <spring:url value="/filiale/" var="filiale_home"/>
-                    <a href="${filiale_home}" class="btn btn-primary  btn-sm">
+                    <a href="${filiale_home}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-list"></span>
                         <spring:message code="filiale.liste" />
                     </a>
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <form:hidden path="id"/>
                         <spring:url value="/filiale/${filiale.id}/edit" var="filiale_edit"/>
-                        <a href="${filiale_edit}" class="btn btn-default  btn-warning">
+                        <a href="${filiale_edit}" class="btn btn-warning">
                             <span class="glyphicon glyphicon-edit"></span>
                             <spring:message code="action.modifier" />
                         </a>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <c:if test="${not filiale.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-danger">
+                            <button type="submit" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 <spring:message code="action.effacer" />
                             </button>
                         </c:if>
                         <c:if test="${filiale.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-success">
-                                <span class="glyphicon glyphicon-trash"></span>
+                            <button type="submit" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok"></span>
                                 <spring:message code="action.activer" />
                             </button>
                         </c:if>

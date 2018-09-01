@@ -53,7 +53,7 @@ public class Caution
     @NotBlank(message = "{blank.message}")
     private String referenceMarche;
 
-    @Column(columnDefinition=" varchar(255) default ''")
+    @Column(nullable = true, columnDefinition = "VARCHAR(255) default ''")
     private String statut;
 
     @ManyToOne(targetEntity = AppelOffre.class)
@@ -66,11 +66,9 @@ public class Caution
     @Temporal(TemporalType.DATE)
     private Date dateModification;
 
-    
-    @NumberFormat(style = NumberFormat.Style.NUMBER)
-    @Column(columnDefinition=" int8 default 0")
     @Digits(fraction = 0, integer = MAX_VALUE, message = "{digit.message}")
     @Min(value = 0, message = "{min.message}")
+    @Column(nullable = true, columnDefinition = "int8 default 0")
     private long commissionTrimestrielle;
 
     @ManyToOne(targetEntity = Legende.class, optional = true)
