@@ -169,7 +169,7 @@
                                                 </td>
                                                 <td class="row-align">
 
-                                                    <button type="button" id="removeMaterielButton" class="btn btn-sm btn-default remove-materiel" >
+                                                    <button type="button" id="removeMaterielButton" class="btn btn-sm btn-danger remove-materiel" >
                                                         <span class="glyphicon glyphicon-minus-sign"></span>
                                                     </button>
                                                 </td>
@@ -179,7 +179,7 @@
                                 </tbody>
                             </table>
 
-                            <button type="button" id="addMaterielButton" class="btn btn-sm btn-default add-materiel">
+                            <button type="button" id="addMaterielButton" class="btn btn-sm btn-primary add-materiel">
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                                 <spring:message code="action.ajouter" />
                             </button>
@@ -278,7 +278,7 @@
                                                     </spring:bind>
                                                 </td>
                                                 <td class="row-align">
-                                                    <button type="button" id="removeCautionButton" class="btn btn-sm btn-default remove-caution" >
+                                                    <button type="button" id="removeCautionButton" class="btn btn-sm btn-danger remove-caution" >
                                                         <span class="glyphicon glyphicon-minus-sign"></span>
                                                         <spring:message code="action.effacer" />
                                                     </button>
@@ -288,7 +288,7 @@
                                     </c:if>
                                 </tbody>
                             </table>
-                            <button type="button" id="addCautionButton" class="btn btn-sm btn-default add-caution">
+                            <button type="button" id="addCautionButton" class="btn btn-sm btn-primary add-caution">
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                                 <spring:message code="action.ajouter" />
                             </button>
@@ -301,13 +301,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <hr/>
-                    <button type="submit" class="btn btn-sm btn-danger">
+                    <button type="submit" class="btn btn-sm btn-success">
                         <span class="glyphicon glyphicon-save"></span>
                         <spring:message code="action.enregistrer" />
                     </button>
                     <spring:url value="/appeloffre/" htmlEscape="true"
                                 var="appeloffre_home" />
-                    <a href="${appeloffre_home}" class="btn btn-sm btn-default">
+                    <a href="${appeloffre_home}" class="btn btn-sm btn-danger">
                         <span class="glyphicon glyphicon-list"></span>
                         <spring:message code="appelOffre.liste" />
                     </a>

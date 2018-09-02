@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h4>
-                    <spring:message code="typeCaution.afficher" /> : ${typeCaution.nom}
+                    <spring:message code="typeCaution.afficher" /> : <b>${typeCaution.nom}</b>
                 </h4>
                 <c:if test="${typeCaution.deleted}" >
                     <div class="text-danger">
@@ -28,7 +28,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4 col-md-offset-4" id="table_show">
+            <div class="col-md-4 col-md-offset-2" id="table_show">
                 <table class="table table-striped">
                     <tbody>
                         <tr>
@@ -45,42 +45,35 @@
                         </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
-
-
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-
+            <div class="col-md-8 col-md-offset-2">
                 <hr/>
-
-
-
                 <spring:url value="/typecaution/delete" var="typecaution_delete"/>
                 <form:form method="post" commandName="typeCaution" action="${typecaution_delete}">
                     <spring:url value="/typecaution/" var="typecaution_home"/>
-                    <a href="${typecaution_home}" class="btn btn-primary  btn-sm">
+                    <a href="${typecaution_home}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-list"></span>
                         <spring:message code="typeCaution.liste" />
                     </a>
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <form:hidden path="id"/>
                         <spring:url value="/typecaution/${typeCaution.id}/edit" var="typecaution_edit"/>
-                        <a href="${typecaution_edit}" class="btn btn-default  btn-warning">
+                        <a href="${typecaution_edit}" class="btn btn-warning">
                             <span class="glyphicon glyphicon-edit"></span>
                             <spring:message code="action.modifier" />
                         </a>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <c:if test="${not typeCaution.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-danger">
+                            <button type="submit" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 <spring:message code="action.effacer" />
                             </button>
                         </c:if>
                         <c:if test="${typeCaution.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-success">
-                                <span class="glyphicon glyphicon-trash"></span>
+                            <button type="submit" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok"></span>
                                 <spring:message code="action.activer" />
                             </button>
                         </c:if>

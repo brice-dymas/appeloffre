@@ -23,10 +23,33 @@
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <spring:url value="/typemateriel/new" htmlEscape="true" var="typemateriel_new" />
                         <a href="${typemateriel_new}" class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-new-window"></span>
+                            <span class="glyphicon glyphicon-plus"></span>
                             <spring:message code="action.nouveau" />
                         </a>
                     </sec:authorize>
+                    <c:if test="${typeMateriels.size() ne 0}">
+                        <div class="dropdown" style="display: inline-block !important">
+                            <button class="btn btn-default dropdown-toogle" id="dropdown-user" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-print"></i>
+                                <spring:message code="print.message" />
+                                <i class="caret"></i>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labeledby="dropdown-user">
+                                <li>
+                                    <spring:url htmlEscape="true" var="pdf_print" value="/typemateriel.pdf" />
+                                    <a href="${pdf_print}">
+                                        <spring:message code="print.pdf" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <spring:url htmlEscape="true" var="xls_print" value="/typemateriel.xls" />
+                                    <a href="${xls_print}">
+                                        <spring:message code="print.xls" />
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </c:if>
                 </div>
                 <div class="dropdown pull-right ">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
@@ -82,7 +105,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/typemateriel/new" htmlEscape="true" var="typemateriel_new" />
                                 <a href="${typemateriel_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>
@@ -121,19 +144,19 @@
                                     ${typeMateriel.nom}
                                 </td>
                                 <td class="text-center">
+                                    <spring:url value="/typemateriel/${typeMateriel.id}/show" htmlEscape="true" var="typemateriel_show" />
+                                    <a href="${typemateriel_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
+                                    &nbsp;&nbsp;
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                         <spring:url value="/typemateriel/${typeMateriel.id}/edit" htmlEscape="true" var="typemateriel_edit" />
-                                        <a href="${typemateriel_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${typemateriel_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/typemateriel/${typeMateriel.id}/show" htmlEscape="true" var="typemateriel_show" />
-                                    <a href="${typemateriel_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
@@ -146,19 +169,19 @@
                                     ${typeMateriel.nom}
                                 </td>
                                 <td class="text-center">
+                                    <spring:url value="/typemateriel/${typeMateriel.id}/show" htmlEscape="true" var="typemateriel_show" />
+                                    <a href="${typemateriel_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
+                                    &nbsp;&nbsp;
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                         <spring:url value="/typemateriel/${typeMateriel.id}/edit" htmlEscape="true" var="typemateriel_edit" />
-                                        <a href="${typemateriel_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${typemateriel_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/typemateriel/${typeMateriel.id}/show" htmlEscape="true" var="typemateriel_show" />
-                                    <a href="${typemateriel_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
@@ -176,7 +199,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/typemateriel/new" htmlEscape="true" var="typemateriel_new" />
                                 <a href="${typemateriel_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>

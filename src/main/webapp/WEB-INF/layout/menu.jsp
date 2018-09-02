@@ -13,8 +13,9 @@
         <div class="panel panel-info">
             <div class="panel-heading" role="tab" id="administration">
                 <h4 class="panel-title">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAdministration" aria-expanded="true" aria-controls="collapseAdministration">
-                        <spring:message code="menu.administration" />
+                    <a class="collapsed text-uppercase" data-toggle="collapse" data-parent="#accordion" href="#collapseAdministration" aria-expanded="true" aria-controls="collapseAdministration">
+                        <i class="glyphicon glyphicon-cog"></i><b>
+                            <spring:message code="menu.administration" /></b>
                     </a>
                 </h4>
             </div>
@@ -38,6 +39,7 @@
                                     class="list-group-item active"
                                 </c:if>
                                 href="<spring:url  value="/legende/" />">
+                                <i class="glyphicon glyphicon-comment"></i>
                                 <spring:message code="menu.legende" />
                             </a>
                         </li>
@@ -47,6 +49,7 @@
                                     class="list-group-item active"
                                 </c:if>
                                 href="<spring:url  value="/materiel/" />">
+                                <i class="glyphicon glyphicon-wrench"></i>
                                 <spring:message code="menu.materiel" />
                             </a>
                         </li>
@@ -56,6 +59,7 @@
                                     class="list-group-item active"
                                 </c:if>
                                 href="<spring:url value="/filiale/"/>">
+                                <i class="glyphicon glyphicon-home"></i>
                                 <spring:message code="menu.filiale" />
                             </a>
                         </li>
@@ -65,6 +69,7 @@
                                     class="list-group-item active"
                                 </c:if>
                                 href="<spring:url value="/typecaution/" />">
+                                <i class="glyphicon glyphicon-book"></i>
                                 <spring:message code="menu.typeCaution" />
                             </a>
                         </li>
@@ -74,6 +79,7 @@
                                     class="list-group-item active"
                                 </c:if>
                                 href="<spring:url value="/typemateriel/" />">
+                                <i class="glyphicon glyphicon-cutlery"></i>
                                 <spring:message code="menu.typeMateriel" />
                             </a>
                         </li>
@@ -83,6 +89,7 @@
                                     class="list-group-item active"
                                 </c:if>
                                 href="<spring:url value="/banque/" />">
+                                <i class="glyphicon glyphicon-eur"></i>
                                 <spring:message code="banque.liste" />
                             </a>
                         </li>
@@ -94,6 +101,7 @@
                                         class="list-group-item active"
                                     </c:if>
                                     href="<spring:url value="/user/"/>" >
+                                    <i class="glyphicon glyphicon-user"></i>
                                     <spring:message code="user.title" />
                                 </a>
                             </li>
@@ -107,8 +115,9 @@
     <div class="panel panel-info">
         <div class="panel-heading" role="tab" id="appeloffre">
             <h4 class="panel-title">
-                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAppelOffre" aria-expanded="false" aria-controls="collapseAppelOffre">
-                    <spring:message code="menu.appelOffre" />
+                <a class="collapsed text-uppercase" data-toggle="collapse" data-parent="#accordion" href="#collapseAppelOffre" aria-expanded="false" aria-controls="collapseAppelOffre">
+                    <i class="glyphicon glyphicon-bell"></i><b>
+                        <spring:message code="menu.appelOffre" /></b>
                 </a>
             </h4>
         </div>
@@ -132,6 +141,7 @@
                                 class="list-group-item active"
                             </c:if>
                             href="<spring:url value="/caution/"/>" >
+                            <i class="glyphicon glyphicon-hdd"></i>
                             <spring:message code="caution.liste" />
                         </a>
                     </li>
@@ -141,6 +151,7 @@
                                 class="list-group-item active"
                             </c:if>
                             href="<spring:url value="/appeloffre/"/>" >
+                            <i class="glyphicon glyphicon-briefcase"></i>
                             <spring:message code="menu.appelOffre.liste" />
                         </a>
                     </li>

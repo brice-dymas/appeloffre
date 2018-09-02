@@ -48,26 +48,26 @@
                 <spring:url value="/legende/delete" var="legende_delete"/>
                 <form:form method="post" commandName="legende" action="${legende_delete}">
                     <spring:url value="/legende/" var="legende_home"/>
-                    <a href="${legende_home}" class="btn btn-primary  btn-sm">
+                    <a href="${legende_home}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-list"></span>
                         <spring:message code="legende.liste" />
                     </a>
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <form:hidden path="id"/>
                         <spring:url value="/legende/${legende.id}/edit" var="legende_edit"/>
-                        <a href="${legende_edit}" class="btn btn-default  btn-warning">
+                        <a href="${legende_edit}" class="btn btn-warning">
                             <span class="glyphicon glyphicon-edit"></span>
                             <spring:message code="action.modifier" />
                         </a>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <c:if test="${legende.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-success">
-                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                            <button type="submit" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok"></span>
                                 <spring:message code="action.activer" />
                             </button>
                         </c:if>
                         <c:if test="${not legende.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-danger">
+                            <button type="submit" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove-sign"></span>
                                 <spring:message code="action.effacer" />
                             </button>

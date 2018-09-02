@@ -72,7 +72,7 @@ public class CautionService
         toUpdate.setCommercial(roleDao.findOne(entity.getCommercial().getId()));
         toUpdate.setBanque(banqueDao.findOne(entity.getBanque().getId()));
 //        toUpdate.setAppelOffre(appelOffreDao.findOne(entity.getAppelOffre().getId()));
-        if(entity.getLegende()!=null){
+        if (entity.getLegende().getId() != -1) {
             toUpdate.setLegende(legendeDao.findOne(entity.getLegende().getId()));
         }
         toUpdate.setTypeCaution(typeCautionDao.findOne(entity.getTypeCaution().getId()));
@@ -113,14 +113,13 @@ public class CautionService
 //            return appelOffres;
 //        }
 //    }
-    
     @Override
     public List<AppelOffre> getThemComplete() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final Role userConnected = roleDao.retrieveAUser(auth.getName()); // get the current logged user
         List<AppelOffre> appelOffres = new ArrayList<>();
         if (userConnected.getRole().equals("ROLE_COMMERCIAL")) {
-            appelOffres = appelOffreDao.getAllAppelOffreToPrintForCommercial(userConnected.getId(),Boolean.FALSE);            
+            appelOffres = appelOffreDao.getAllAppelOffreToPrintForCommercial(userConnected.getId(), Boolean.FALSE);
         } else {
             appelOffres = appelOffreDao.getAllAppelOffreToPrint(Boolean.FALSE);
         }

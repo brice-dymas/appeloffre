@@ -51,7 +51,7 @@
                 <div class="col-lg-10">
 
                     <c:if test="${ not  empty info}">
-                        <div class="row">
+                        <div id="infoMessage" class="row">
                             <div class="col-lg-6 col-lg-offset-2">
                                 <div class="alert alert-success alert-dismissible" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -61,7 +61,7 @@
                         </div>
                     </c:if>
                     <c:if test="${ not empty error}">
-                        <div class="row">
+                        <div id="errorMessage" class="row">
                             <div class="col-lg-6 col-lg-offset-2">
                                 <div class="alert alert-danger alert-dismissible" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -71,7 +71,7 @@
                         </div>
                     </c:if>
                     <c:if test="${ not empty exist}">
-                        <div class="row">
+                        <div id="existMessage" class="row">
                             <div class="col-lg-6 col-lg-offset-2">
                                 <div class="alert alert-danger alert-dismissible" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -106,6 +106,19 @@
                 </div>
             </div>
 
+            <script src="<c:url value="/resources/js/jquery-ui.js" />"></script>
+            <script src="<c:url value="/resources/js/bootstrap-filestyle.js" />"></script>
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+                    setTimeout(function () {
+                        $('#infoMessage').fadeOut('fast');
+                        $('#errorMessage').fadeOut('fast');
+                        $('#existMessage').fadeOut('fast');
+                    }, 5000); // <-- time in milliseconds
+                });
+
+            </script>
         </div> <!-- /container -->
     </body>
 </html>

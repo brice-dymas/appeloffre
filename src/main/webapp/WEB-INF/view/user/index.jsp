@@ -24,7 +24,7 @@
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <spring:url value="/user/new" htmlEscape="true" var="user_new" />
                         <a href="${user_new}" class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-new-window"></span>
+                            <span class="glyphicon glyphicon-plus"></span>
                             <spring:message code="action.nouveau" />
                         </a>
                     </sec:authorize>
@@ -85,7 +85,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/user/new" htmlEscape="true" var="user_new" />
                                 <a href="${user_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>
@@ -126,19 +126,19 @@
                                 </td>
 
                                 <td class="text-center">
+                                    <spring:url value="/user/${user_var.id}/show" htmlEscape="true" var="user_show" />
+                                    <a href="${user_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
+                                    &nbsp;&nbsp;
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                         <spring:url value="/user/${user_var.id}/edit" htmlEscape="true" var="user_edit" />
-                                        <a href="${user_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${user_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/user/${user_var.id}/show" htmlEscape="true" var="user_show" />
-                                    <a href="${user_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
@@ -155,19 +155,19 @@
                                 </td>
 
                                 <td class="text-center">
+                                    <spring:url value="/user/${user_var.id}/show" htmlEscape="true" var="user_show" />
+                                    <a href="${user_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
+                                    &nbsp;&nbsp;
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                         <spring:url value="/user/${user_var.id}/edit" htmlEscape="true" var="user_edit" />
-                                        <a href="${user_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${user_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/user/${user_var.id}/show" htmlEscape="true" var="user_show" />
-                                    <a href="${user_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
@@ -182,7 +182,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/user/new" htmlEscape="true" var="user_new" />
                                 <a href="${user_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>

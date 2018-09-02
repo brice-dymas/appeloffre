@@ -96,14 +96,14 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <spring:url value="/appeloffre/${caution.appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
-                                                    <a href="${appeloffre_show}" class="btn btn-primary btn-sm">
-                                                        <span class="glyphicon glyphicon-fast-forward">
+                                                    <a href="${appeloffre_show}" class="btn btn-primary btn-xs">
+                                                        <span class="glyphicon glyphicon-briefcase">
                                                             <%--<spring:message code="caution.appelOffre" />--%>
                                                         </span>
                                                     </a>
                                                     &nbsp;&nbsp;
                                                     <spring:url value="/caution/${caution.id}/show" htmlEscape="true" var="caution_show" />
-                                                    <a href="${caution_show}" class="btn btn-primary btn-sm">
+                                                    <a href="${caution_show}" class="btn btn-primary btn-xs">
                                                         <span class="glyphicon glyphicon-eye-open">
 
                                                         </span>
@@ -111,8 +111,8 @@
                                                     </a>
                                                     &nbsp;&nbsp;
                                                     <spring:url value="/caution/${caution.id}/edit" htmlEscape="true" var="caution_edit" />
-                                                    <a href="${caution_edit}" class="btn btn-warning btn-sm">
-                                                        <span class="glyphicon glyphicon-pencil">
+                                                    <a href="${caution_edit}" class="btn btn-warning btn-xs">
+                                                        <span class="glyphicon glyphicon-edit">
 
                                                         </span>
                                                         <%--<spring:message code="action.detail" />--%>
@@ -138,14 +138,14 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <spring:url value="/appeloffre/${caution.appelOffre.id}/show" htmlEscape="true" var="appeloffre_show" />
-                                                    <a href="${appeloffre_show}" class="btn btn-primary btn-sm">
-                                                        <span class="glyphicon glyphicon-fast-forward">
+                                                    <a href="${appeloffre_show}" class="btn btn-primary btn-xs">
+                                                        <span class="glyphicon glyphicon-briefcase">
                                                             <%--<spring:message code="caution.appelOffre" />--%>
                                                         </span>
                                                     </a>
                                                     &nbsp;&nbsp;
                                                     <spring:url value="/caution/${caution.id}/show" htmlEscape="true" var="caution_show" />
-                                                    <a href="${caution_show}" class="btn btn-primary btn-sm">
+                                                    <a href="${caution_show}" class="btn btn-primary btn-xs">
                                                         <span class="glyphicon glyphicon-eye-open">
 
                                                         </span>
@@ -153,8 +153,8 @@
                                                     </a>
                                                     &nbsp;&nbsp;
                                                     <spring:url value="/caution/${caution.id}/edit" htmlEscape="true" var="caution_edit" />
-                                                    <a href="${caution_edit}" class="btn btn-warning btn-sm">
-                                                        <span class="glyphicon glyphicon-pencil">
+                                                    <a href="${caution_edit}" class="btn btn-warning btn-xs">
+                                                        <span class="glyphicon glyphicon-edit">
 
                                                         </span>
                                                         <%--<spring:message code="action.detail" />--%>
@@ -187,15 +187,13 @@
                                                 </a>
                                             </li>
                                         </ul>
+                                        <spring:url value="/caution/stats" var="caution_stats"
+                                                    htmlEscape="true" />
+                                        <a class="btn btn-primary btn-sm" href="${caution_stats}">
+                                            <span class="glyphicon glyphicon-stats"></span> <spring:message code="action.stats"/>
+                                        </a>
                                     </div>
                                 </c:if>
-                                <div class="dropdown pull-left ">
-                                    <spring:url value="/caution/stats" var="caution_stats"
-                                                htmlEscape="true" />
-                                    <a class="btn btn-primary btn-sm" href="${caution_stats}">
-                                        <span class="glyphicon glyphicon-stats"></span> <spring:message code="action.stats"/>
-                                    </a>
-                                </div>
                                 <div class="dropdown pull-right ">
                                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                                         <spring:message code="search.taille" />
@@ -221,11 +219,31 @@
                 <div class="row">
                     <div class="col-md-12">
                         <hr/>
-                        <spring:url value="/caution/stats" var="caution_stats"
-                                    htmlEscape="true" />
-                        <a class="btn btn-primary btn-sm" href="${caution_stats}">
-                            <span class="glyphicon glyphicon-stats"></span> <spring:message code="action.stats"/>
-                        </a>
+
+                        <c:if test="${not empty cautions}">
+                            <div class="dropdown" style="display: inline-block !important">
+                                <button class="btn btn-default dropdown-toogle" id="dropdown-user" data-toggle="dropdown">
+                                    <i class="glyphicon glyphicon-print"></i>
+                                    <spring:message code="print.message" />
+                                    <i class="caret"></i>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labeledby="dropdown-user">
+
+                                    <li>
+                                        <%--<spring:url htmlEscape="true" var="xls_print" value="/caution.xls" />--%>
+                                        <spring:url htmlEscape="true" var="xls_print" value="/caution/print-cautions.xls" />
+                                        <a href="${xls_print}">
+                                            <spring:message code="print.xls" />
+                                        </a>
+                                    </li>
+                                </ul>
+                                <spring:url value="/caution/stats" var="caution_stats"
+                                            htmlEscape="true" />
+                                <a class="btn btn-primary btn-sm" href="${caution_stats}">
+                                    <span class="glyphicon glyphicon-stats"></span> <spring:message code="action.stats"/>
+                                </a>
+                            </div>
+                        </c:if>
                         <div class="pull-right">
                             <ul class="pager">
                                 <li><a href="?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&size=${size}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}&page=0" <c:if test="${page eq 0}">class ="btn btn-sm disabled"</c:if>>

@@ -28,7 +28,7 @@
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <spring:url value="/filiale/new" htmlEscape="true" var="filiale_new" />
                         <a href="${filiale_new}" class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-new-window"></span>
+                            <span class="glyphicon glyphicon-plus"></span>
                             <spring:message code="action.nouveau" />
                         </a>
                     </sec:authorize>
@@ -91,7 +91,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/filiale/new" htmlEscape="true" var="filiale_new" />
                                 <a href="${filiale_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-saved"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>
@@ -130,19 +130,19 @@
                                     ${filiale.agence}
                                 </td>
                                 <td class="text-center">
+                                    <spring:url value="/filiale/${filiale.id}/show" htmlEscape="true" var="filiale_show" />
+                                    <a href="${filiale_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                                        &nbsp;&nbsp;
                                         <spring:url value="/filiale/${filiale.id}/edit" htmlEscape="true" var="filiale_edit" />
-                                        <a href="${filiale_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${filiale_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/filiale/${filiale.id}/show" htmlEscape="true" var="filiale_show" />
-                                    <a href="${filiale_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
@@ -158,19 +158,19 @@
                                     ${filiale.agence}
                                 </td>
                                 <td class="text-center">
+                                    <spring:url value="/filiale/${filiale.id}/show" htmlEscape="true" var="filiale_show" />
+                                    <a href="${filiale_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                                        &nbsp;&nbsp;
                                         <spring:url value="/filiale/${filiale.id}/edit" htmlEscape="true" var="filiale_edit" />
-                                        <a href="${filiale_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${filiale_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/filiale/${filiale.id}/show" htmlEscape="true" var="filiale_show" />
-                                    <a href="${filiale_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
@@ -186,7 +186,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/filiale/new" htmlEscape="true" var="filiale_new" />
                                 <a href="${filiale_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>

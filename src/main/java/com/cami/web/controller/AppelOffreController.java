@@ -240,6 +240,7 @@ public class AppelOffreController {
                 System.out.println("file error");
                 model.addAttribute("fileError", "Veuillez téléverser au moins un fichier!");
             }
+            model.addAttribute("error", "error");
             model.addAttribute("appelOffreForm", appelOffreForm);
             return "appeloffre/new";
         } else {

@@ -204,6 +204,7 @@ public class CautionController {
 
         if (result.hasErrors()) {
             System.out.println("ERROR = " + result.getAllErrors());
+            model.addAttribute("error", "error");
             model.addAttribute("caution", caution);
             return "caution/edit";
         } else {

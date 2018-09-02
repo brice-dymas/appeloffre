@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h4>
-                    <spring:message code="materiel.afficher" /> : ${materiel.nom}
+                    <spring:message code="materiel.afficher" /> : <b> ${materiel.nom}</b>
                 </h4>
                 <c:if test="${materiel.deleted}" >
                     <div class="text-danger">
@@ -69,34 +69,32 @@
                 <spring:url value="/materiel/delete" var="materiel_delete"/>
                 <form:form method="post" commandName="materiel" action="${materiel_delete}">
                     <spring:url value="/materiel/" var="materiel_home"/>
-                    <a href="${materiel_home}" class="btn btn-primary  btn-sm">
+                    <a href="${materiel_home}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-list"></span>
                         <spring:message code="materiel.liste" />
                     </a>
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <form:hidden path="id"/>
                         <spring:url value="/materiel/${materiel.id}/edit" var="materiel_edit"/>
-                        <a href="${materiel_edit}" class="btn btn-default  btn-warning">
+                        <a href="${materiel_edit}" class="btn btn-warning">
                             <span class="glyphicon glyphicon-edit"></span>
                             <spring:message code="action.modifier" />
                         </a>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <c:if test="${not materiel.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-danger">
+                            <button type="submit" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 <spring:message code="action.effacer" />
                             </button>
                         </c:if>
                         <c:if test="${materiel.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-success">
-                                <span class="glyphicon glyphicon-trash"></span>
+                            <button type="submit" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok"></span>
                                 <spring:message code="action.activer" />
                             </button>
                         </c:if>
-
                     </sec:authorize>
                 </form:form>
-
             </div>
         </div>
 

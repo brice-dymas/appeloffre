@@ -61,7 +61,7 @@
                 <spring:url value="/banque/delete" var="banque_delete"/>
                 <form:form method="post" commandName="banque" action="${banque_delete}">
                     <spring:url value="/banque/" var="banque_home"/>
-                    <a href="${banque_home}" class="btn btn-primary  btn-sm">
+                    <a href="${banque_home}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-list"></span>
                         <spring:message code="banque.liste" />
                     </a>
@@ -75,7 +75,7 @@
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <c:if test="${banque.deleted}" >
                             <button type="submit" class="btn btn-default  btn-success">
-                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                                <span class="glyphicon glyphicon-ok"></span>
                                 <spring:message code="action.activer" />
                             </button>
                         </c:if>

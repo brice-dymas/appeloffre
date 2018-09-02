@@ -23,7 +23,7 @@
                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
                         <spring:url value="/typecaution/new" htmlEscape="true" var="typecaution_new" />
                         <a href="${typecaution_new}" class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-new-window"></span>
+                            <span class="glyphicon glyphicon-plus"></span>
                             <spring:message code="action.nouveau" />
                         </a>
                     </sec:authorize>
@@ -85,7 +85,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/typecaution/new" htmlEscape="true" var="typecaution_new" />
                                 <a href="${typecaution_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>
@@ -125,19 +125,19 @@
                                     ${typeCaution.pourcentage}
                                 </td>
                                 <td class="text-center">
+                                    <spring:url value="/typecaution/${typeCaution.id}/show" htmlEscape="true" var="typecaution_show" />
+                                    <a href="${typecaution_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                                        &nbsp;&nbsp;
                                         <spring:url value="/typecaution/${typeCaution.id}/edit" htmlEscape="true" var="typecaution_edit" />
-                                        <a href="${typecaution_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${typecaution_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/typecaution/${typeCaution.id}/show" htmlEscape="true" var="typecaution_show" />
-                                    <a href="${typecaution_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
@@ -153,31 +153,26 @@
                                     ${typeCaution.pourcentage}
                                 </td>
                                 <td class="text-center">
+                                    <spring:url value="/typecaution/${typeCaution.id}/show" htmlEscape="true" var="typecaution_show" />
+                                    <a href="${typecaution_show}" class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <spring:message code="action.detail" />
+                                    </a>
                                     <sec:authorize access="hasRole('ROLE_ADMIN')" >
+                                        &nbsp;&nbsp;
                                         <spring:url value="/typecaution/${typeCaution.id}/edit" htmlEscape="true" var="typecaution_edit" />
-                                        <a href="${typecaution_edit}" class="btn btn-primary btn-sm">
+                                        <a href="${typecaution_edit}" class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             <spring:message code="action.modifier" />
                                         </a>
-                                        &nbsp;&nbsp;
                                     </sec:authorize>
-                                    <spring:url value="/typecaution/${typeCaution.id}/show" htmlEscape="true" var="typecaution_show" />
-                                    <a href="${typecaution_show}" class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-open"></span>
-                                        <spring:message code="action.detail" />
-                                    </a>
                                 </td>
                             </tr>
                         </c:if>
 
                     </c:forEach>
-
                     </tbody>
-
                     </table>
-
-
-
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -185,7 +180,7 @@
                             <sec:authorize access="hasRole('ROLE_ADMIN')" >
                                 <spring:url value="/typecaution/new" htmlEscape="true" var="typecaution_new" />
                                 <a href="${typecaution_new}" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     <spring:message code="action.nouveau" />
                                 </a>
                             </sec:authorize>
