@@ -31,6 +31,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -82,9 +84,11 @@ public class AppelOffreController {
 
     // API
     // read - one
-    @RequestMapping(value = "/{id}/show", method = RequestMethod.GET)
-    public String ShowAction(@PathVariable("id") final Long id,
+    @RequestMapping(value = {"/{id}/show","/{id}/print-pdf"}, method = RequestMethod.GET)
+    public String ShowAction(@PathVariable("id") final Long id, HttpServletRequest request,
             final ModelMap model) {
+        String pattern = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+         System.out.println(pattern);
         final AppelOffre appelOffre;
         final List<Caution> cautions;
         appelOffre = appelOffreService.findOne(id);
@@ -101,6 +105,9 @@ public class AppelOffreController {
         model.addAttribute("ligneAppels", ligneAppels);
         model.addAttribute("cautions", cautions);
         System.out.println("this appelOffre is deleted ? " + appelOffre.isDeleted());
+        if(pattern.contains("print-pdf")){
+          return "appeloffre/print-pdf";
+        }
         return "appeloffre/show";
     }
 

@@ -12,7 +12,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<tiles:insertDefinition name="layout">
+<tiles:insertDefinition name="print">
     <tiles:putAttribute name="body">
         <div class="row">
             <div class="col-md-12">
@@ -153,69 +153,6 @@
 
         <div class="row">
             <div class="col-md-12 text-center">
-
-                <hr/>
-
-                <spring:url value="/appeloffre/delete" var="appeloffre_delete"/>
-                <form:form method="post" commandName="appelOffre" action="${appeloffre_delete}">
-                    <spring:url value="/appeloffre/" var="appeloffre_home"/>
-                    <a href="${appeloffre_home}" class="btn btn-primary btn-primary">
-                        <span class="glyphicon glyphicon-list"></span>
-                        <spring:message code="appelOffre.liste" />
-                    </a>
-                    <sec:authorize access="hasRole('ROLE_ADMIN')" >
-                        <form:hidden path="id"/>
-                        <spring:url value="/appeloffre/${appelOffre.id}/edit" var="appeloffre_edit"/>
-                        <a href="${appeloffre_edit}" class="btn btn-default  btn-warning">
-                            <span class="glyphicon glyphicon-edit"></span>
-                            <spring:message code="action.modifier" />
-                        </a>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-                        <c:if test="${appelOffre.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-success">
-                                <span class="glyphicon glyphicon-thumbs-up"></span>
-                                <spring:message code="action.activer" />
-                            </button>
-                        </c:if>
-                        <c:if test="${not appelOffre.deleted}" >
-                            <button type="submit" class="btn btn-default  btn-danger">
-                                <span class="glyphicon glyphicon-remove-sign"></span>
-                                <spring:message code="action.effacer" />
-                            </button>
-                        </c:if>
-                    </sec:authorize>
-                    <div class="dropdown" style="display: inline-block !important">
-                        <button class="btn btn-default dropdown-toogle btn-success" id="dropdown-user" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-print"></i>
-                            <spring:message code="print.message" />
-                            <i class="caret"></i>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labeledby="dropdown-user">
-                            <li>
-                                <spring:url htmlEscape="true" var="xls_print" value="/appeloffre/${appelOffre.id}/show.xls" />
-                                <a href="${xls_print}" class="btn btn-success" >
-                                    <i class="glyphicon glyphicon-calendar"> </i>
-                                    <spring:message code="print.xls" />
-                                </a>
-                            </li>
-                            <li>
-                                <spring:url htmlEscape="true" var="print_pdf" value="/appeloffre/${appelOffre.id}/print-pdf" />
-                                <a href="${print_pdf}" class="btn btn-success" target="_blank" >
-                                    <i class="glyphicon glyphicon-calendar"> </i>
-                                    <spring:message code="print.pdf" />
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                        <span class="glyphicon glyphicon-book"></span>
-                        <spring:message code="action.document" />
-                    </button>
-                </form:form>
-                <!-- Button trigger modal -->
-
-
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">

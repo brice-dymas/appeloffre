@@ -72,7 +72,9 @@ public class CautionService
         toUpdate.setCommercial(roleDao.findOne(entity.getCommercial().getId()));
         toUpdate.setBanque(banqueDao.findOne(entity.getBanque().getId()));
 //        toUpdate.setAppelOffre(appelOffreDao.findOne(entity.getAppelOffre().getId()));
-        toUpdate.setLegende(legendeDao.findOne(entity.getLegende().getId()));
+        if(entity.getLegende()!=null){
+            toUpdate.setLegende(legendeDao.findOne(entity.getLegende().getId()));
+        }
         toUpdate.setTypeCaution(typeCautionDao.findOne(entity.getTypeCaution().getId()));
         toUpdate.setCommissionTrimestrielle(entity.getCommissionTrimestrielle());
         toUpdate.setDateDebut(entity.getDateDebut());

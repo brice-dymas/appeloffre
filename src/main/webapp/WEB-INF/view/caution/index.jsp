@@ -175,9 +175,15 @@
 
                                             <li>
                                                 <%--<spring:url htmlEscape="true" var="xls_print" value="/caution.xls" />--%>
-                                                <spring:url htmlEscape="true" var="xls_print" value="/caution/print-cautions.xls" />
+                                                <spring:url htmlEscape="true" var="xls_print" value="/caution/print-cautions.xls?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}" />
                                                 <a href="${xls_print}">
                                                     <spring:message code="print.xls" />
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <spring:url htmlEscape="true" var="print_pdf" value="/caution/print-pdf?querynumero=${caution.numero}&querymaitredouvrage=${caution.appelOffre.maitreDouvrage}&querybanque=${caution.banque.id}&querydebutperiode=${querydebutperiode}&queryfinperiode=${queryfinperiode}&querytypecaution=${caution.typeCaution.id}" />
+                                                <a href="${print_pdf}" target="_blank">
+                                                    <spring:message code="print.pdf" />
                                                 </a>
                                             </li>
                                         </ul>

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import static java.lang.Integer.MAX_VALUE;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -30,7 +31,7 @@ public class Caution
 
     @NumberFormat(style = NumberFormat.Style.NUMBER)
     @Min(value = 100000, message = "{min.message}")
-    private int montant;
+    private long montant;
 
     @NotNull(message = "{blank.message}")
 //    @Future(message = "{future.message}")
@@ -47,11 +48,12 @@ public class Caution
     @NumberFormat(style = NumberFormat.Style.NUMBER)
     @Digits(fraction = 0, integer = MAX_VALUE, message = "{digit.message}")
     @Min(value = 10000, message = "{min.message}")
-    private int montantMarche;
+    private long montantMarche;
 
     @NotBlank(message = "{blank.message}")
     private String referenceMarche;
 
+    @Column(columnDefinition=" varchar(255) default ''")
     private String statut;
 
     @ManyToOne(targetEntity = AppelOffre.class)
@@ -64,7 +66,11 @@ public class Caution
     @Temporal(TemporalType.DATE)
     private Date dateModification;
 
-//    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    
+    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    @Column(columnDefinition=" int8 default 0")
+    @Digits(fraction = 0, integer = MAX_VALUE, message = "{digit.message}")
+    @Min(value = 0, message = "{min.message}")
     private long commissionTrimestrielle;
 
     @ManyToOne(targetEntity = Legende.class, optional = true)
@@ -98,11 +104,11 @@ public class Caution
         this.banque = banque;
     }
 
-    public int getMontant() {
+    public long getMontant() {
         return montant;
     }
 
-    public void setMontant(final int montant) {
+    public void setMontant(final long montant) {
         this.montant = montant;
     }
 
@@ -153,11 +159,11 @@ public class Caution
         this.commercial = commercial;
     }
 
-    public int getMontantMarche() {
+    public long getMontantMarche() {
         return montantMarche;
     }
 
-    public void setMontantMarche(int montantMarche) {
+    public void setMontantMarche(long montantMarche) {
         this.montantMarche = montantMarche;
     }
 
