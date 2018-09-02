@@ -56,7 +56,7 @@ public class PersistenceJPAConfig {
                 .setUrl("jdbc:postgresql://localhost:5432/appelOffre");
         dataSource.setUsername("postgres");
 //        dataSource.setUsername("root");
-        dataSource.setPassword("sando");
+        dataSource.setPassword("elise");
 //        dataSource.setPassword("Camicaution2018");
 //        dataSource.setPassword("Camicaution2018");
         return dataSource;
@@ -84,6 +84,7 @@ public class PersistenceJPAConfig {
 //                "org.hibernate.dialect.MySQL5Dialect");
         properties.setProperty("hibernate.dialect",
                 "org.hibernate.dialect.PostgreSQLDialect");
+        properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
         return properties;
     }
 

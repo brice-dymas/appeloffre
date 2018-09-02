@@ -48,7 +48,7 @@ public class Excelview
         if (model.get("appelOffre") != null) {
             buildExcelDocumentForAppelOfffre(model, workbook, request, response);
         }
-        if (model.get("cautionsReport") != null) {
+        if (model.get("cautions") != null) {
             System.out.println("building the excel document");
             buildExcelDocumentForCautions(model, workbook, request, response);
         }
@@ -78,8 +78,10 @@ public class Excelview
             final HSSFWorkbook workbook, final HttpServletRequest request,
             final HttpServletResponse response)
             throws Exception {
-        final HSSFSheet sheet = workbook.createSheet("sheet 1");
-
+        HSSFSheet sheet = workbook.getSheet("sheet 1");
+        if(sheet == null){
+            sheet  = workbook.createSheet("sheet 1");
+        }
         final AppelOffre appelOffre = (AppelOffre) model.get("appelOffre");
         Row row = null;
         Cell cell = null;
@@ -245,10 +247,14 @@ public class Excelview
             throws Exception {
 
         System.out.println("building the excel document method .. ");
-        final HSSFSheet sheet = workbook.createSheet("sheet 1");
+         HSSFSheet sheet = workbook.getSheet("sheet 1");
+        if(sheet == null){
+            sheet  = workbook.createSheet("sheet 1");
+        }
         sheet.setVerticallyCenter(true);
 
-        final List<AppelOffre> appelOffres = (List<AppelOffre>) model.get("cautionsReport");
+        //final List<AppelOffre> appelOffres = (List<AppelOffre>) model.get("cautionsReport");
+        final List<Caution> cautions = (List<Caution>) model.get("cautions");
         Row row = null;
         Cell cell = null;
         int rowCount = 0;
@@ -341,9 +347,10 @@ public class Excelview
         cell.setCellValue("Apporteur d'affaires"); // Commercial
 
         // Fill Datas in excel cells
-        for (AppelOffre appelOffre : appelOffres) {
-            List<Caution> cautions = appelOffre.getCautions();
+       
+            System.out.println(cautions.size());
             for (Caution caution : cautions) {
+                
                 row = sheet.createRow(rowCount++);
                 if (caution.getDateFin().before(new Date()) | caution.getDateFin().equals(new Date())) {
                     row.setRowStyle(this.getRedStyle(workbook));
@@ -356,17 +363,17 @@ public class Excelview
                 colCount++;
                 row.createCell(colCount).setCellValue("Pas de N° Client");
                 colCount++;
-                row.createCell(colCount).setCellValue(appelOffre.getNumero());
+                row.createCell(colCount).setCellValue(caution.getAppelOffre().getNumero());
                 colCount++;
-                row.createCell(colCount).setCellValue(appelOffre.getTrueDate(appelOffre.getDateDepot()));
+                row.createCell(colCount).setCellValue(caution.getAppelOffre().getTrueDate(caution.getAppelOffre().getDateDepot()));
                 colCount++;
-                row.createCell(colCount).setCellValue(appelOffre.getMaitreDouvrage());
+                row.createCell(colCount).setCellValue(caution.getAppelOffre().getMaitreDouvrage());
                 colCount++;
                 row.createCell(colCount).setCellValue(caution.getReferenceMarche());
                 colCount++;
-                row.createCell(colCount).setCellValue(appelOffre.getIntitule());
+                row.createCell(colCount).setCellValue(caution.getAppelOffre().getIntitule());
                 colCount++;
-                row.createCell(colCount).setCellValue(appelOffre.getDelaiDeValidite());
+                row.createCell(colCount).setCellValue(caution.getAppelOffre().getDelaiDeValidite());
                 colCount++;
                 row.createCell(colCount).setCellValue(caution.getMontantMarche());
                 colCount++;
@@ -390,12 +397,12 @@ public class Excelview
                 colCount++;
                 row.createCell(colCount).setCellValue("Pas de ref");
                 colCount++;
-                row.createCell(colCount).setCellValue(appelOffre.getFiliale().getNom());
+                row.createCell(colCount).setCellValue(caution.getAppelOffre().getFiliale().getNom());
                 colCount++;
                 row.createCell(colCount).setCellValue(caution.getCommercial().getUser().getNom());
             }
 
-        }
+        
 
         for (int i = 0; i < 27; i++) {
             sheet.autoSizeColumn(i, true);

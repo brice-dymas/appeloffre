@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -88,17 +90,12 @@ public class CautionController {
                 + "&page=1&size=2";
     }
 
-    @RequestMapping(value = "/caution/print-cautions.xls", method = RequestMethod.GET)
-    public String printAction(final ModelMap model) {
-        final List<AppelOffre> appelOffres = cautionService.getThemComplete();
-        model.addAttribute("cautionsReport", appelOffres); //for the report
-        return "/caution.xls";
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public String indexAction(final ModelMap model, final WebRequest webRequest) {
+    @RequestMapping(value = {"/print-cautions.xls", "/print-pdf", "/"}, method = RequestMethod.GET)
+    public String indexAction(final ModelMap model, final WebRequest webRequest, HttpServletRequest request) {
         // The next line is used to generate the final report
-//        final List<AppelOffre> appelOffres = cautionService.getThemComplete();
+        String pattern = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+        Page<Caution> resultPage = null;
+        
 
         Long banqueId = 0L;
         Long typeCautionId = 0L;
@@ -160,8 +157,15 @@ public class CautionController {
                 ? webRequest.getParameter("querynumero").trim() : "";
         final String maitreDouvrage = (webRequest.getParameter("querymaitredouvrage") != null && !webRequest.getParameter("querymaitredouvrage").isEmpty())
                 ? webRequest.getParameter("querymaitredouvrage").trim() : "";
-        final Page<Caution> resultPage = cautionService.filter(numero, maitreDouvrage, banqueId, typeCautionId, debutPeriode, finPeriode, page, size);
-
+        System.out.println(pattern);
+        if(pattern.contains("print-pdf") || pattern.contains("print-cautions.xls") ){
+            System.out.println("print");
+          resultPage = cautionService.filter(numero, maitreDouvrage, banqueId, typeCautionId, debutPeriode, finPeriode, 0, Integer.MAX_VALUE);
+        }else{
+          resultPage = cautionService.filter(numero, maitreDouvrage, banqueId, typeCautionId, debutPeriode, finPeriode, page, size);
+        }
+        
+        System.out.println("page size "+resultPage.getSize());
         final Caution caution = new Caution();
         AppelOffre appelOffre = new AppelOffre();
         appelOffre.setMaitreDouvrage(maitreDouvrage);
@@ -169,7 +173,7 @@ public class CautionController {
         caution.setAppelOffre(appelOffre);
         caution.setBanque(new Banque(banqueId));
         caution.setTypeCaution(new TypeCaution(typeCautionId));
-        model.addAttribute("cautionsReport", "cautionsReport"); //for the report
+        //model.addAttribute("cautionsReport", "cautionsReport"); //for the report
         model.addAttribute("caution", caution);
         model.addAttribute("querydebutperiode", debutPeriodeEcheance.equals("31/12/1975") ? "" : debutPeriodeEcheance);
         model.addAttribute("queryfinperiode", finPeriodeEcheance.equals("31/12/9999") ? "" : finPeriodeEcheance);
@@ -179,7 +183,10 @@ public class CautionController {
         model.addAttribute("Totalpage", resultPage.getTotalPages());
         model.addAttribute("size", size);
         model.addAttribute("cautions", resultPage.getContent());
-        model.addAttribute("cautions", resultPage.getContent());
+        //model.addAttribute("cautions", resultPage.getContent());
+        if(pattern.contains("print-pdf")){
+          return "caution/print-pdf";
+        }
         return "caution/index";
     }
 

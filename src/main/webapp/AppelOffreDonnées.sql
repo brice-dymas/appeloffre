@@ -17,16 +17,16 @@
 -- /*!40101 SET NAMES utf8 */;
 
 --
--- Base de données :  `appelOffre`
+-- Base de données :  appelOffre
 --
 
 
 
 --
--- Contenu de la table `users`
+-- Contenu de la table users
 --
 
-INSERT INTO `users` (`username`, `enabled`, `nom`, `password`) VALUES
+INSERT INTO users (username, enabled, nom, password) VALUES
 ('admin', 0, 'Kaporal Phoenix', '$2a$10$SLQQ9WZux0hmoMTpXFu2au3/lAkmbNHLvVx84utZEJSDbyTcDNwEO'),
 ('brice', 1, 'GUEMKAM Brice', '$2a$10$7/84X0KVW4ws3x92R1z0/uJ.0X0qmHw4HCTP7gn1EskUXgLdkS.n6'),
 ('cfera', 1, 'BALAFERA CRUZ', '$2a$10$VQjChglEC6W92txpuEebY.OSiCXerXw6WXwjc2aVubrS/sdlkvjC2'),
@@ -38,10 +38,10 @@ INSERT INTO `users` (`username`, `enabled`, `nom`, `password`) VALUES
 ('sando', 1, 'GUEMKAM SANDO Brice', '$2a$10$1sW7LimIXxeZkSBjAIjBjuFxXK50HzrdmioLvtp.eIrzTvs18IoWe');
 
 --
--- Contenu de la table `user_roles`
+-- Contenu de la table user_roles
 --
 
-INSERT INTO `user_roles` (`user_role_id`, `role`, `user_username`) VALUES
+INSERT INTO user_roles (user_role_id, role, user_username) VALUES
 (1, 'ROLE_ADMIN', 'admin'),
 (2, 'ROLE_ADMIN', 'sando'),
 (7, 'ROLE_COMMERCIAL', 'kamguy'),
@@ -51,10 +51,10 @@ INSERT INTO `user_roles` (`user_role_id`, `role`, `user_username`) VALUES
 
 
 --
--- Contenu de la table `Banque`
+-- Contenu de la table Banque
 --
 
-INSERT INTO `Banque` (`id`, `version`, `code`, `libelle`, `deleted`) VALUES
+INSERT INTO Banque (id, version, code, libelle, deleted) VALUES
 (1, 2, 'BQ2015001', 'AFRILAND FIRST BANK', 1),
 (2, 2, 'BQ2015002', 'COMMERCIAL BANK OF CAMEROON', 0),
 (3, 2, 'BQ2015003', 'UBA BANK', 0),
@@ -63,29 +63,29 @@ INSERT INTO `Banque` (`id`, `version`, `code`, `libelle`, `deleted`) VALUES
 
 
 --
--- Contenu de la table `Filiale`
+-- Contenu de la table Filiale
 --
 
-INSERT INTO `Filiale` (`id`, `version`, `agence`, `code`, `nom`, `deleted`) VALUES
+INSERT INTO Filiale (id, version, agence, code, nom, deleted) VALUES
 (1, 1, 'Bafoussam', 'CF20150001', 'Silver Rims Ltd', 1),
 (2, 4, 'Mokolo - Yaoundé', 'CF20150002', 'The Stanton Hoods Corp', 0),
 (3, 0, 'Mokolo - Yaoundé', 'CF20150003', 'Pacific rims', 0);
 
 
 --
--- Contenu de la table `TypeCaution`
+-- Contenu de la table TypeCaution
 --
 
-INSERT INTO `TypeCaution` (`id`, `version`, `code`, `nom`, `pourcentage`, `deleted`) VALUES
+INSERT INTO TypeCaution (id, version, code, nom, pourcentage, deleted) VALUES
 (1, 2, 'TD20150001', 'Paiement Par Avaliseur ', '24%', 0),
 (2, 0, 'TD20150002', 'Paiement mensuel', '25%', 0),
 (3, 1, 'TD20150003', 'Paiement Cash', '50%', 1);
 
 --
--- Contenu de la table `TypeMateriel`
+-- Contenu de la table TypeMateriel
 --
 
-INSERT INTO `TypeMateriel` (`id`, `version`, `code`, `nom`, `deleted`) VALUES
+INSERT INTO TypeMateriel (id, version, code, nom, deleted) VALUES
 (1, 5, 'TM20150001', 'Matériaux de Jardinage ', 1),
 (2, 0, 'TM20150002', 'Objets Décoratifs', 0),
 (3, 0, 'TM20150003', 'Pièces Automobile', 0),
@@ -96,10 +96,10 @@ INSERT INTO `TypeMateriel` (`id`, `version`, `code`, `nom`, `deleted`) VALUES
 
 
 --
--- Contenu de la table `Materiel`
+-- Contenu de la table Materiel
 --
 
-INSERT INTO `Materiel` (`id`, `version`, `code`, `description`, `nom`, `typeMateriel_id`, `deleted`) VALUES
+INSERT INTO Materiel (id, version, code, description, nom, typeMateriel_id, deleted) VALUES
 (1, 0, 'MJ20150001', 'pour rattisser', 'Rateau', 1, 0),
 (2, 0, 'MJ20150002', 'pour tailler les fleurs', 'Grands Sciseaux', 1, 0),
 (3, 0, 'OD2015001', 'Pot de fleurs pour trefles', 'Pots de trèfles', 2, 0),
@@ -110,28 +110,28 @@ INSERT INTO `Materiel` (`id`, `version`, `code`, `description`, `nom`, `typeMate
 (8, 0, 'MC20150002', 'utilisé pour tourner le béton ', 'Pelle', 4, 0);
 
 --
--- Contenu de la table `AppelOffre`
+-- Contenu de la table AppelOffre
 --
 
-INSERT INTO `AppelOffre` (`id`, `version`, `dateDepot`, `delaiDeValidite`, `etat`, `intitule`, `maitreDouvrage`, `numero`, `pieceJointe1`, `pieceJointe2`, `pieceJointe3`, `pieceJointe4`, `pieceJointe5`, `pieceJointe6`, `pieceJointe7`, `pieceJointe8`, `filiale_id`, `dateModification`, `user_user_role_id`, `deleted`, `numeroAffaire`, `numeroChrono`) VALUES
+INSERT INTO AppelOffre (id, version, dateDepot, delaiDeValidite, etat, intitule, maitreDouvrage, numero, pieceJointe1, pieceJointe2, pieceJointe3, pieceJointe4, pieceJointe5, pieceJointe6, pieceJointe7, pieceJointe8, filiale_id, dateModification, user_user_role_id, deleted, numeroAffaire, numeroChrono) VALUES
 (2, 7, '2015-07-28', '12', 'En cours', 'LA PRO-FORMAT POUR FOKOU', 'SANDO', 'AP20150725', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2015-08-10', 2, 0, 'AFN001', '001'),
 (3, 11, '2015-08-17', '12', 'En cours', 'TEST', 'SANDO', 'AP20150727',  NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, 2, '2015-08-17', 2, 0, 'AFN002', '002');
 
 --
--- Contenu de la table `Caution`
+-- Contenu de la table Caution
 --
 
-INSERT INTO `Caution` (`id`, `version`, `dateDebut`, `dateFin`, `montant`, `montantMarche`, `numero`, `referenceMarche`, `appelOffre_id`, `banque_id`, `commercial_user_role_id`, `typeCaution_id`, `deleted`) VALUES
+INSERT INTO Caution (id, version, dateDebut, dateFin, montant, montantMarche, numero, referenceMarche, appelOffre_id, banque_id, commercial_user_role_id, typeCaution_id, deleted) VALUES
 (5, 0, '2015-07-25', '2015-08-25', 100000, 1000000, 'CA2015072501', 'RM2015072501', 2, 1, 7, 2, 0),
 (6, 0, '2015-07-27', '2015-08-31', 600000, 1000000, 'CA2015072502', 'RM2015072502', 2, 2, 8, 3, 0),
 (8, 0, '2015-08-05', '2015-08-18', 3000000, 5000000, 'CA2015072505', 'RM2015072501', 3, 1, 7, 3, 0),
 (9, 0, '2015-08-01', '2015-08-19', 9000000, 5000000, 'CA2015072502', 'RM2015072502', 3, 2, 7, 3, 0);
 
 --
--- Contenu de la table `LigneAppel`
+-- Contenu de la table LigneAppel
 --
 
-INSERT INTO `LigneAppel` (`id`, `version`, `prixUnitaire`, `quantite`, `appelOffre_id`, `materiel_id`, `deleted`) VALUES
+INSERT INTO LigneAppel (id, version, prixUnitaire, quantite, appelOffre_id, materiel_id, deleted) VALUES
 (7, 0, 1000, 5, 2, 1, 0),
 (8, 0, 2500, 3, 2, 2, 0),
 (9, 0, 6300, 5, 2, 3, 0),
